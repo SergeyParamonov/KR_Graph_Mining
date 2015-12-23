@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage{color}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{listings}	
+\usepackage{enumerate}
+\usepackage{layouts}
+\usepackage{times}
+\usepackage[numbers]{natbib}
+\usepackage{notoccite}
+\usepackage{url}
+\usepackage{xspace}
+\usepackage{tikz}
+
+\author{Authors}
+\title{Note on KR and Graph Mining}
+\begin{document}
+\maketitle
+\section{Feature Comparison}
+
+\subsection{IDP} 
+
+\textbf{Pro}:
+\begin{itemize}
+  \item can model inductive definitions
+  \item allows core formulation in a high-level language (NP)
+  \item handles aggregates
+  \item has support for variety of constraints
+\end{itemize}
+\textbf{Cons:}
+\begin{itemize}
+  \item cannot handle negative case $\textit{NP}^\textit{NP}$ complexity
+  \item cannot model subgraph isomorphism independence
+  \item cannot handle dominance, i.e., when one model is preferred over another 
+\end{itemize}
+
+\paragraph{ASP}
+Mostly the same but in theory can handle $\textit{NP}^\textit{NP}$, in practice however, it would require encoding tricks and unavoidably lead to the same problem as in IDP -- indexing homomorphism enumeration.
+
+\subsection{proB}
+\textbf{Pro}
+\begin{itemize}
+  \item can model negative case
+  \item can model subgraph isomorphism independence
+\end{itemize}
+
+\textbf{Cons:}
+\begin{itemize}
+  \item cannot handle inductive definitions
+  \item cannot handle different types of aggregates (? needs to be checked again)
+\end{itemize}
+
+the rest of constraints? 
+
+
+
+
+\end{document}
