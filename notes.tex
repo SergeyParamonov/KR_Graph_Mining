@@ -10,6 +10,25 @@
 \usepackage{url}
 \usepackage{xspace}
 \usepackage{tikz}
+\usepackage[dvipsnames]{xcolor}
+
+\usepackage{fancyvrb}
+
+% redefine \VerbatimInput
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}%
+{fontsize=\footnotesize,
+   %
+  frame=lines,  % top and bottom rule only
+  framesep=2em, % separation between frame and text
+  rulecolor=\color{Gray},
+      %
+  label=\fbox{\color{Black}proB encoding},
+  labelposition=topline,
+        %
+% commandchars=\|\(\), % escape character and argument delimiters for
+                              % commands within the verbatim
+% commentchar=*        % comment character
+}
 
 \author{Authors}
 \title{Note on KR and Graph Mining}
@@ -19,7 +38,7 @@
 
 \subsection{IDP} 
 
-\textbf{Pro}:
+\textbf{Pro:}
 \begin{itemize}
   \item can model inductive definitions
   \item allows core formulation in a high-level language (NP)
@@ -37,12 +56,11 @@
 Mostly the same but in theory can handle $\textit{NP}^\textit{NP}$, in practice however, it would require encoding tricks and unavoidably lead to the same problem as in IDP -- indexing homomorphism enumeration.
 
 \subsection{proB}
-\textbf{Pro}
+\textbf{Pro:}
 \begin{itemize}
   \item can model negative case
   \item can model subgraph isomorphism independence
 \end{itemize}
-
 \textbf{Cons:}
 \begin{itemize}
   \item cannot handle inductive definitions
@@ -51,6 +69,12 @@ Mostly the same but in theory can handle $\textit{NP}^\textit{NP}$, in practice 
 
 the rest of constraints? 
 
+\section{Code in ProB and IDP}
+
+\VerbatimInput{original_prob_files/PositiveAndNegative.mch}
+\pagebreak
+
+\VerbatimInput[label=IDP encoding]{IDPencoding/core_constraints.idp}
 
 
 
