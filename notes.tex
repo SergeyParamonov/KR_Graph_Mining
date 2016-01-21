@@ -8,7 +8,9 @@
 \usepackage[numbers]{natbib}
 \usepackage{notoccite}
 \usepackage{todonotes}
+\usepackage{alltt}
 \usepackage{url}
+\usepackage{amsmath}
 \usepackage{xspace}
 \usepackage{tikz}
 \usepackage[dvipsnames]{xcolor}
@@ -60,6 +62,14 @@ Note that this encoding also requires us to make this function \verb|f| partial,
 Furthermore, limiting ourselves to existential second order prohibits us from expressing the constraint negative constraint on homomorphism (No more than $N_{-}$ negative examples are homomorphic) in the same model.
 In fact, the negative constraint asserts a property for all candidate homomorphic functions, which would lead to \emph{universal} quantification.
 Therefore, our only recourse is to encode the positive constraint and require it to fail when queried.
+
+\subsection{Eventual encoding}
+\begin{alltt}
+//Homomorphism/2 is a higher-order predicate:
+//Edge1 and Edge2 are predicates themselves.
+homomorphism(Edge1, Edge2) \(\iff \exists\) f: (\(\forall\) x, y : x \(\neq\) y \(\Rightarrow\) f(x) \(\neq\) f(y)) \(\wedge\)
+\end{alltt}
+
 
 \section{Feature Comparison}
 
