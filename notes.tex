@@ -7,6 +7,7 @@
 \usepackage{times}
 \usepackage[numbers]{natbib}
 \usepackage{notoccite}
+\usepackage{todonotes}
 \usepackage{url}
 \usepackage{xspace}
 \usepackage{tikz}
@@ -34,6 +35,32 @@
 \title{Note on KR and Graph Mining}
 \begin{document}
 \maketitle
+
+An attempt to model the Graph Mining problem in both IDP as well as ProB makes it clear
+that neither language allows us to express the problem to its full extent.
+We try to link the shortcomings of each language to the expressiveness of the underlying
+logic on which they are built.
+%Furthermore, we 
+
+\subsection{IDP}
+The IDP language can express \emph{Existential Second Order} problems; problems in which there is an existentially quantified, generally second order, vocabulary of symbols and a first order theory with symbols from that vocabulary.
+
+This restriction to \emph{Existential} Second Order forces us 
+%to separate the constraint describing the positive homomorphic property, and the constraint on its number of occurrences.
+%This, from a KR point of view, 
+%Furthermore, the restriction to ESO requires us 
+to use a Skolemization based trick when expressing the homomorphic property.
+We introduce a general function \verb|f| that represents the homomorphisms, and make its dependency on a specific goal graph explicit using an additional argument:
+\verb|partial f(graph, t_var):node|.
+In Second Order Logic, this dependency would follow directly from the order of the separate quantifications.
+We can now use this \verb|f| anywhere we would the regular homomorphic function for a specific graph by fixing the goal graph.
+Note that this encoding also requires us to make this function \verb|f| partial, as the Graph Mining problem does not require the solution to be homomorphic with \emph{all} goal graphs.
+\todo{Of course, other (even uglier) schemes exist to encode this. Should we mention this?}
+
+Furthermore, limiting ourselves to existential second order prohibits us from expressing the constraint negative constraint on homomorphism (No more than $N_{-}$ negative examples are homomorphic) in the same model.
+In fact, the negative constraint asserts a property for all candidate homomorphic functions, which would lead to \emph{universal} quantification.
+Therefore, our only recourse is to encode the positive constraint and require it to fail when queried.
+
 \section{Feature Comparison}
 
 \subsection{IDP} 
