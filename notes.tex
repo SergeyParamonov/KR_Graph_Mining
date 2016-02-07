@@ -11,11 +11,15 @@
 \usepackage{alltt}
 \usepackage{url}
 \usepackage{amsmath}
+\usepackage{amsthm}
 \usepackage{xspace}
 \usepackage{tikz}
 \usepackage[dvipsnames]{xcolor}
 
 \usepackage{fancyvrb}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
 
 % redefine \VerbatimInput
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}%
@@ -38,10 +42,64 @@
 \begin{document}
 \maketitle
 
+\section{Introduction}
+
+Machine learning techniques often contain a process of learning certain patterns from a set of graphs.
+This problem, which exists in many forms, is called the \emph{Graph Mining} problem.
+\todo{Wat verantwoording en extra info vragen aan Sergey over waarom dit probleem interessant is. Ook is dit 'structured' graph mining, er bestaan andere vormen geloof ik, hoe bespreken we die?}
+
+%\subsection{Problem definition}
+\begin{definition}
+Given a pair $\langle E_{+},E_{-}\rangle$ consisting of a set of \emph{positive} and \emph{negative} examples of \emph{labeled graphs}, respectively,
+\emph{Graph mining} is the problem of finding one or more \emph{connected labeled graphs} $P$, called \emph{patterns},
+that are \emph{homomorphic} with at least $N_{+}$ positive, and at most $N_{-}$ negative examples.
+\end{definition}
+
+\begin{definition}
+\label{def:GM1}
+A graph homomorphism $f$ between two labeled graphs $G = (V,E,L)$ and $G' = (V',E',L')$ is a mapping $V \rightarrow V'$ from vertices of $G$ to vertices of $G'$ s.t. 
+\begin{itemize}
+\item $\forall u,v \in V, \lbrace u,v\rbrace \in E \implies \lbrace f(u),f(v)\rbrace \in E'$ (the mapping preserves edges), and 
+\item $\forall v \in V : L(v) = L(f(v))$ (the mapping respects labelings).
+\end{itemize}
+If there exists such a graph homomorphism between graphs $G$ and $G'$ we say $G$ is \emph{homomorphic} with $G'$.
+\end{definition}
+
+
+Furthermore, when looking for more than one pattern, one can impose restrictions on the different patterns that are found.
+For example, it stands to reason that one wants only \emph{canonical} solutions, meaning that no two patterns found are \emph{isomorphic}.
+
+\begin{definition}
+A graph isomorphism $f$ between two labeled graphs $G = (V,E,L)$ and $G' = (V',E',L')$ is a \emph{one-to-one} mapping $V \rightarrow V'$ 
+such that $f$ represents a homomorphism from $G$ to $G'$,
+and its inverse $f^{-1}$ represents a homomorphism from $G'$ to $G$.
+If there exists such a graph isomorphism between $G$ and $G'$ we say $G$ ($G'$) is \emph{isomorphic} with $G'$ ($G$)
+\end{definition}
+
+
+\begin{definition}
+Let $\mathcal{G}$ be a class of graphs, closed under isomorphism.
+A function $c$ for which $\forall G,H \in \mathcal{G} : G \simeq H \iff c(G) = c(H)$ and $\forall G \in \mathcal{G} : G \simeq c(G)$ hold, is called a \emph{canonization}.
+The graph $c(G)$ is called the \emph{canonical form} w.r.t $c$, and is denoted by $\mathit{canon}(G)$.
+\end{definition}
+%Only the first restriction should correspond to 'complete invariant'.
+
 An attempt to model the Graph Mining problem in both IDP as well as ProB makes it clear
 that neither language allows us to express the problem to its full extent.
-We try to link the shortcomings of each language to the expressiveness of the underlying
-logic on which they are built.
+We now try to link the shortcomings of each language to the expressiveness of the underlying logic on which they are built.
+
+First we introduce a new definition of the graph mining problem, equivalent to \textbf{Def.}~\ref{def:GM1}.
+We'll assume a sufficiently large supply of vertices, and represent example graphs directly as a triple $\langle Edge, Label, Class\rangle$, consisting of an edge relation and a labeling function over the vertices, as well as a classification (positive/negative).
+
+\begin{definition} \textbf{Graph Mining (redefined)}
+Given a supply of vertices $V$ and a set of $\langle E, L, C\rangle$ triples,
+where $E$ and $L$ represent the edge relation and labeling function over a supply of vertices respectively,
+%which consist of an edge relation, 
+we look for a graph $\langle E_{p}, L_{p}\rangle$ such that
+for at least $N_{+}$ of the triples $\langle E, L, C\rangle$ with $C=Pos$, and for at most $N_{-}$ of such triples with $C=Neg$, there exists a function $f$ s.t. $\forall u,v \in V, \lbrace u,v\rbrace \in E_{p} \implies \lbrace f(u),f(v)\rbrace \in E'$ and $\forall v \in V : L_{p}(v) = L(f(v))$.
+\end{definition}
+
+
 %Furthermore, we 
 
 \subsection{IDP}
@@ -63,13 +121,37 @@ Furthermore, limiting ourselves to existential second order prohibits us from ex
 In fact, the negative constraint asserts a property for all candidate homomorphic functions, which would lead to \emph{universal} quantification.
 Therefore, our only recourse is to encode the positive constraint and require it to fail when queried.
 
+Beyond the Existential Second Order restriction, the IDP language is also extended with inductive definitions. These definitions, evaluated under the well-founded semantics, allows the derivation of negative knowledge that otherwise would be underivable.
+\reversemarginpar
+\todo{A section about inductive definitions, and their use. (Being able to derive negative knowledge)}
+
 \subsection{Eventual encoding}
 \begin{alltt}
 //Homomorphism/2 is a higher-order predicate:
 //Edge1 and Edge2 are predicates themselves.
 homomorphism(Edge1, Edge2) \(\iff \exists\) f: (\(\forall\) x, y : x \(\neq\) y \(\Rightarrow\) f(x) \(\neq\) f(y)) \(\wedge\)
-\end{alltt}
+    (\(\forall\)x, y : Edge1(x, y) \(\implies\) Edge2(f (x), f (y)))
 
+\textbraceleft
+    reachable(x,y,Edge) \(\leftarrow\) Edge(x,y) \(\lor\) Edge(y,x).
+    reachable(x,y,Edge) \(\leftarrow \exists\) : reachable(x,z,Edge) \(\wedge\) reachable(z,y,Edge).
+\textbraceright
+
+isomorph(Edge1,Edge2) \(\iff \exists\)f : (\(\forall\) x,y:Edge1(x,y) \(\iff\) Edge2(f(x),f(y))) \(\wedge\)
+    (\(\forall\)x,y:x\(\neq\)y\(\implies\)f(x)\(\neq\)f(y)).
+
+//\(\forall\)Pat represents quantification over a predicate Pat/2. 
+//A pattern is represented by its Edge relation. 
+\(\forall\)P : pattern(P) \(\implies\) P(x,y) \(\iff\) Template(x,y) .
+\(\forall\)P : pattern(P) \(\implies\) #\textbraceleft Pos : positive(Pos) \(\wedge\) homomorphism(P, Pos) \textbraceright \(\geq\) \(N{+}\).
+\(\forall\)P : pattern(P) \(\implies\) #\textbraceleft Neg : negative(Neg) \(\wedge\) homomorphism(P, Neg) \textbraceright \(\leq\) \(N_\).
+\(\forall\)P,P2 :pattern(P)\(\wedge\)pattern(P2)\(\wedge\)P\(\neq\)P2 \(\iff\) \(\neg\)isomorph(P,P2).
+
+\end{alltt}
+\reversemarginpar
+\todo{Tekstuele uitleg hierbij}
+
+\subsection{ProB}
 
 \section{Feature Comparison}
 
