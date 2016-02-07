@@ -108,11 +108,20 @@ As the domains of this predicate range over predicates and functions, this predi
 \subsection{IDP}
 The IDP language can express \emph{Existential Second Order} problems; problems in which there is an existentially quantified, generally second order, vocabulary of symbols and a first order theory with symbols from that vocabulary.
 
-This restriction to \emph{Existential} Second Order forces us 
-%to separate the constraint describing the positive homomorphic property, and the constraint on its number of occurrences.
+This restriction to \emph{Existential} Second Order means we can't express this set as a higher-order predicate. One possible solution is to replicate for each graph the different characteristic predicates and functions, as well as the knowledge (theory) about them.
+It is clear that this solution is undesirable due to the way it scales and the editting needed with growing problem instances.
+%It retains the local coherence of graph characteristics where it comes to data representation, but prohibits the abstraction(generalisation) of knowledge about these properties, as evidenced by requiring us to duplicate the theory for erach graph.
+
+Another solution would be to use a trick where we represent each characteristic property by a single general entity for all graphs that behaves the way it should for a specific graph instance based on an additional argument serving as an identifier for the graph of interest.
+It is clear that this trick forces us to give up the local coherence of graph characteristics that was present in \textbf{Def.}~\ref{def:gm2}.
+%to separate the constraint describing the positive homomorphic property, and the coint on its number of occurrences.
 %This, from a KR point of view, 
 %Furthermore, the restriction to ESO requires us 
-to use a Skolemization based trick when expressing the homomorphic property.
+
+%Nu kunnen we kijken wat deze truuk doet met onze mogelijkheid om de abstraction van de theory uit te drukken. Normaal mwillen we dit zo schrijven. Hoewel we nu de generalisatie kunnen uitdrukken, verplicht de restrictie tot existentieel s..o ons om de homomorphic mapping functies te tot een globale property te promoveren, hoewel we feitelijk niet geinteresseerd zijn in de concrete mappings. om om te gaan met de afhankelijkheid van deze functies op de spec. vb grafen moeten we... die nu erg lijkt op skolemisation. theory 
+As an example, we illustrate this trick by showing on the expression of the positive homomorphic property, where it greatly resembles Skolemization.
+As evidenced in \textbf{Def.}~\ref{def:gm2}, normally one would express the positive homomorphic property by quantifying (counting) over all graphs, requiring the existence of a function with the correct properties.
+%As it is impossible
 We introduce a general function \verb|f| that represents the homomorphisms, and make its dependency on a specific goal graph explicit using an additional argument:
 \verb|partial f(graph, t_var):node|.
 In Second Order Logic, this dependency would follow directly from the order of the separate quantifications.
