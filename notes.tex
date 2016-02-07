@@ -99,6 +99,9 @@ we look for a graph $\langle E_{p}, L_{p}\rangle$ such that
 for at least $N_{+}$ of the triples $\langle E, L, C\rangle$ with $C=Pos$, and for at most $N_{-}$ of such triples with $C=Neg$, there exists a function $f$ s.t. $\forall u,v \in V, \lbrace u,v\rbrace \in E_{p} \implies \lbrace f(u),f(v)\rbrace \in E'$ and $\forall v \in V : L_{p}(v) = L(f(v))$.
 \end{definition}
 
+This definition shows great \emph{local coherence} with respect to the different graphs: all characteristics of a graph are represented by separate entities or concepts, which are grouped together for each graph $G$ in the triple that describes the it.
+A natural choice to represent the set of triples would be a (ternary) predicate.
+As the domains of this predicate range over predicates and functions, this predicate would be a higher-order predicate.
 
 %Furthermore, we 
 
