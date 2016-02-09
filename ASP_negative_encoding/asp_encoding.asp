@@ -2,7 +2,7 @@
 
 map(G,X,v1) | map(G,X,v2) | map(G,X,v3) | map(G,X,v4) :- t_node(X), negative(G).
 
-:- map(G,X,V), map(G,Y,V), X != Y, not saturated(G), negative(G). % we cannot map two different template nodes to the same 
+:- negative(G), not saturated(G), map(G,X,V), map(G,Y,V), X != Y.  % we cannot map two different template nodes to the same 
 
 map(G,X,V) :- saturated(G), t_node(X), node(G,V).
 
