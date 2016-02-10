@@ -27,6 +27,15 @@ positive_count(N) :- N = #count{G:positive_match(G)}.
 
 :- positive_count(N), N < 2.
 
+% !!! TODO path constraint, needs to be added to the other constraints, #TODO
+
+t_path(X,Y) :- t_edge(X,Y).
+t_path(X,Y) :- t_edge(X,Z), t_path(Z,Y).
+
+:- t_node(X), t_node(Y), not t_path(X,Y).
+
+0 { invar(X) } 1 :- t_node(X).
+
 
 %auxilary constraints
 
