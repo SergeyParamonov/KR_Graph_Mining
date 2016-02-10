@@ -1,12 +1,15 @@
+
+% Saturated Representation
+
 %negative constraints to check not matching negative graphs
 
 map(G,X,v1) | map(G,X,v2) | map(G,X,v3) | map(G,X,v4) :- t_node(X), negative(G).
 
-:- negative(G), not saturated(G), map(G,X,V), map(G,Y,V), X != Y.  % we cannot map two different template nodes to the same 
 
 map(G,X,V) :- saturated(G), t_node(X), node(G,V).
 
 saturated(G) :- t_edge(X,Y), map(G,X,V1), map(G,Y,V2), not edge(G,V1,V2), negative(G).
+saturated(G) :- map(G,X,V),  map(G,Y,V), X != Y.  % we cannot map two different template nodes to the same 
 
 negative_match(G) :- not saturated(G), negative(G).
 
@@ -14,6 +17,8 @@ negative_count(N) :- N = #count{G:negative_match(G)}.
 
 :- negative_count(N), N > 1.
 
+
+% Standard Representation
 
 %positive constraints to ensure matching of the positive graphs
 
