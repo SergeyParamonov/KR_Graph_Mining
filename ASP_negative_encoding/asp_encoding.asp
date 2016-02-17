@@ -1,4 +1,19 @@
-﻿% Saturated Representation
+﻿% Standard Representation
+
+%positive constraints to ensure matching of the positive graphs
+
+positive_match(G) | not_positive_match(G) :- positive(G).
+
+1 { map(G,X,V) : node(G,V) } 1 :- positive(G), invar(X).
+
+:- positive_match(G), map(G,X,V1), map(G,Y,V2), t_edge(X,Y), not edge(G,V1,V2), invar(X), invar(Y).
+
+positive_count(N) :- N = #count{G:positive_match(G)}.
+
+:- positive_count(N), N < 2.
+
+
+% Saturated Representation
 
 %negative constraints to check not matching negative graphs
 
@@ -15,20 +30,6 @@ negative_count(N) :- N = #count{G:negative_match(G)}.
 
 :- negative_count(N), N > 1.
 
-
-% Standard Representation
-
-%positive constraints to ensure matching of the positive graphs
-
-positive_match(G) | not_positive_match(G) :- positive(G).
-
-1 { map(G,X,V) : node(G,V) } 1 :- positive(G), invar(X).
-
-:- positive_match(G), map(G,X,V1), map(G,Y,V2), t_edge(X,Y), not edge(G,V1,V2), invar(X), invar(Y).
-
-positive_count(N) :- N = #count{G:positive_match(G)}.
-
-:- positive_count(N), N < 2.
 
 % Canonicity check, template based
 

@@ -200,6 +200,107 @@ isomorph(Edge1,Edge2) \(\iff \exists\)f : (\(\forall\) x,y:Edge1(x,y) \(\iff\) E
 \paragraph{ASP}
 Mostly the same but in theory can handle $\textit{NP}^\textit{NP}$, in practice however, it would require encoding tricks and unavoidably lead to the same problem as in IDP -- indexing homomorphism enumeration.
 
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+\begin{lstlisting}[caption=ASP positive matching]
+positive_match(G) | not_positive_match(G) :- positive(G).
+
+1 { map(G,X,V) : node(G,V) } 1 :- positive(G), invar(X).
+
+:- positive_match(G), map(G,X,V1), map(G,Y,V2), t_edge(X,Y), 
+                  not edge(G,V1,V2), invar(X), invar(Y).
+
+positive_count(N) :- N = #count{G:positive_match(G)}.
+
+:- positive_count(N), N < 2.
+\end{lstlisting}
+
+\begin{lstlisting}[caption=ASP negative matching]
+%Saturated Representation
+
+%negative constraints to check not matching negative graphs
+
+map(G,X,v1) | map(G,X,v2) | map(G,X,v3) | map(G,X,v4) :- invar(X), negative(G).
+
+map(G,X,V) :- saturated(G), t_node(X), node(G,V).
+
+saturated(G) :- t_edge(X,Y), map(G,X,V1), map(G,Y,V2), not edge(G,V1,V2), negative(G), invar(X), invar(Y).
+saturated(G) :- map(G,X,V),  map(G,Y,V), X != Y, invar(X), invar(Y). // we cannot map two different template nodes to the same 
+
+negative_match(G) :- not saturated(G), negative(G).
+
+negative_count(N) :- N = #count{G:negative_match(G)}.
+
+:- negative_count(N), N > 1.
+
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Canonicity template-based check]
+iso(X,x1) | iso(X,x2) | iso(X,x3) | iso(X,x4) :- invar(X).
+
+candidate_var(X) :- iso(_,X).
+
+%not iso!
+iso_saturated :- invar(X1), invar(X2), iso(X1,V1), iso(X2,V2),     t_edge(V1,V2), not t_edge(X1,X2). 
+iso_saturated :- invar(X1), invar(X2), iso(X1,V1), iso(X2,V2), not t_edge(V1,V2),     t_edge(X1,X2).
+ 
+iso(X,V) :- invar(X), t_node(V), iso_saturated.
+
+d1(X) :-     invar(X), not candidate_var(X). 
+d2(X) :- not invar(X),     candidate_var(X).
+
+not_equal :- d1(X). % check that in fact candidate is different from the pattern itself
+not_equal :- d2(X). % check that in fact candidate is different from the pattern itself
+
+iso_saturated :- not not_equal. % should not be completely equal
+
+min_d1(N) :- N = #min{ X: d1(X) }, not iso_saturated.
+min_d2(N) :- N = #min{ X: d2(X) }, not iso_saturated.
+
+iso_saturated :- min_d1(N1), min_d2(N2), N1 > N2.
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Auxilary predicates -- probably should be moved to appendix]
+%selects subpattern
+
+t_path(X,Y) :- t_edge(X,Y), invar(X), invar(Y).
+t_path(X,Y) :- t_edge(X,Z), t_path(Z,Y), invar(X).
+
+:- invar(X), invar(Y), not t_path(X,Y).
+
+0 { invar(X) } 1 :- t_node(X).
+% auxilary constraints
+
+
+edge(G,Y,X) :- edge(G,X,Y).
+t_edge(Y,X) :- t_edge(X,Y).
+node(G,Y)   :- edge(G,Y,_).
+t_node(X)   :- t_edge(X,_).
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Canonicity previous solution isomorphism check]
+iso(s1,X,x1) | iso(s1,X,x2) :- invar(X).
+iso(s2,X,x2) | iso(s2,X,x3) :- invar(X).
+
+candidate_var(G,X) :- iso(G,_,X).
+
+iso_saturated(G) :- invar(X1), invar(X2), iso(G,X1,V1), iso(G,X2,V2),     t_edge(V1,V2), not t_edge(X1,X2). 
+iso_saturated(G) :- invar(X1), invar(X2), iso(G,X1,V1), iso(G,X2,V2), not t_edge(V1,V2),     t_edge(X1,X2). 
+iso_saturatea(G) :- not equal(G), iso(G,_,_). 
+
+iso(G,X,V) :- invar(X), t_node(V), iso_saturated(G).
+
+:- not iso_saturated(G), iso(G,_,_).
+
+d1(G,X) :-     invar(X), not candidate_var(G,X), iso(G,_,_).
+d2(G,X) :- not invar(X),     candidate_var(G,X).
+
+not_equal(G) :- d1(G,X). % check that in fact candidate is different from the pattern itself
+not_equal(G) :- d2(G,X). % check that in fact candidate is different from the pattern itself
+
+equal(G) :- not not_equal(G), iso(G,_,_).
+\end{lstlisting}
+
+
 \subsection{proB}
 \textbf{Pro:}
 \begin{itemize}
