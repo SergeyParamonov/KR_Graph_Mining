@@ -11,6 +11,7 @@
 \usepackage{alltt}
 \usepackage{url}
 \usepackage{amsmath}
+\usepackage{amsfonts}
 \usepackage{amsthm}
 \usepackage{xspace}
 \usepackage{tikz}
@@ -21,6 +22,10 @@
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
+\newcommand{\triple}[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand{\pair}[1]{\ensuremath{\left(#1\right)}}
+\newcommand{\graph}[1]{\ensuremath{\mathcal{#1}}}
+\newcommand{\graphset}[1]{\ensuremath{\mathfrak{#1}}}
 
 % redefine \VerbatimInput
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}%
@@ -52,23 +57,23 @@ This problem, which exists in many forms, is called the \emph{Graph Mining} prob
 %\subsection{Problem definition}
 \begin{definition}
 \label{def:GM1}
-Given a pair $\langle E_{+},E_{-}\rangle$ consisting of a set of \emph{positive} and \emph{negative} examples of \emph{labeled graphs}, respectively,
+Given a pair $\pair{E_{+},E_{-}}$ consisting of a set of \emph{positive} and \emph{negative} examples of \emph{labeled graphs}, respectively,
 \emph{Graph mining} is the problem of finding one \emph{connected labeled graph} $P$, called a \emph{pattern},
 that is \emph{homomorphic} with at least $N_{+}$ positive, while homomorphic with at most $N_{-}$ negative examples.
 \end{definition}
 
 \begin{definition}
-A graph $G = (V,E,L)$ is \emph{connected} iff for each pair of vertices $V$ and $V'$, there exists an edge $\langle V,V'\rangle \in E$ or there exists a sequence $V \ldots V_{1} \ldots V_{n} \ldots V'$ such that there exist edges $\langle V,V_{1} \rangle$, $\langle V_{i},V_{i+1}\rangle$ and $\langle V_{n},V'\rangle \in E$.
+A graph $\graph{G} = \triple{V,E,L}$, where $V$ is the set of vertices, $E$ the set of edges and $L$ the labeling function, is \emph{connected} iff for each pair of vertices $v$ and $v'$, there exists an edge $\pair{v,v'} \in E$ or there exists a sequence $v \ldots v_{1} \ldots v_{n} \ldots v'$ such that there exist edges $\pair{v,v_{1}}$, $\pair{v_{i},v_{i+1}}$ and $\pair{v_{n},v'} \in E$.
 \end{definition}
 
 
 \begin{definition}
-A graph homomorphism $f$ between two labeled graphs $G = (V,E,L)$ and $G' = (V',E',L')$, where $V$ is the set of vertices, $E$ the set of edges and $L$ the labeling function, is a mapping $V \rightarrow V'$ from vertices of $G$ to vertices of $G'$ s.t. 
+A graph homomorphism $f$ between two labeled graphs $\graph{G} = (V,E,L)$ and $\graph{G'} = (V',E',L')$, where $V$ is the set of vertices, $E$ the set of edges and $L$ the labeling function, is a mapping $V \rightarrow V'$ from vertices of $\graph{G}$ to vertices of $\graph{G'}$ s.t. 
 \begin{itemize}
-\item $\forall u,v \in V, \langle u,v\rangle \in E \implies \langle f(u),f(v)\rangle \in E'$ (the mapping preserves edges), and 
+\item $\forall u,v \in V, \pair{u,v} \in E \implies \pair{f(u),f(v)} \in E'$ (the mapping preserves edges), and 
 \item $\forall v \in V : L(v) = L(f(v))$ (the mapping respects labelings).
 \end{itemize}
-If there exists such a graph homomorphism between graphs $G$ and $G'$ we say $G$ is \emph{homomorphic} with $G'$.
+If there exists such a graph homomorphism between graphs $\graph{G}$ and $\graph{G'}$ we say $\graph{G}$ is \emph{homomorphic} with $\graph{G'}$.
 \end{definition}
 
 \begin{figure}[h]
@@ -146,18 +151,18 @@ For example, it stands to reason that one wants only \emph{canonical} solutions,
 
 \begin{definition}
 \label{def:isomorphism}
-A graph isomorphism $f$ from labeled graph $G = (V,E,L)$ to $G' = (V',E',L')$ is a \emph{one-to-one} mapping $V \rightarrow V'$ 
-such that $f$ represents a homomorphism from $G$ to $G'$,
-and its inverse $f^{-1}$ represents a homomorphism from $G'$ to $G$.
-If there exists such a graph isomorphism between $G$ and $G'$ we say $G$ ($G'$) is \emph{isomorphic} with $G'$ ($G$)
+A graph isomorphism $f$ between two labeled graph $\graph{G} = \triple{V,E,L}$ and $\graph{G'} = \triple{V',E',L'}$ is a \emph{one-to-one} mapping $V \rightarrow V'$ 
+such that $f$ represents a homomorphism from $\graph{G}$ to $\graph{G'}$,
+and its inverse $f^{-1}$ represents a homomorphism from $\graph{G'}$ to $\graph{G}$.
+If there exists such a graph isomorphism between $\graph{G}$ and $\graph{G'}$ we say $\graph{G}$ and $\graph{G'}$ are \emph{isomorphic}.
 \end{definition}
 
 
 \begin{definition}
 \label{def:canonicalForm}
-Let $\mathcal{G}$ be a set of graphs, closed under isomorphism.
-A function $c$ for which $\forall G,H \in \mathcal{G} : G \simeq H \iff c(G) = c(H)$ and $\forall G \in \mathcal{G} : G \simeq c(G)$ hold, is called a \emph{canonization}.
-The graph $c(G)$ is called the \emph{canonical form} w.r.t $c$, and is denoted by $\mathit{canon}(G)$.
+Let $\graphset{G}$ be a set of graphs, closed under isomorphism.
+A function $c$ for which $\forall \graph{G,H} \in \graphset{G} : \graph{G} \simeq \graph{H} \iff c(\graph{G}) = c(\graph{H})$ and $\forall \graph{G} \in \graphset{G} : \graph{G} \simeq c(\graph{G})$ hold, is called a \emph{canonization}.
+The graph $c(\graph{G})$ is called the \emph{canonical form} w.r.t $c$, and is denoted by $\mathit{canon}(\graph{G})$.
 \end{definition}
 
 \begin{figure}[h]
@@ -195,21 +200,21 @@ that neither language allows us to express the problem to its full extent.
 We now try to link the shortcomings of each language to the expressiveness of the underlying logic on which they are built.
 
 First we introduce a new definition of the graph mining problem, equivalent to \textbf{Def.}~\ref{def:GM1}.
-We'll assume a sufficiently large supply of vertices, and represent example graphs directly as a triple $\langle Edge, Label, Class\rangle$, consisting of an edge relation and a labeling function over the vertices, as well as a classification (positive/negative).
+We'll assume a sufficiently large supply of vertices, and represent example graphs directly as a triple $\triple{Edge, Label, Class}$, consisting of an edge relation and a labeling function over the vertices, as well as a classification (positive/negative).
 
 \begin{definition} \textbf{Graph Mining (redefined)}
 \label{def:gm2}
-Given a set of vertices $V$ and a set $G$ of $\langle E, L, C\rangle$ triples,
-where $E$ and $L$ represent the edge relation and labeling function over a supply of vertices respectively,
+Given a set of vertices $V$ and a set $\graphset{G}$ of $\triple{E, L, C}$ triples,
+where $E$ and $L$ represent the edge relation and labeling function over the supply of vertices respectively,
 %which consist of an edge relation, 
-we look for a (set $P$ of)\todo{cleanly extend this definition to multiple graphs, or separate the single and multiple pattern case again} graph(s) represented by tuple(s) $\langle E_{p}, L_{p}\rangle$ such that
-for at least $N_{+}$ of the triples $\langle E, L, C\rangle$ with $C=Pos$, and for at most $N_{-}$ of such triples with $C=Neg$, there exists a function $f$ s.t. $\forall u,v \in V, \langle u,v\rangle \in E_{p} \implies \langle f(u),f(v)\rangle \in E$ and $\forall v \in V : L_{p}(v) = L(f(v))$.
+we look for a (set $P$ of) \todo{cleanly extend this definition to multiple graphs, or separate the single and multiple pattern case again} graph(s) represented by tuple(s) $\pair{E_{p}, L_{p}}$ such that
+for at least $N_{+}$ of the triples $\triple{ E, L, C}$ with $C=Pos$, and for at most $N_{-}$ of such triples with $C=Neg$, there exists a function $f$ s.t. $\forall u,v \in V, \pair{u,v} \in E_{p} \implies \pair{f(u),f(v)} \in E$ and $\forall v \in V : L_{p}(v) = L(f(v))$.
 
 \todo{draft: possible different wording}
 \begin{itemize}
-\item $\#\Big\lbrace \langle E,L,Pos \rangle \; | \; \langle E,L,Pos \rangle \in G \; \wedge \; \big(\exists f : \forall v \in V : L_{p}(v) = L(f(v)) \; \wedge \; \forall x,y \in V : E_{p}(x,y) \implies E(f(x),f(y))\big)\Big\rbrace \geq N_{+}$
+\item $\#\Big\lbrace \triple{E,L,Pos} \; | \; \triple{E,L,Pos} \in \graphset{G} \; \wedge \; \big(\exists f : \forall v \in V : L_{p}(v) = L(f(v)) \; \wedge \; \forall x,y \in V : E_{p}(x,y) \implies E(f(x),f(y))\big)\Big\rbrace \geq N_{+}$
 
-\item $\#\Big\lbrace \langle E,L,Neg \rangle \; | \; \langle E,L,Neg \rangle \in G \; \wedge \; \big(\exists f : \forall v \in V : L_{p}(v) = L(f(v)) \; \wedge \; \forall x,y \in V : E_{p}(x,y) \implies E(f(x),f(y))\big)\Big\rbrace \leq N_{-}$
+\item $\#\Big\lbrace \triple{E,L,Neg} \; | \; \triple{E,L,Neg} \in \graphset{G} \; \wedge \; \big(\exists f : \forall v \in V : L_{p}(v) = L(f(v)) \; \wedge \; \forall x,y \in V : E_{p}(x,y) \implies E(f(x),f(y))\big)\Big\rbrace \leq N_{-}$
 \end{itemize}
 \end{definition}
 
@@ -223,10 +228,10 @@ As the domains of this predicate range over predicates and functions, this predi
 \begin{tabular}{l |l l l}
          & E      & L      & C \\
 \hline
-$G_{1}$  & $E_{1}$ & $L_{1}$ & Pos\\
-$G_{2}$  & $E_{2}$ & $L_{2}$ & Pos\\
+$\graph{G}_{1}$  & $E_{1}$ & $L_{1}$ & Pos\\
+$\graph{G}_{2}$  & $E_{2}$ & $L_{2}$ & Pos\\
   \vdots & \vdots  & \vdots  & \vdots\\
-$G_{n}$  & $E_{n}$ & $L_{n}$ & Pos\\
+$\graph{G}_{n}$  & $E_{n}$ & $L_{n}$ & Pos\\
 \end{tabular}
 \caption{Local coherence\label{Fig:LocalCoherence}}
 \end{table}
