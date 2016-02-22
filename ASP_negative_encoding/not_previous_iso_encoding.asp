@@ -1,18 +1,3 @@
-﻿% Standard Representation
-
-%positive constraints to ensure matching of the positive graphs
-
-positive_match(G) | not_positive_match(G) :- positive(G).
-
-1 { map(G,X,V) : node(G,V) } 1 :- positive(G), invar(X).
-
-:- positive_match(G), map(G,X,V1), map(G,Y,V2), t_edge(X,Y), not edge(G,V1,V2), invar(X), invar(Y).
-
-positive_count(N) :- N = #count{G:positive_match(G)}.
-
-:- positive_count(N), N < 2.
-
-
 % Saturated Representation
 
 %negative constraints to check not matching negative graphs
@@ -31,30 +16,42 @@ negative_count(N) :- N = #count{G:negative_match(G)}.
 :- negative_count(N), N > 1.
 
 
+% Standard Representation
+
+%positive constraints to ensure matching of the positive graphs
+
+positive_match(G) | not_positive_match(G) :- positive(G).
+
+1 { map(G,X,V) : node(G,V) } 1 :- positive(G), invar(X).
+
+:- positive_match(G), map(G,X,V1), map(G,Y,V2), t_edge(X,Y), not edge(G,V1,V2), invar(X), invar(Y).
+
+positive_count(N) :- N = #count{G:positive_match(G)}.
+
+:- positive_count(N), N < 2.
+
 % Canonicity check, template based
 
-iso(X,x1) | iso(X,x2) | iso(X,x3) | iso(X,x4) :- invar(X).
+iso(s1,X,x1) | iso(s1,X,x2) :- invar(X).
+iso(s2,X,x2) | iso(s2,X,x3) :- invar(X).
 
-candidate_var(X) :- iso(_,X).
+candidate_var(G,X) :- iso(G,_,X).
 
-%not iso!
-iso_saturated :- invar(X1), invar(X2), iso(X1,V1), iso(X2,V2),     t_edge(V1,V2), not t_edge(X1,X2). 
-iso_saturated :- invar(X1), invar(X2), iso(X1,V1), iso(X2,V2), not t_edge(V1,V2),     t_edge(X1,X2).
- 
-iso(X,V) :- invar(X), t_node(V), iso_saturated.
+iso_saturated(G) :- invar(X1), invar(X2), iso(G,X1,V1), iso(G,X2,V2),     t_edge(V1,V2), not t_edge(X1,X2). 
+iso_saturated(G) :- invar(X1), invar(X2), iso(G,X1,V1), iso(G,X2,V2), not t_edge(V1,V2),     t_edge(X1,X2). 
+iso_saturatea(G) :- not equal(G), iso(G,_,_). 
 
-d1(X) :-     invar(X), not candidate_var(X). 
-d2(X) :- not invar(X),     candidate_var(X).
+iso(G,X,V) :- invar(X), t_node(V), iso_saturated(G).
 
-not_equal :- d1(X). % check that in fact candidate is different from the pattern itself
-not_equal :- d2(X). % check that in fact candidate is different from the pattern itself
+:- not iso_saturated(G), iso(G,_,_).
 
-iso_saturated :- not not_equal. % should not be completely equal
+d1(G,X) :-     invar(X), not candidate_var(G,X), iso(G,_,_).
+d2(G,X) :- not invar(X),     candidate_var(G,X).
 
-min_d1(N) :- N = #min{ X: d1(X) }, not iso_saturated.
-min_d2(N) :- N = #min{ X: d2(X) }, not iso_saturated.
+not_equal(G) :- d1(G,X). % check that in fact candidate is different from the pattern itself
+not_equal(G) :- d2(G,X). % check that in fact candidate is different from the pattern itself
 
-iso_saturated :- min_d1(N1), min_d2(N2), N1 > N2.
+equal(G) :- not not_equal(G), iso(G,_,_).
 
 
 % selects subpattern
@@ -127,9 +124,8 @@ edge(g6, v3, v1).
 #show positive_count/1.
 #show positive_match/1.
 #show invar/1.
-#show min_d1/1.
-#show min_d2/1.
-#show candidate_var/1.
-#show d1/1.
-#show d2/1.
-#show iso_saturated/0.
+#show candidate_var/2.
+#show d1/2.
+#show d2/2.
+#show iso_saturated/1.
+#show iso/3.
