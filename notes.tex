@@ -5,7 +5,7 @@
 \usepackage{enumerate}
 \usepackage{layouts}
 \usepackage{times}
-\usepackage[numbers]{natbib}
+\usepackage{natbib}
 \usepackage{notoccite}
 \usepackage{todonotes}
 \usepackage{alltt}
@@ -49,10 +49,8 @@
 \maketitle
 
 \section{Introduction}
+Frequent Pattern Mining, one of the ''super-problems`` of Data Mining, has received significant attention over the years \citep{pattern_mining_book}. Especially useful in applications  turned out to be structured mining such as frequent graph mining, where one is looking for sub-structures that often occur in the data, e.g., a graph that is a subgraph of many graphs in the dataset. Recently, there is a line of work towards declarative pattern mining \citep{tias_declarative_pattern_mining} and today look into declarative structured pattern mining that just started receiving attention in both data mining and knowledge representation communities \citep{cp_sequence_mining,ilp_graph_mining}. 
 
-Machine learning techniques often contain a process of learning certain patterns from a set of graphs.
-This problem, which exists in many forms, is called the \emph{Graph Mining} problem.
-\todo{Wat verantwoording en extra info vragen aan Sergey over waarom dit probleem interessant is. Ook is dit 'structured' graph mining, er bestaan andere vormen geloof ik, hoe bespreken we die?}
 
 %\subsection{Problem definition}
 \begin{definition}
@@ -466,6 +464,8 @@ the rest of constraints?
 
 \VerbatimInput[label=IDP encoding]{IDPencoding/core_constraints.idp}
 
-
+\bibliography{references}
+\bibliographystyle{abbrvnat}
+\setcitestyle{authoryear,open={(},close={)}}
 
 \end{document}
