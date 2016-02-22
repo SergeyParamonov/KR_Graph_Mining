@@ -27,6 +27,11 @@
 \newcommand{\graph}[1]{\ensuremath{\mathcal{#1}}}
 \newcommand{\graphset}[1]{\ensuremath{\mathbb{#1}}}
 
+\newcommand{\sergey}[1]{\textcolor{magenta}{\marginpar{\sc Sergey} #1}}
+\newcommand{\Qone}{$\boldsymbol{Q_1}$\xspace}
+\newcommand{\Qtwo}{$\boldsymbol{Q_2}$\xspace}
+\newcommand{\Qthree}{$\boldsymbol{Q_3}$\xspace}
+
 % redefine \VerbatimInput
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}%
 {fontsize=\footnotesize,
@@ -49,8 +54,17 @@
 \maketitle
 
 \section{Introduction}
-Frequent Pattern Mining, one of the ''super-problems`` of Data Mining, has received significant attention over the years \citep{pattern_mining_book}. Especially useful in applications  turned out to be structured mining such as frequent graph mining, where one is looking for sub-structures that often occur in the data, e.g., a graph that is a subgraph of many graphs in the dataset. Recently, there is a line of work towards declarative pattern mining \citep{tias_declarative_pattern_mining} and today look into declarative structured pattern mining that just started receiving attention in both data mining and knowledge representation communities \citep{cp_sequence_mining,ilp_graph_mining}. 
+\sergey{feel free to rephrase and correct me here, that's an early attempt to set up a story}
+Frequent Pattern Mining, one of the ''super-problems`` in Data Mining, has received significant attention over the last years \citep{pattern_mining_book}. Especially useful in applications has turned out to be structured mining such as graph mining, where one is looking for sub-structures that often occur in the data, e.g., a graph that is a subgraph of many graphs in the dataset. Recently, there is a line of work towards declarative pattern mining \citep{tias_declarative_pattern_mining} and today we look into declarative structured pattern mining that just started receiving attention in both data mining and knowledge representation communities \citep{cp_sequence_mining,ilp_graph_mining}. 
 
+Our main goal is to investigate the problem of graph mining from the knowledge representation perspective and more concretely we are going to look in the following questions:
+\begin{itemize}
+  \item[\Qone:]   What is the logical model of the frequent graph mining problem?
+  \item[\Qtwo:]   How this model can be implemented in the existing logic programming languages?
+  \item[\Qthree:] Do all necessary concepts and primitives already present in the existing logic programming languages?
+\end{itemize}
+
+\sergey{we need a smooth transition here or should we just start a new section like ``formalization''?}
 
 %\subsection{Problem definition}
 \begin{definition}
@@ -236,6 +250,8 @@ $\graph{G}_{n}$  & $E_{n}$ & $L_{n}$ & Pos\\
 
 
 
+\section{Related Work}
+\sergey{to be expanded}
 \section{Modellings}
 \subsection{IDP}
 \subsubsection{Existential Second Order}
