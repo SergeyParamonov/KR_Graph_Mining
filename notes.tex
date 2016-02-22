@@ -25,7 +25,7 @@
 \newcommand{\triple}[1]{\ensuremath{\langle #1 \rangle}}
 \newcommand{\pair}[1]{\ensuremath{\left(#1\right)}}
 \newcommand{\graph}[1]{\ensuremath{\mathcal{#1}}}
-\newcommand{\graphset}[1]{\ensuremath{\mathfrak{#1}}}
+\newcommand{\graphset}[1]{\ensuremath{\mathbb{#1}}}
 
 % redefine \VerbatimInput
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}%
@@ -207,7 +207,7 @@ We'll assume a sufficiently large supply of vertices, and represent example grap
 Given a set of vertices $V$ and a set $\graphset{G}$ of $\triple{E, L, C}$ triples,
 where $E$ and $L$ represent the edge relation and labeling function over the supply of vertices respectively,
 %which consist of an edge relation, 
-we look for a (set $P$ of) \todo{cleanly extend this definition to multiple graphs, or separate the single and multiple pattern case again} graph(s) represented by tuple(s) $\pair{E_{p}, L_{p}}$ such that
+we look for a (set $\graphset{P}$ of) \todo{cleanly extend this definition to multiple graphs, or separate the single and multiple pattern case again} graph(s) represented by tuple(s) $\pair{E_{p}, L_{p}}$ such that
 for at least $N_{+}$ of the triples $\triple{ E, L, C}$ with $C=Pos$, and for at most $N_{-}$ of such triples with $C=Neg$, there exists a function $f$ s.t. $\forall u,v \in V, \pair{u,v} \in E_{p} \implies \pair{f(u),f(v)} \in E$ and $\forall v \in V : L_{p}(v) = L(f(v))$.
 
 \todo{draft: possible different wording}
