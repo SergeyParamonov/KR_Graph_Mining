@@ -28,6 +28,7 @@
 \newcommand{\graphset}[1]{\ensuremath{\mathbb{#1}}}
 
 \newcommand{\sergey}[1]{\textcolor{magenta}{\marginpar{\sc Sergey} #1}}
+\newcommand{\matthias}[1]{\textcolor{blue}{\marginpar{\sc Matthias} #1}}
 \newcommand{\Qone}{$\boldsymbol{Q_1}$\xspace}
 \newcommand{\Qtwo}{$\boldsymbol{Q_2}$\xspace}
 \newcommand{\Qthree}{$\boldsymbol{Q_3}$\xspace}
@@ -55,7 +56,7 @@
 
 \section{Introduction}
 \sergey{feel free to rephrase and correct me here, that's an early attempt to set up a story}
-Frequent Pattern Mining, one of the ''super-problems`` in Data Mining, has received significant attention over the last years \citep{pattern_mining_book}. Especially useful in applications has turned out to be structured mining such as graph mining, where one is looking for sub-structures that often occur in the data, e.g., a graph that is a subgraph of many graphs in the dataset. Recently, there is a line of work towards declarative pattern mining \citep{tias_declarative_pattern_mining} and today we look into declarative structured pattern mining that just started receiving attention in both data mining and knowledge representation communities \citep{cp_sequence_mining,ilp_graph_mining}. 
+Frequent Pattern Mining, one of the ''super-problems`` in Data Mining, has received significant attention over the last years \citep{pattern_mining_book}. Especially useful in applications has turned out to be structured mining such as graph mining, where one is looking for sub-structures that often occur in the data, e.g., a graph that is a subgraph of many graphs in the dataset. Recently, there is a line of work towards declarative pattern mining \citep{tias_declarative_pattern_mining} and today we look into declarative structured pattern mining that just started receiving attention in both data mining and knowledge representation communities \citep{cp_sequence_mining,ilp_graph_mining}. \matthias{We still need to mention the different types of homomorphism/isomorphisms.}
 
 Our main goal is to investigate the problem of graph mining from the knowledge representation perspective and more concretely we are going to look in the following questions:
 \begin{itemize}
@@ -80,7 +81,7 @@ A graph $\graph{G} = \triple{V,E,L}$, where $V$ is the set of vertices, $E$ the 
 
 
 \begin{definition}
-A graph homomorphism $f$ between two labeled graphs $\graph{G} = (V,E,L)$ and $\graph{G'} = (V',E',L')$, where $V$ is the set of vertices, $E$ the set of edges and $L$ the labeling function, is a mapping $V \rightarrow V'$ from vertices of $\graph{G}$ to vertices of $\graph{G'}$ s.t. 
+A graph homomorphism $f$ from labeled graph $G = (V,E,L)$ to $G' = (V',E',L')$, where $V$ is the set of vertices, $E$ the set of edges and $L$ the labeling function, is a mapping f : $V \rightarrow V'$ from vertices of $\graph{G}$ to vertices of $\graph{G'}$ s.t. 
 \begin{itemize}
 \item $\forall u,v \in V, \pair{u,v} \in E \implies \pair{f(u),f(v)} \in E'$ (the mapping preserves edges), and 
 \item $\forall v \in V : L(v) = L(f(v))$ (the mapping respects labelings).
@@ -151,10 +152,10 @@ If there exists such a graph homomorphism between graphs $\graph{G}$ and $\graph
 Take, for example, the problem set shown in Figure~\ref{fig:ex1}.
 There is one positive example (Fig~\ref{fig:pos}), and one negative example (Fig~\ref{fig:neg})
 We assume all nodes have the same label.
-Figure \ref{fig:candidates} shows a few possible patterns.
+Figure \ref{fig:candidates} shows a valid and an invalid pattern.
 Requiring at least one homomorphism with a positive example, and allowing no homomorphisms with negative examples (i.e. problem parameters $N_{+}=1$ and $N_{-}=0$), only Figure \ref{fig:correctcandidate} represents a valid pattern.
 It is clear that there exists a mapping from each node from the valid pattern to a node of the positive example, while no such mapping exists for the negative example.
-Looking at Figure \ref{fig:correctcandidate}, this graph clearly maps to both the positive as well as the negative example. Therefore, it is not a pattern.
+Looking at Figure \ref{fig:correctcandidate}, this graph is clearly homomorphic with both the positive as well as the negative example. Therefore, it is not a pattern.
 
 \subsection{Multiple patterns}
 To extend on this task, we can look for multiple patterns, instead of just one.
@@ -212,7 +213,7 @@ that neither language allows us to express the problem to its full extent.
 We now try to link the shortcomings of each language to the expressiveness of the underlying logic on which they are built.
 
 First we introduce a new definition of the graph mining problem, equivalent to \textbf{Def.}~\ref{def:GM1}.
-We'll assume a sufficiently large supply of vertices, and represent example graphs directly as a triple $\triple{Edge, Label, Class}$, consisting of an edge relation and a labeling function over the vertices, as well as a classification (positive/negative).
+We'll assume a sufficiently large supply of vertices, and represent example graphs directly as a triple $\triple{Edge, Label, Class}$, consisting of an edge relation between the vertices and a labeling function over the vertices, as well as a classification (positive/negative).
 
 \begin{definition} \textbf{Graph Mining (redefined)}
 \label{def:gm2}
@@ -224,21 +225,32 @@ for at least $N_{+}$ of the triples $\triple{ E, L, C}$ with $C=Pos$, and for at
 
 \todo{draft: possible different wording}
 \begin{itemize}
-\item $\#\Big\lbrace \triple{E,L,Pos} \; | \; \triple{E,L,Pos} \in \graphset{G} \; \wedge \; \big(\exists f : \forall v \in V : L_{p}(v) = L(f(v)) \; \wedge \; \forall x,y \in V : E_{p}(x,y) \implies E(f(x),f(y))\big)\Big\rbrace \geq N_{+}$
+\item $\#\Big\lbrace \triple{E,L,Pos} \in \graphset{G} \; | \; \exists f : \text{f is an homomorphism from P to \triple{E,L,Pos}} \Big\rbrace \geq N_{+}$
 
-\item $\#\Big\lbrace \triple{E,L,Neg} \; | \; \triple{E,L,Neg} \in \graphset{G} \; \wedge \; \big(\exists f : \forall v \in V : L_{p}(v) = L(f(v)) \; \wedge \; \forall x,y \in V : E_{p}(x,y) \implies E(f(x),f(y))\big)\Big\rbrace \leq N_{-}$
+\item $\#\Big\lbrace \triple{E,L,Neg} \in \graphset{G} \; | \; \exists f : \text{f is an homomorphism from P to \triple{E,L,Neg}} \Big\rbrace \leq N_{-}$
 \end{itemize}
 \end{definition}
 
-This definition shows great \emph{local coherence} with respect to the different graphs: all characteristics of a graph are represented by separate entities or concepts, which are grouped together for each graph $G$ in the triple that describes it.
-A natural choice to represent the set of triples would be a (ternary) predicate.
+When reasoning about graphs, we see \emph{each graph} as a \emph{coherent} ensemble of its own components: 
+all characteristics (edges, labeling \ldots) of a graph are represented by separate entities or concepts, which are grouped together for each graph $G$ in the triple that describes it.
+We refer to this as the \emph{local coherence} of the graph representation.
+As graphs are the main concepts we talk about in the graph mining problem, keeping this concept together leads to a more natural KR representation.
+Furthermore, this locally coherent representation makes it very explicit that all example graphs are \emph{independent}, and that the search for a homomorphism between pattern and example graph is independent as well.
+A good solver can then discover this independence and leverage it to achieve better performance.
+
+A set of graphs, such as the argument of the cardinality operator above or the set of example graphs $\graphset{G}$, is equivalent to a set of triples.
+The most straightforward representation would therefore be a ternary predicate.
 As the domains of this predicate range over predicates and functions, this predicate would be a higher-order predicate.
 
 \todo{Illustrate local coherence with table}
-\begin{table}[h]
+
+
+
+
+\begin{figure}[h]
 \centering
 \begin{tabular}{l |l l l}
-         & E      & L      & C \\
+         & E & L      & C \\
 \hline
 $\graph{G}_{1}$  & $E_{1}$ & $L_{1}$ & Pos\\
 $\graph{G}_{2}$  & $E_{2}$ & $L_{2}$ & Pos\\
@@ -246,7 +258,16 @@ $\graph{G}_{2}$  & $E_{2}$ & $L_{2}$ & Pos\\
 $\graph{G}_{n}$  & $E_{n}$ & $L_{n}$ & Pos\\
 \end{tabular}
 \caption{Local coherence\label{Fig:LocalCoherence}}
-\end{table}
+\end{figure}
+
+\begin{tikzpicture}[overlay]
+\draw [dashed, rounded corners](4.8,4) -- (4.8,1.6) -- 
+            (5.3,1.6) -- (5.3,4) -- cycle;
+\draw [rounded corners] (3.9,2.7)--(7.18,2.7) --
+                        (7.18,3.1) -- (3.9,3.1) -- cycle; %1.65 en 2
+(3.south east) -- (3.south west);
+\end{tikzpicture}
+
 
 
 
@@ -255,7 +276,7 @@ $\graph{G}_{n}$  & $E_{n}$ & $L_{n}$ & Pos\\
 \section{Modellings}
 \subsection{IDP}
 \subsubsection{Existential Second Order}
-The IDP language can expresses problems that consist of a set of symbols, called the vocabulary $V$, and a theory, called $T$, that uses symbols from this vocabulary.
+The IDP language can express problems that consist of a set of symbols, called the vocabulary $V$, and a theory, called $T$, that uses symbols from this vocabulary.
 The symbols in the vocabulary can be propositions, but they can also represent predicates and functions.
 These last two types of symbols make the vocabulary, in general, \emph{second order}.
 The theory $T$ is restricted to a \emph{first order} theory, extended with arithmetic, aggregates, and inductive definitions.
