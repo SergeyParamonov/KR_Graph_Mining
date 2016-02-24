@@ -81,24 +81,24 @@ Our main goal is to investigate the problem of graph mining from the knowledge r
 
 %\subsection{Problem definition}
 \begin{definition}
-  \label{def:GM1}
-  Given a pair $\pair{E_{+},E_{-}}$ consisting of a set of \emph{positive} and \emph{negative} examples of \emph{labeled graphs}, respectively,
-  \emph{Graph mining} is the problem of finding one \emph{connected labeled graph} $P$, called a \emph{pattern},
-  that is \emph{homomorphic} with at least $N_{+}$ positive, while homomorphic with at most $N_{-}$ negative examples.
+\label{def:GM1}
+Given a pair $\pair{\graphset{E}_{+},\graphset{E}_{-}}$ consisting of a set of \emph{positive} and \emph{negative} examples of \emph{labeled graphs}, respectively,
+\emph{Graph mining} is the problem of finding one \emph{connected labeled graph} $\graph{P}$, called a \emph{pattern},
+that is \emph{homomorphic} with at least $N_{+}$ positive, while homomorphic with at most $N_{-}$ negative examples.
 \end{definition}
 
 \begin{definition}
-  A graph $\graph{G} = \triple{V,E,L}$, where $V$ is the set of vertices, $E$ the set of edges and $L$ the labeling function, is \emph{connected} iff for each pair of vertices $v$ and $v'$, there exists an edge $\pair{v,v'} \in E$ or there exists a sequence $v \ldots v_{1} \ldots v_{n} \ldots v'$ such that there exist edges $\pair{v,v_{1}}$, $\pair{v_{i},v_{i+1}}$ and $\pair{v_{n},v'} \in E$.
+A graph $\graph{G} = \triple{V,E,l}$, where $V$ is the set of vertices, $E$ the set of edges and $l$ the labeling function, is \emph{connected} iff for each pair of vertices $v$ and $v'$, there exists an edge $\pair{v,v'} \in E$ or there exists a sequence $v \ldots v_{1} \ldots v_{n} \ldots v'$ such that there exist edges $\pair{v,v_{1}}$, $\pair{v_{i},v_{i+1}}$ and $\pair{v_{n},v'} \in E$.
 \end{definition}
 
 
 \begin{definition}
-  A graph homomorphism $f$ from labeled graph $G = (V,E,L)$ to $G' = (V',E',L')$, where $V$ is the set of vertices, $E$ the set of edges and $L$ the labeling function, is a mapping f : $V \rightarrow V'$ from vertices of $\graph{G}$ to vertices of $\graph{G'}$ s.t. 
-  \begin{itemize}
-    \item $\forall u,v \in V, \pair{u,v} \in E \implies \pair{f(u),f(v)} \in E'$ (the mapping preserves edges), and 
-    \item $\forall v \in V : L(v) = L(f(v))$ (the mapping respects labeling).
-  \end{itemize}
-  If there exists such a graph homomorphism between graphs $\graph{G}$ and $\graph{G'}$ we say $\graph{G}$ is \emph{homomorphic} with $\graph{G'}$.
+A graph homomorphism $f$ from labeled graph $\graph{G} = (V,E,l)$ to $\graph{G}' = (V',E',l')$, where $V$ is the set of vertices, $E$ the set of edges and $l$ the labeling function, is a mapping f : $V \rightarrow V'$ from vertices of $\graph{G}$ to vertices of $\graph{G'}$ s.t. 
+\begin{itemize}
+\item $\forall u,v \in V, \pair{u,v} \in E \implies \pair{f(u),f(v)} \in E'$ (the mapping preserves edges), and 
+\item $\forall v \in V : l(v) = l(f(v))$ (the mapping respects labelings).
+\end{itemize}
+If there exists such a graph homomorphism between graphs $\graph{G}$ and $\graph{G'}$ we say $\graph{G}$ is \emph{homomorphic} with $\graph{G'}$.
 \end{definition}
 
 \begin{figure}[h]
@@ -175,11 +175,11 @@ In this case, one can impose restrictions on the different patterns that are fou
 For example, it stands to reason that one wants only \emph{canonical} solutions, meaning that no two patterns found are \emph{isomorphic}.
 
 \begin{definition}
-  \label{def:isomorphism}
-  A graph isomorphism $f$ between two labeled graph $\graph{G} = \triple{V,E,L}$ and $\graph{G'} = \triple{V',E',L'}$ is a \emph{one-to-one} mapping $V \rightarrow V'$ 
-  such that $f$ represents a homomorphism from $\graph{G}$ to $\graph{G'}$,
-  and its inverse $f^{-1}$ represents a homomorphism from $\graph{G'}$ to $\graph{G}$.
-  If there exists such a graph isomorphism between $\graph{G}$ and $\graph{G'}$ we say $\graph{G}$ and $\graph{G'}$ are \emph{isomorphic}.
+\label{def:isomorphism}
+A graph isomorphism $f$ between two labeled graph $\graph{G} = \triple{V,E,l}$ and $\graph{G'} = \triple{V',E',l'}$ is a \emph{one-to-one} mapping $V \rightarrow V'$ 
+such that $f$ represents a homomorphism from $\graph{G}$ to $\graph{G'}$,
+and its inverse $f^{-1}$ represents a homomorphism from $\graph{G'}$ to $\graph{G}$.
+If there exists such a graph isomorphism between $\graph{G}$ and $\graph{G'}$ we say $\graph{G}$ and $\graph{G'}$ are \emph{isomorphic}.
 \end{definition}
 
 
@@ -228,19 +228,19 @@ First we introduce a new definition of the graph mining problem, equivalent to \
 We'll assume a sufficiently large supply of vertices, and represent example graphs directly as a triple $\triple{Edge, Label, Class}$, consisting of an edge relation between the vertices and a labeling function over the vertices, as well as a classification (positive/negative).
 
 \begin{definition} \textbf{Graph Mining (redefined)}
-  \label{def:gm2}
-  Given a set of vertices $V$ and a set $\graphset{G}$ of $\triple{E, L, C}$ triples,
-  where $E$ and $L$ represent the edge relation and labeling function over the supply of vertices respectively,
+\label{def:gm2}
+Given a set of vertices $V$ and a set $\graphset{G}$ of $\triple{E, l, C}$ triples,
+where $E$ and $l$ represent the edge relation and labeling function over the supply of vertices respectively,
 %which consist of an edge relation, 
-  we look for a (set $\graphset{P}$ of) \todo{cleanly extend this definition to multiple graphs, or separate the single and multiple pattern case again} graph(s) represented by tuple(s) $\pair{E_{p}, L_{p}}$ such that
-  for at least $N_{+}$ of the triples $\triple{ E, L, C}$ with $C=Pos$, and for at most $N_{-}$ of such triples with $C=Neg$, there exists a function $f$ s.t. $\forall u,v \in V, \pair{u,v} \in E_{p} \implies \pair{f(u),f(v)} \in E$ and $\forall v \in V : L_{p}(v) = L(f(v))$.
+we look for a (set $\graphset{P}$ of) \todo{cleanly extend this definition to multiple graphs, or separate the single and multiple pattern case again} graph(s) represented by tuple(s) $\pair{E_{p}, l_{p}}$ such that
+for at least $N_{+}$ of the triples $\triple{ E, l, C}$ with $C=Pos$, and for at most $N_{-}$ of such triples with $C=Neg$, there exists a function $f$ s.t. $\forall u,v \in V, \pair{u,v} \in E_{p} \implies \pair{f(u),f(v)} \in E$ and $\forall v \in V : l_{p}(v) = l(f(v))$.
 
-  \todo{draft: possible different wording}
-  \begin{itemize}
-    \item $\#\Big\lbrace \triple{E,L,Pos} \in \graphset{G} \; | \; \exists f : \text{f is an homomorphism from P to \triple{E,L,Pos}} \Big\rbrace \geq N_{+}$
+\todo{draft: possible different wording}
+\begin{itemize}
+\item $\#\Big\lbrace \triple{E,l,Pos} \in \graphset{G} \; | \; \exists f : \text{f is an homomorphism from P to \triple{E,l,Pos}} \Big\rbrace \geq N_{+}$
 
-    \item $\#\Big\lbrace \triple{E,L,Neg} \in \graphset{G} \; | \; \exists f : \text{f is an homomorphism from P to \triple{E,L,Neg}} \Big\rbrace \leq N_{-}$
-  \end{itemize}
+\item $\#\Big\lbrace \triple{E,l,Neg} \in \graphset{G} \; | \; \exists f : \text{f is an homomorphism from P to \triple{E,l,Neg}} \Big\rbrace \leq N_{-}$
+\end{itemize}
 \end{definition}
 
 When reasoning about graphs, we see \emph{each graph} as a \emph{coherent} ensemble of its own components: 
@@ -260,16 +260,16 @@ As the domains of this predicate range over predicates and functions, this predi
 
 
 \begin{figure}[h]
-  \centering
-  \begin{tabular}{l |l l l}
-    & E & L      & C \\
-    \hline
-    $\graph{G}_{1}$  & $E_{1}$ & $L_{1}$ & Pos\\
-    $\graph{G}_{2}$  & $E_{2}$ & $L_{2}$ & Pos\\
-    \vdots & \vdots  & \vdots  & \vdots\\
-    $\graph{G}_{n}$  & $E_{n}$ & $L_{n}$ & Pos\\
-  \end{tabular}
-  \caption{Local coherence\label{Fig:LocalCoherence}}
+\centering
+\begin{tabular}{l |l l l}
+         & $E$ & $l$      & $C$ \\
+\hline
+$\graph{G}_{1}$  & $E_{1}$ & $l_{1}$ & Pos\\
+$\graph{G}_{2}$  & $E_{2}$ & $l_{2}$ & Pos\\
+  \vdots & \vdots  & \vdots  & \vdots\\
+$\graph{G}_{n}$  & $E_{n}$ & $l_{n}$ & Pos\\
+\end{tabular}
+\caption{Local coherence\label{Fig:LocalCoherence}}
 \end{figure}
 
 \begin{tikzpicture}[overlay]
