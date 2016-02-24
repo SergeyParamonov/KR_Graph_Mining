@@ -33,6 +33,14 @@
 \newcommand{\Qtwo}{$\boldsymbol{Q_2}$\xspace}
 \newcommand{\Qthree}{$\boldsymbol{Q_3}$\xspace}
 
+\lstdefinestyle{model}{
+  mathescape,
+  columns=fullflexible,
+  numbers=none,
+  frame=single,
+  escapechar=@
+}
+
 % redefine \VerbatimInput
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}%
 {fontsize=\footnotesize,
@@ -56,7 +64,11 @@
 
 \section{Introduction}
 \sergey{feel free to rephrase and correct me here, that's an early attempt to set up a story}
-Frequent Pattern Mining, one of the ''super-problems`` in Data Mining, has received significant attention over the last years \citep{pattern_mining_book}. Especially useful in applications has turned out to be structured mining such as graph mining, where one is looking for sub-structures that often occur in the data, e.g., a graph that is a subgraph of many graphs in the dataset. Recently, there is a line of work towards declarative pattern mining \citep{tias_declarative_pattern_mining} and today we look into declarative structured pattern mining that just started receiving attention in both data mining and knowledge representation communities \citep{cp_sequence_mining,ilp_graph_mining}. \matthias{We still need to mention the different types of homomorphism/isomorphisms.}
+Frequent Pattern Mining, one of the ''super-problems`` in Data Mining, has received significant attention over the last years \citep{pattern_mining_book}. Especially useful in applications has turned out to be structured mining such as graph mining, where one is looking for sub-structures that often occur in the data, e.g., a graph that is a subgraph of many graphs in the dataset. Recently, there is a line of work towards declarative pattern mining \citep{tias_declarative_pattern_mining} and today we look into declarative structured pattern mining that just started receiving attention in both data mining and knowledge representation communities \citep{cp_sequence_mining,ilp_graph_mining}. A main motivation for this approach is that it can accommodate multiple version of a problem under the same roof (such as different forms of homomorphism checks in graph mining) .
+
+
+\matthias{We still need to mention the different types of homomorphism/isomorphisms.}There are two most common ``matching'' notions in structured pattern mining: in ILP literature they are $\theta$-subsumption and OI-subsumption and in Data Mining literature they are known as homomorphism and subgraph isomorphism \citep{jan_ramon}. \sergey{I am not sure where to put it exactly but not in the introduction}
+
 
 Our main goal is to investigate the problem of graph mining from the knowledge representation perspective and more concretely we are going to look in the following questions:
 \begin{itemize}
@@ -69,73 +81,73 @@ Our main goal is to investigate the problem of graph mining from the knowledge r
 
 %\subsection{Problem definition}
 \begin{definition}
-\label{def:GM1}
-Given a pair $\pair{E_{+},E_{-}}$ consisting of a set of \emph{positive} and \emph{negative} examples of \emph{labeled graphs}, respectively,
-\emph{Graph mining} is the problem of finding one \emph{connected labeled graph} $P$, called a \emph{pattern},
-that is \emph{homomorphic} with at least $N_{+}$ positive, while homomorphic with at most $N_{-}$ negative examples.
+  \label{def:GM1}
+  Given a pair $\pair{E_{+},E_{-}}$ consisting of a set of \emph{positive} and \emph{negative} examples of \emph{labeled graphs}, respectively,
+  \emph{Graph mining} is the problem of finding one \emph{connected labeled graph} $P$, called a \emph{pattern},
+  that is \emph{homomorphic} with at least $N_{+}$ positive, while homomorphic with at most $N_{-}$ negative examples.
 \end{definition}
 
 \begin{definition}
-A graph $\graph{G} = \triple{V,E,L}$, where $V$ is the set of vertices, $E$ the set of edges and $L$ the labeling function, is \emph{connected} iff for each pair of vertices $v$ and $v'$, there exists an edge $\pair{v,v'} \in E$ or there exists a sequence $v \ldots v_{1} \ldots v_{n} \ldots v'$ such that there exist edges $\pair{v,v_{1}}$, $\pair{v_{i},v_{i+1}}$ and $\pair{v_{n},v'} \in E$.
+  A graph $\graph{G} = \triple{V,E,L}$, where $V$ is the set of vertices, $E$ the set of edges and $L$ the labeling function, is \emph{connected} iff for each pair of vertices $v$ and $v'$, there exists an edge $\pair{v,v'} \in E$ or there exists a sequence $v \ldots v_{1} \ldots v_{n} \ldots v'$ such that there exist edges $\pair{v,v_{1}}$, $\pair{v_{i},v_{i+1}}$ and $\pair{v_{n},v'} \in E$.
 \end{definition}
 
 
 \begin{definition}
-A graph homomorphism $f$ from labeled graph $G = (V,E,L)$ to $G' = (V',E',L')$, where $V$ is the set of vertices, $E$ the set of edges and $L$ the labeling function, is a mapping f : $V \rightarrow V'$ from vertices of $\graph{G}$ to vertices of $\graph{G'}$ s.t. 
-\begin{itemize}
-\item $\forall u,v \in V, \pair{u,v} \in E \implies \pair{f(u),f(v)} \in E'$ (the mapping preserves edges), and 
-\item $\forall v \in V : L(v) = L(f(v))$ (the mapping respects labelings).
-\end{itemize}
-If there exists such a graph homomorphism between graphs $\graph{G}$ and $\graph{G'}$ we say $\graph{G}$ is \emph{homomorphic} with $\graph{G'}$.
+  A graph homomorphism $f$ from labeled graph $G = (V,E,L)$ to $G' = (V',E',L')$, where $V$ is the set of vertices, $E$ the set of edges and $L$ the labeling function, is a mapping f : $V \rightarrow V'$ from vertices of $\graph{G}$ to vertices of $\graph{G'}$ s.t. 
+  \begin{itemize}
+    \item $\forall u,v \in V, \pair{u,v} \in E \implies \pair{f(u),f(v)} \in E'$ (the mapping preserves edges), and 
+    \item $\forall v \in V : L(v) = L(f(v))$ (the mapping respects labeling).
+  \end{itemize}
+  If there exists such a graph homomorphism between graphs $\graph{G}$ and $\graph{G'}$ we say $\graph{G}$ is \emph{homomorphic} with $\graph{G'}$.
 \end{definition}
 
 \begin{figure}[h]
-    \centering
-\begin{subfigure}[b]{0.3\textwidth}
+  \centering
+  \begin{subfigure}[b]{0.3\textwidth}
     \centering
     \begin{tikzpicture}[scale=.5]
-	    \draw (1,1) -- (2,1) -- (2.7,2) -- (2,3) -- (1,3) -- (0.3,2) -- (1,1);
-	    \draw (1,1) -- (2,3);
-	    \draw (2.7,2) -- (0.3,2);
+      \draw (1,1) -- (2,1) -- (2.7,2) -- (2,3) -- (1,3) -- (0.3,2) -- (1,1);
+      \draw (1,1) -- (2,3);
+      \draw (2.7,2) -- (0.3,2);
     \end{tikzpicture}
     \caption{Positive Example\label{fig:pos}}
-\end{subfigure}
-~
-\begin{subfigure}[b]{0.3\textwidth}
+  \end{subfigure}
+  ~
+  \begin{subfigure}[b]{0.3\textwidth}
     \centering
     \begin{tikzpicture}[scale=.5]
-        \coordinate (1) at (0,0);
-        \coordinate (2) at (1,1);
-        \coordinate (3) at (2,0);
-        \coordinate (4) at (3,1);
-        \draw (1) -- (2) -- (3) -- (4);
+      \coordinate (1) at (0,0);
+      \coordinate (2) at (1,1);
+      \coordinate (3) at (2,0);
+      \coordinate (4) at (3,1);
+      \draw (1) -- (2) -- (3) -- (4);
     \end{tikzpicture}
     \caption{Negative Example\label{fig:neg}}
-\end{subfigure}
-~
-\begin{subfigure}[b]{0.3\textwidth}
+  \end{subfigure}
+  ~
+  \begin{subfigure}[b]{0.3\textwidth}
     {
-    \setcounter{subfigure}{0}
-    \renewcommand\thesubfigure{\Roman{subfigure}}
-    \centering
-	\begin{subfigure}[b]{0.45\textwidth}
-	    \begin{tikzpicture}[scale=.5]
-	        \draw (1,1) -- (2,1) -- (2.7,2) -- (2,3) -- (1,3) -- (0.3,2) -- (1,1);
-	        \draw (2,1) -- (1,3);
-    	\end{tikzpicture}
-    	\caption{Valid\label{fig:correctcandidate}}
-	\end{subfigure}
-    ~
-    \begin{subfigure}[b]{0.45\textwidth}
+      \setcounter{subfigure}{0}
+      \renewcommand\thesubfigure{\Roman{subfigure}}
+      \centering
+      \begin{subfigure}[b]{0.45\textwidth}
         \begin{tikzpicture}[scale=.5]
-            \draw (1,2) -- (2,3) -- (3,3);
+          \draw (1,1) -- (2,1) -- (2.7,2) -- (2,3) -- (1,3) -- (0.3,2) -- (1,1);
+          \draw (2,1) -- (1,3);
+        \end{tikzpicture}
+        \caption{Valid\label{fig:correctcandidate}}
+      \end{subfigure}
+      ~
+      \begin{subfigure}[b]{0.45\textwidth}
+        \begin{tikzpicture}[scale=.5]
+          \draw (1,2) -- (2,3) -- (3,3);
         \end{tikzpicture}
         \caption{Invalid\label{fig:incorrectcandidate}}
-    \end{subfigure}
+      \end{subfigure}
     }
     \caption{Pattern Candidates\label{fig:candidates}}
-\end{subfigure}
-\caption{Example 1:\label{fig:ex1}}
+  \end{subfigure}
+  \caption{Example 1:\label{fig:ex1}}
 \end{figure}
 
 %    \begin{tikzpicture}[scale=.5]
@@ -163,41 +175,41 @@ In this case, one can impose restrictions on the different patterns that are fou
 For example, it stands to reason that one wants only \emph{canonical} solutions, meaning that no two patterns found are \emph{isomorphic}.
 
 \begin{definition}
-\label{def:isomorphism}
-A graph isomorphism $f$ between two labeled graph $\graph{G} = \triple{V,E,L}$ and $\graph{G'} = \triple{V',E',L'}$ is a \emph{one-to-one} mapping $V \rightarrow V'$ 
-such that $f$ represents a homomorphism from $\graph{G}$ to $\graph{G'}$,
-and its inverse $f^{-1}$ represents a homomorphism from $\graph{G'}$ to $\graph{G}$.
-If there exists such a graph isomorphism between $\graph{G}$ and $\graph{G'}$ we say $\graph{G}$ and $\graph{G'}$ are \emph{isomorphic}.
+  \label{def:isomorphism}
+  A graph isomorphism $f$ between two labeled graph $\graph{G} = \triple{V,E,L}$ and $\graph{G'} = \triple{V',E',L'}$ is a \emph{one-to-one} mapping $V \rightarrow V'$ 
+  such that $f$ represents a homomorphism from $\graph{G}$ to $\graph{G'}$,
+  and its inverse $f^{-1}$ represents a homomorphism from $\graph{G'}$ to $\graph{G}$.
+  If there exists such a graph isomorphism between $\graph{G}$ and $\graph{G'}$ we say $\graph{G}$ and $\graph{G'}$ are \emph{isomorphic}.
 \end{definition}
 
 
 \begin{definition}
-\label{def:canonicalForm}
-Let $\graphset{G}$ be a set of graphs, closed under isomorphism.
-A function $c$ for which $\forall \graph{G,H} \in \graphset{G} : \graph{G} \simeq \graph{H} \iff c(\graph{G}) = c(\graph{H})$ and $\forall \graph{G} \in \graphset{G} : \graph{G} \simeq c(\graph{G})$ hold, is called a \emph{canonization}.
-The graph $c(\graph{G})$ is called the \emph{canonical form} w.r.t $c$, and is denoted by $\mathit{canon}(\graph{G})$.
+  \label{def:canonicalForm}
+  Let $\graphset{G}$ be a set of graphs, closed under isomorphism.
+  A function $c$ for which $\forall \graph{G,H} \in \graphset{G} : \graph{G} \simeq \graph{H} \iff c(\graph{G}) = c(\graph{H})$ and $\forall \graph{G} \in \graphset{G} : \graph{G} \simeq c(\graph{G})$ hold, is called a \emph{canonization}.
+  The graph $c(\graph{G})$ is called the \emph{canonical form} w.r.t $c$, and is denoted by $\mathit{canon}(\graph{G})$.
 \end{definition}
 
 \begin{figure}[h]
-\centering
-\begin{subfigure}[b]{0.45\textwidth}
+  \centering
+  \begin{subfigure}[b]{0.45\textwidth}
     \centering
     \begin{tikzpicture}[scale=.5]
-	    \draw (1,1) -- (2,1) -- (2.7,2) -- (2,3) -- (1,3) -- (0.3,2) -- (1,1);
-	    \draw (2,1) -- (1,3);
+      \draw (1,1) -- (2,1) -- (2.7,2) -- (2,3) -- (1,3) -- (0.3,2) -- (1,1);
+      \draw (2,1) -- (1,3);
     \end{tikzpicture}
     \caption{First candidate pattern\label{fig:iso1}}
-\end{subfigure}
-~
-\begin{subfigure}[b]{0.45\textwidth}
+  \end{subfigure}
+  ~
+  \begin{subfigure}[b]{0.45\textwidth}
     \centering
     \begin{tikzpicture}[scale=.5]
-	    \draw (1,1) -- (2,1) -- (2.7,2) -- (2,3) -- (1,3) -- (0.3,2) -- (1,1);
-	    \draw (1,1) -- (2,3);
+      \draw (1,1) -- (2,1) -- (2.7,2) -- (2,3) -- (1,3) -- (0.3,2) -- (1,1);
+      \draw (1,1) -- (2,3);
     \end{tikzpicture}
     \caption{Second candidate pattern\label{fig:iso2}}
-\end{subfigure}
-\caption{Possible patterns\label{fig:isomorphism}}
+  \end{subfigure}
+  \caption{Possible patterns\label{fig:isomorphism}}
 \end{figure}
 
 Given the graph mining problem as specified in Figure~\ref{fig:ex1}, we have already established that Figure~\ref{fig:iso1} is a valid pattern.
@@ -216,19 +228,19 @@ First we introduce a new definition of the graph mining problem, equivalent to \
 We'll assume a sufficiently large supply of vertices, and represent example graphs directly as a triple $\triple{Edge, Label, Class}$, consisting of an edge relation between the vertices and a labeling function over the vertices, as well as a classification (positive/negative).
 
 \begin{definition} \textbf{Graph Mining (redefined)}
-\label{def:gm2}
-Given a set of vertices $V$ and a set $\graphset{G}$ of $\triple{E, L, C}$ triples,
-where $E$ and $L$ represent the edge relation and labeling function over the supply of vertices respectively,
+  \label{def:gm2}
+  Given a set of vertices $V$ and a set $\graphset{G}$ of $\triple{E, L, C}$ triples,
+  where $E$ and $L$ represent the edge relation and labeling function over the supply of vertices respectively,
 %which consist of an edge relation, 
-we look for a (set $\graphset{P}$ of) \todo{cleanly extend this definition to multiple graphs, or separate the single and multiple pattern case again} graph(s) represented by tuple(s) $\pair{E_{p}, L_{p}}$ such that
-for at least $N_{+}$ of the triples $\triple{ E, L, C}$ with $C=Pos$, and for at most $N_{-}$ of such triples with $C=Neg$, there exists a function $f$ s.t. $\forall u,v \in V, \pair{u,v} \in E_{p} \implies \pair{f(u),f(v)} \in E$ and $\forall v \in V : L_{p}(v) = L(f(v))$.
+  we look for a (set $\graphset{P}$ of) \todo{cleanly extend this definition to multiple graphs, or separate the single and multiple pattern case again} graph(s) represented by tuple(s) $\pair{E_{p}, L_{p}}$ such that
+  for at least $N_{+}$ of the triples $\triple{ E, L, C}$ with $C=Pos$, and for at most $N_{-}$ of such triples with $C=Neg$, there exists a function $f$ s.t. $\forall u,v \in V, \pair{u,v} \in E_{p} \implies \pair{f(u),f(v)} \in E$ and $\forall v \in V : L_{p}(v) = L(f(v))$.
 
-\todo{draft: possible different wording}
-\begin{itemize}
-\item $\#\Big\lbrace \triple{E,L,Pos} \in \graphset{G} \; | \; \exists f : \text{f is an homomorphism from P to \triple{E,L,Pos}} \Big\rbrace \geq N_{+}$
+  \todo{draft: possible different wording}
+  \begin{itemize}
+    \item $\#\Big\lbrace \triple{E,L,Pos} \in \graphset{G} \; | \; \exists f : \text{f is an homomorphism from P to \triple{E,L,Pos}} \Big\rbrace \geq N_{+}$
 
-\item $\#\Big\lbrace \triple{E,L,Neg} \in \graphset{G} \; | \; \exists f : \text{f is an homomorphism from P to \triple{E,L,Neg}} \Big\rbrace \leq N_{-}$
-\end{itemize}
+    \item $\#\Big\lbrace \triple{E,L,Neg} \in \graphset{G} \; | \; \exists f : \text{f is an homomorphism from P to \triple{E,L,Neg}} \Big\rbrace \leq N_{-}$
+  \end{itemize}
 \end{definition}
 
 When reasoning about graphs, we see \emph{each graph} as a \emph{coherent} ensemble of its own components: 
@@ -248,24 +260,24 @@ As the domains of this predicate range over predicates and functions, this predi
 
 
 \begin{figure}[h]
-\centering
-\begin{tabular}{l |l l l}
-         & E & L      & C \\
-\hline
-$\graph{G}_{1}$  & $E_{1}$ & $L_{1}$ & Pos\\
-$\graph{G}_{2}$  & $E_{2}$ & $L_{2}$ & Pos\\
-  \vdots & \vdots  & \vdots  & \vdots\\
-$\graph{G}_{n}$  & $E_{n}$ & $L_{n}$ & Pos\\
-\end{tabular}
-\caption{Local coherence\label{Fig:LocalCoherence}}
+  \centering
+  \begin{tabular}{l |l l l}
+    & E & L      & C \\
+    \hline
+    $\graph{G}_{1}$  & $E_{1}$ & $L_{1}$ & Pos\\
+    $\graph{G}_{2}$  & $E_{2}$ & $L_{2}$ & Pos\\
+    \vdots & \vdots  & \vdots  & \vdots\\
+    $\graph{G}_{n}$  & $E_{n}$ & $L_{n}$ & Pos\\
+  \end{tabular}
+  \caption{Local coherence\label{Fig:LocalCoherence}}
 \end{figure}
 
 \begin{tikzpicture}[overlay]
-\draw [dashed, rounded corners](4.8,4) -- (4.8,1.6) -- 
-            (5.3,1.6) -- (5.3,4) -- cycle;
-\draw [rounded corners] (3.9,2.7)--(7.18,2.7) --
-                        (7.18,3.1) -- (3.9,3.1) -- cycle; %1.65 en 2
-(3.south east) -- (3.south west);
+  \draw [dashed, rounded corners](4.8,4) -- (4.8,1.6) -- 
+  (5.3,1.6) -- (5.3,4) -- cycle;
+  \draw [rounded corners] (3.9,2.7)--(7.18,2.7) --
+  (7.18,3.1) -- (3.9,3.1) -- cycle; %1.65 en 2
+  (3.south east) -- (3.south west);
 \end{tikzpicture}
 
 
@@ -329,28 +341,28 @@ Beyond the Existential Second Order restriction, the IDP language is also extend
 
 \subsection{Eventual encoding}
 \begin{alltt}
-//Homomorphism/2 is a higher-order predicate:
-//Edge1 and Edge2 are predicates themselves.
-homomorphism(<Edge1,Label1>, <Edge2,Label2>) 
-\(\iff \exists\) f: (\(\forall\) x, y : x \(\neq\) y \(\Rightarrow\) f(x) \(\neq\) f(y)) \(\wedge\)
-    (\(\forall\)x, y : Edge1(x, y) \(\implies\) Edge2(f (x), f (y))) \(\wedge\)
-    (\(\forall\) x : Label1(x) = Label2(f(x)))
-    
+  //Homomorphism/2 is a higher-order predicate:
+  //Edge1 and Edge2 are predicates themselves.
+  homomorphism(<Edge1,Label1>, <Edge2,Label2>) 
+  \(\iff \exists\) f: (\(\forall\) x, y : x \(\neq\) y \(\Rightarrow\) f(x) \(\neq\) f(y)) \(\wedge\)
+  (\(\forall\)x, y : Edge1(x, y) \(\implies\) Edge2(f (x), f (y))) \(\wedge\)
+  (\(\forall\) x : Label1(x) = Label2(f(x)))
 
-\textbraceleft
-    reachable(x,y,Edge) \(\leftarrow\) Edge(x,y) \(\lor\) Edge(y,x).
-    reachable(x,y,Edge) \(\leftarrow \exists\) : reachable(x,z,Edge) \(\wedge\) reachable(z,y,Edge).
-\textbraceright
 
-isomorph(Edge1,Edge2) \(\iff \exists\)f : (\(\forall\) x,y:Edge1(x,y) \(\iff\) Edge2(f(x),f(y))) \(\wedge\)
-    (\(\forall\) x : Label1(x) = Label2(f(x))) \(\wedge\)
-    (\(\forall\)x,y:x\(\neq\)y\(\implies\)f(x)\(\neq\)f(y)).
+  \textbraceleft
+  reachable(x,y,Edge) \(\leftarrow\) Edge(x,y) \(\lor\) Edge(y,x).
+  reachable(x,y,Edge) \(\leftarrow \exists\) : reachable(x,z,Edge) \(\wedge\) reachable(z,y,Edge).
+  \textbraceright
 
-//\(\forall\)Pat represents quantification over a predicate Pat/2. 
-//A pattern is represented by its Edge relation. 
-\(\forall\)P : pattern(P) \(\implies\) #\textbraceleft Pos : positive(Pos) \(\wedge\) homomorphism(P, Pos) \textbraceright \(\geq\) \(N{+}\).
-\(\forall\)P : pattern(P) \(\implies\) #\textbraceleft Neg : negative(Neg) \(\wedge\) homomorphism(P, Neg) \textbraceright \(\leq\) \(N_\).
-\(\forall\)P,P2 :pattern(P)\(\wedge\)pattern(P2)\(\wedge\)P\(\neq\)P2 \(\iff\) \(\neg\)isomorph(P,P2).
+  isomorph(Edge1,Edge2) \(\iff \exists\)f : (\(\forall\) x,y:Edge1(x,y) \(\iff\) Edge2(f(x),f(y))) \(\wedge\)
+  (\(\forall\) x : Label1(x) = Label2(f(x))) \(\wedge\)
+  (\(\forall\)x,y:x\(\neq\)y\(\implies\)f(x)\(\neq\)f(y)).
+
+  //\(\forall\)Pat represents quantification over a predicate Pat/2. 
+  //A pattern is represented by its Edge relation. 
+  \(\forall\)P : pattern(P) \(\implies\) #\textbraceleft Pos : positive(Pos) \(\wedge\) homomorphism(P, Pos) \textbraceright \(\geq\) \(N{+}\).
+  \(\forall\)P : pattern(P) \(\implies\) #\textbraceleft Neg : negative(Neg) \(\wedge\) homomorphism(P, Neg) \textbraceright \(\leq\) \(N_\).
+  \(\forall\)P,P2 :pattern(P)\(\wedge\)pattern(P2)\(\wedge\)P\(\neq\)P2 \(\iff\) \(\neg\)isomorph(P,P2).
 
 \end{alltt}
 \reversemarginpar
@@ -377,23 +389,23 @@ isomorph(Edge1,Edge2) \(\iff \exists\)f : (\(\forall\) x,y:Edge1(x,y) \(\iff\) E
 \end{itemize}
 
 \paragraph{ASP}
-Mostly the same but in theory can handle $\textit{NP}^\textit{NP}$, in practice however, it would require encoding tricks and unavoidably lead to the same problem as in IDP -- indexing homomorphism enumeration.
+Let us describe a way to encode the problem into ASP. Conceptually we need to handle three constraints: matching of positive examples, not matching of negative examples and canonicity (that only not isomorphic graphs are produced).
 
 \lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
-\begin{lstlisting}[caption=ASP positive matching]
+\begin{lstlisting}[caption=ASP positive matching, style=model]
 positive_match(G) | not_positive_match(G) :- positive(G).
 
 1 { map(G,X,V) : node(G,V) } 1 :- positive(G), invar(X).
 
 :- positive_match(G), map(G,X,V1), map(G,Y,V2), t_edge(X,Y), 
-                  not edge(G,V1,V2), invar(X), invar(Y).
+not edge(G,V1,V2), invar(X), invar(Y).
 
 positive_count(N) :- N = #count{G:positive_match(G)}.
 
 :- positive_count(N), N < 2.
 \end{lstlisting}
 
-\begin{lstlisting}[caption=ASP negative matching]
+\begin{lstlisting}[caption=ASP negative matching, style=model]
 %Saturated Representation
 
 %negative constraints to check not matching negative graphs
@@ -413,7 +425,7 @@ negative_count(N) :- N = #count{G:negative_match(G)}.
 
 \end{lstlisting}
 
-\begin{lstlisting}[caption=Canonicity template-based check]
+\begin{lstlisting}[caption=Canonicity template-based check, style=model]
 iso(X,x1) | iso(X,x2) | iso(X,x3) | iso(X,x4) :- invar(X).
 
 candidate_var(X) :- iso(_,X).
@@ -421,7 +433,7 @@ candidate_var(X) :- iso(_,X).
 %not iso!
 iso_saturated :- invar(X1), invar(X2), iso(X1,V1), iso(X2,V2),     t_edge(V1,V2), not t_edge(X1,X2). 
 iso_saturated :- invar(X1), invar(X2), iso(X1,V1), iso(X2,V2), not t_edge(V1,V2),     t_edge(X1,X2).
- 
+
 iso(X,V) :- invar(X), t_node(V), iso_saturated.
 
 d1(X) :-     invar(X), not candidate_var(X). 
@@ -438,7 +450,7 @@ min_d2(N) :- N = #min{ X: d2(X) }, not iso_saturated.
 iso_saturated :- min_d1(N1), min_d2(N2), N1 > N2.
 \end{lstlisting}
 
-\begin{lstlisting}[caption=Auxilary predicates -- probably should be moved to appendix]
+\begin{lstlisting}[caption=Auxilary predicates -- probably should be moved to appendix, style=model]
 %selects subpattern
 
 t_path(X,Y) :- t_edge(X,Y), invar(X), invar(Y).
@@ -456,7 +468,7 @@ node(G,Y)   :- edge(G,Y,_).
 t_node(X)   :- t_edge(X,_).
 \end{lstlisting}
 
-\begin{lstlisting}[caption=Canonicity previous solution isomorphism check]
+\begin{lstlisting}[caption=Canonicity previous solution isomorphism check, style=model]
 iso(s1,X,x1) | iso(s1,X,x2) :- invar(X).
 iso(s2,X,x2) | iso(s2,X,x3) :- invar(X).
 
