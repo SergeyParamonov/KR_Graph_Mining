@@ -1,0 +1,75 @@
+\pgfdeclarelayer{background}
+
+\pgfsetlayers{background,main}
+
+ \begin{figure}[thb]
+    \caption{A visualization for the first order query mining model}
+    \label{fig:fol}
+    \begin{tikzpicture}[>=stealth',shorten >=1pt,auto,swap,node distance=1.5cm,
+        thick,main node/.style={circle,fill=blue!20,draw,font=\sffamily\small\bfseries} ]
+
+      \node [main node] at (0,1) (a) {a};
+      \node [main node] (b) [right of=a] {b};
+      \node [main node] (c) [above right of=b]{c};
+      \node [main node] (d) [below right of=b]{d};
+      \node (T) [above left of=b,  xshift=0.5cm]{\textbf{Bottom Clause T }};
+      \node (t) [above left of=d,  xshift=0.1cm,  yshift=-0.75cm]{\textbf{Query}};
+      \node (tcenter) [right of=b, xshift=-0.9cm, yshift=-0.2cm] {};
+      \draw (a) -- (b);
+      \draw (b) -- (c);
+      \draw (c) -- (d);
+      \draw (d) -- (b);
+       
+      \node (f) [right of =tcenter, xshift=1.3cm] {\Large{$\exists f(g,x)$}};
+      \draw (tcenter) -- (f);
+
+      \draw [->] (f) to [bend left=45]  node [midway, above left] {$f(g_1,x) \mapsto y$} (g1center);
+      \draw [->] (f) to [bend left=65]  node [midway, above right] {$f(g_2,x) \mapsto y$} (g2center);
+      \draw [->] (f) to [bend left=25]  node [midway, below left] {$f(g_3,x) \mapsto y$} (g3center);
+
+      \node[main node] at (8,5) (g1a) {a};
+      \node  (datasettitle) [above of=g1a, yshift=-0.5cm] {\textbf{Dataset D}};
+      \node[main node]  (g1b) [below left of=g1a] {b};
+      \node[main node]  (g1c) [below right of=g1a] {c};
+      \node[main node]  (g1d) [below left of=g1c] {d};
+      \node (g1center) [right of =g1b, xshift=-0.3cm, yshift=-0.4cm] {};
+      \node (g1check)  [right of =g1c, xshift=-0.2cm, yshift=0.2cm] {\Checkmark};
+
+      \draw (g1a) -- (g1b);
+      \draw (g1a) -- (g1c);
+      \draw (g1b) -- (g1c);
+      \draw (g1c) -- (g1d);
+      \draw (g1d) -- (g1b);
+       
+      \node[main node]  at (7.5,1) (g2b) {b};
+      \node[main node]  (g2c) [right of=g2b] {c};
+      \node[main node]  (g2d) [below left of=g2c, xshift=0.25cm] {d};
+      \node (g2center) [below right of =g2b, xshift=-0.3cm, yshift=0.7cm] {};
+      \node (g2check)  [right of =g2c, xshift=-0.2cm, yshift=0.2cm] {\Checkmark};
+
+      \draw (g2b) -- (g2c);
+      \draw (g2c) -- (g2d);
+      \draw (g2d) -- (g2b);
+
+      \node[main node]  at (7.0,-2) (g3b) {b};
+      \node[main node]  (g3c) [right of=g3b] {c};
+      \node[main node]  (g3d) [right of=g3c] {d};
+      \node (g3center) at (g3c) {};
+      \node (g3cross)  [right of =g3d, xshift=-0.5cm, yshift=0.0cm] {\Cross};
+
+      \draw (g3b) -- (g3c);
+      \draw (g3c) -- (g3d);
+
+
+      \begin{pgfonlayer}{background}
+      \draw[red,fill=red!50] (b) circle (2.5ex);
+      \draw[red,fill=red!50] (c) circle (2.5ex);
+      \draw[red,fill=red!50] (d) circle (2.5ex);
+      \path[draw,line width=5pt,-,red!50] (b) -- (c);
+      \path[draw,line width=5pt,-,red!50] (c) -- (d);
+      \draw[draw,line width=5pt,-,red!50] (d) -- (b);
+      \end{pgfonlayer}
+
+    \end{tikzpicture}
+  \end{figure}
+
