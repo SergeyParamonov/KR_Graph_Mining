@@ -293,7 +293,14 @@ $\graph{G}_{n}$  & $E_{n}$ & $l_{n}$ & pos\\
 
 
 \section{Related Work}
-\sergey{to be expanded}
+There is a number of research directions related to our work. We group them by what they have in common with our work and contrast the difference with each group.
+
+\paragraph{Declarative Pattern Mining} There has been a lot of work on declarative pattern mining for unstructured data focused on: \textit{itemset mining} in the context of constraint programming \citep{tias_original,mining_cp_extra,tias_declarative_pattern_mining}, as well as in ASP \citep{asp_itemset} and SAT \citep{itemset_sat}, and \textit{tiling} in the context of ASP \citep{relational_decomposition} and of CP \citep{ranked_tiling}. 
+
+Recently people started looking at the structured declarative pattern mining such as \textit{sequence mining} in CP \citep{cp_sequence_mining} and ASP \citep{rennes_asp_sequences}, and \textit{graph mining} in IDP \citep{ilp_graph_mining}. \sergey{I hope by this time IDP is very well explained and introduced, so I can just leave it as ``it is''} The main focus of these works is on the encoding techniques that allows one to encode model using existing language concepts and primitives, i.e., on the coding and execution but not on the model and language itself. From the KR point view, the latter work on graph mining is of a preliminary character, since it does not provide a deep knowledge representation analysis of the model with respect to the mismatch between higher order logical model and the executed model. Neither the most interesting practical case of discriminative mining was not investigated in detail, nor any comparison between ASP, IDP and ProB was provided. \sergey{Should it be phrased less harsh here?}
+
+\sergey{to do: CP(graph) \citep{cp_graph}, reference to Siegfried survey \citep{subtree_overview} -- many ways to define matching ``subtree'' for example, Anton's + Sigfried's mining under theta subsumption \citep{theta_subsumption} -- means we need different matching}
+
 \section{Modellings}
 \subsection{IDP}
 \subsubsection{Existential Second Order}
