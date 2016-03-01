@@ -223,18 +223,22 @@ As a result, the first candidate pattern and the second are isomorphic.
 By Definition~\ref{def:canonicalForm} only one of these two patterns can be the canonical form, and therefore only one of these two candidate patterns should be accepted as a valid pattern.
 
 \subsection{Rewording}
+%Given the mathematical definition of the graph mining problem above, w
+We want to study how this can be expressed in the logics underlying the IDP~\cite{} and the ProB~\cite{} system.
+First, we will reword the earlier definition~\textbf{Def.}~\ref{def:GM1} into an equivalent formal definition that uses logical sentences and language constructs available in general logics.
+In doing this, it becomes evident that the graph mining problem has fundamental underlying characteristics that result in a higher order definition and specification.
 
-An attempt to model the Graph Mining problem in both IDP as well as ProB makes it clear
-that neither language allows us to express the problem to its full extent.
-We now try to link the shortcomings of each language to the expressiveness of the underlying logic on which they are built.
+%An attempt to model the Graph Mining problem in both IDP as well as ProB makes it clear
+%that neither language allows us to express the problem to its full extent.
+%We now try to link the shortcomings of each language to the expressiveness of the underlying logic on which they are built.
 
-First we introduce a new definition of the graph mining problem, equivalent to \textbf{Def.}~\ref{def:GM1}.
+%First we introduce a new definition of the graph mining problem, equivalent to \textbf{Def.}~\ref{def:GM1}.
 As mentioned above, the vertices in the graph mining problem have no distinctive property, and can be reused between different example graphs and patterns.
 Therefore, we will assume one shared, sufficiently large set of vertices $V$ and represent example graphs over these vertices $V$ directly as a triple $\triple{Edge, Label, Class}$, consisting of an edge relation between $V$ and a labeling function over $V$, as well as a classification (positive/negative).
 
 \begin{definition} \textbf{Graph Mining (redefined)}
 \label{def:gm2}
-Given a sufficiently large set of vertices $V$, and a set $\graphset{G}$ of graphs over this vertex set $V$, represented by $\triple{E, l, C}$ triples
+Given a sufficiently large set of vertices $V$, and a set $\graphset{G}$ of graphs over this vertex set $V$, represented by $\triple{E, l, c}$ triples
 where $E$ and $l$ represent the edge relation and labeling function over $V$ respectively,
 %which consist of an edge relation, 
 we look for a 
@@ -250,47 +254,36 @@ graph represented by tuple $\triple{E_{\graph{P}}, l_{\graph{P}}}$ such that:
 \end{itemize}
 \end{definition}
 
-When reasoning about graphs, we see \emph{each graph} as a \emph{coherent} ensemble of its own components: 
-all characteristics (edges, labeling \ldots) of a graph are represented by separate entities or concepts, which are grouped together for each graph $\graph{G}$ in the triple that describes it.
-We refer to this as the \emph{local coherence} of the graph representation.
-As graphs are the main concepts we talk about in the graph mining problem, keeping this concept together leads to a natural KR representation.
-Furthermore, this locally coherent representation makes it very explicit that all example graphs are \emph{independent}, and that the search for a homomorphism between pattern and example graph is independent as well.
-A good solver can then discover this independence and leverage it to achieve better performance.
+\begin{definition} \textbf{Canonical Patterns}
 
+\end{definition}
+
+As evidenced from the definitions above, graphs are the main concept in the graph mining problem, and, as a triple $\triple{V,l,c}$ are inherent \emph{higher order objects}.
 A set of graphs, such as the argument of the cardinality operator above or the set of example graphs $\graphset{G}$, is equivalent to a set of triples.
 The most straightforward representation of such a set would therefore be a ternary predicate.
 As the domains of this predicate range over predicates and functions, this predicate would be a higher order predicate.
 
-These higher order representations for graphs and sets of graphs are not yet fully supported by the logics of IDP and ProB.
-In the following section we discuss how we deal with them.
-\todo{Illustrate local coherence with table}
+It is a very natural KR representation to consider each graph as a \emph{coherent} ensemble of its own components: all characteristics (edges, labeling \ldots) of a graph are represented by separate entities or concepts, which are grouped together for each graph $\graph{G}$ in the triple that describes it. We refer to this as the \emph{local coherence} of the graph representation.
+Not only is this a very natural KR representation, this representation also makes it very explicit that all example graphs are \emph{independent}, and that the search for a homomorphism between pattern and example graph is independent as well.
 
+It becomes clear that we want to reason about graphs as locally coherent objects in our logical models as well.
+However, the higher order representations needed to reason about graphs and sets of graphs as \emph{coherent} objects in our models are not yet fully supported by the logics of IDP and ProB.
+In the following section we discuss how we can deal with this.
 
+%When reasoning about graphs, we see \emph{each graph} as a \emph{coherent} ensemble of its own components: 
+%all characteristics (edges, labeling \ldots) of a graph are represented by separate entities or concepts, which are grouped together for each graph $\graph{G}$ in the triple that describes it.
+%We refer to this as the \emph{local coherence} of the graph representation.
+%As graphs are the main concepts we talk about in the graph mining problem, keeping this concept together leads to a natural KR representation.
+%Furthermore, this locally coherent representation makes it very explicit that all example graphs are \emph{independent}, and that the search for a homomorphism between pattern and example graph is independent as well.
+%A good solver can then discover this independence and leverage it to achieve better performance.
 
+%A set of graphs, such as the argument of the cardinality operator above or the set of example graphs $\graphset{G}$, is equivalent to a set of triples.
+%The most straightforward representation of such a set would therefore be a ternary predicate.
+%As the domains of this predicate range over predicates and functions, this predicate would be a higher order predicate.
 
-\begin{figure}[h]
-\centering
-\begin{tabular}{l |l l l}
-         & $E$ & $l$      & $C$ \\
-\hline
-$\graph{G}_{1}$  & $E_{1}$ & $l_{1}$ & pos\\
-$\graph{G}_{2}$  & $E_{2}$ & $l_{2}$ & pos\\
-  \vdots & \vdots  & \vdots  & \vdots\\
-$\graph{G}_{n}$  & $E_{n}$ & $l_{n}$ & pos\\
-\end{tabular}
-\caption{Local coherence\label{Fig:LocalCoherence}}
-\end{figure}
-
-\begin{tikzpicture}[overlay]
-  \draw [dashed, rounded corners](4.8,4) -- (4.8,1.6) -- 
-  (5.3,1.6) -- (5.3,4) -- cycle;
-  \draw [rounded corners] (3.9,2.7)--(7.18,2.7) --
-  (7.18,3.1) -- (3.9,3.1) -- cycle; %1.65 en 2
-  (3.south east) -- (3.south west);
-\end{tikzpicture}
-
-
-
+%These higher order representations for graphs and sets of graphs are not yet fully supported by the logics of IDP and ProB.
+%In the following section we discuss how we deal with them.
+%\todo{Illustrate local coherence with table}
 
 \section{Related Work}
 There is a number of research directions related to our work. We group them by what they have in common with our work and contrast the difference with each group.
@@ -346,9 +339,9 @@ Structure Result:V{
 \paragraph{Issue 1}
 The restriction to \emph{Existential} Second Order means we cannot express the set of example graphs, as specified in Definition~\ref{def:gm2}, using a higher-order predicate (shown in Listing~\ref{lst:HOPred}).
 One possible solution is to replicate for each graph the different characteristic predicates and functions, as well as the knowledge (theory) about them.
-This way to represent the information about graphs is shown in Listing~\ref{lst:multiglobal}.
+This way of representing the information about graphs is shown in Listing~\ref{lst:multiglobal}.
 It is clear that this solution is undesirable due to the way it scales and the editing needed with growing problem instances.
-It retains the local coherence of graph characteristics when it comes to data representation, but prohibits the abstraction (generalization) of knowledge about these properties, as evidenced by our obligation to duplicate the theory for each graph.
+It retains the local coherence and independence of graph characteristics when it comes to data representation, but prohibits the abstraction (generalization) of knowledge about these properties, as evidenced by our obligation to duplicate the theory for each graph.
 
 %GraphInst(E:Node$\times$Node,Lb
 \begin{lstlisting}[mathescape,caption=Higher order predicate modelling the set $\graphset{G}$ of Def~\ref{def:gm2}.,label=lst:HOPred]
@@ -378,9 +371,10 @@ E(g2,2,1). lb(g2,2)=b.
 
 
 A more workable solution is to represent each characteristic property, such as the edge relation, by a single general relation for all graphs, as shown in Listing~\ref{lst:indexedglobal}.
-This entity behaves the way it should for a specific graph instance based on an additional argument serving as an identifier for the graph of interest.
-It is clear that this representation forces us to give up the local coherence of graph characteristics that was present in \textbf{Def.}~\ref{def:gm2}.
-
+This relation behaves the way it should for a specific graph instance based on an additional argument serving as an identifier for the graph of interest.
+%This gives rise to a set $G$ of \emph{graph identifiers}, one for each example graph.
+This general relation now corresponds to the \emph{disjoint} or \emph{tagged union} of the graphs' relations, where the tags are drawn from a set $G$ consisting of graph identifiers.
+It is clear that this representation forces us to give up the local coherence of graph characteristics that was present in \textbf{Def.}~\ref{def:gm2}: 
 %Nu kunnen we kijken wat deze truuk doet met onze mogelijkheid om de abstraction van de theory uit te drukken. Normaal mwillen we dit zo schrijven. Hoewel we nu de generalisatie kunnen uitdrukken, verplicht de restrictie tot existentieel s..o ons om de homomorphic mapping functies te tot een globale property te promoveren, hoewel we feitelijk niet geinteresseerd zijn in de concrete mappings. om om te gaan met de afhankelijkheid van deze functies op de spec. vb grafen moeten we... die nu erg lijkt op skolemisation. theory
 
 %Using this trick however, does not influence our ability to 
@@ -393,12 +387,39 @@ But can we now express the abstraction (generalization) of knowledge about these
 As evidenced in \textbf{Def.}~\ref{def:gm2}, normally one would express the positive homomorphic property by quantifying (counting) over all graphs, requiring the existence of a function with the correct properties.
 Using this trick, does not influence our ability to express this restriction.
 
+\begin{figure}[h]
+\centering
+\begin{tabular}{l |l l l}
+         & $E$ & $l$      & $c$ \\
+\hline
+$\graph{G}_{1}$  & $E_{1}$ & $l_{1}$ & pos\\
+$\graph{G}_{2}$  & $E_{2}$ & $l_{2}$ & pos\\
+  \vdots & \vdots  & \vdots  & \vdots\\
+$\graph{G}_{n}$  & $E_{n}$ & $l_{n}$ & pos\\
+\end{tabular}
+\caption{Local coherence\label{Fig:LocalCoherence}}
+\end{figure}
+
+\begin{tikzpicture}[overlay]
+  \draw [dotted, rounded corners](4.8,4) -- (4.8,1.5) -- 
+  (5.3,1.5) -- (5.3,4) -- cycle;
+  \draw [rounded corners] (3.9,2.66)--(7.18,2.66) --
+  (7.18,3.1) -- (3.9,3.08) -- cycle;
+  (3.south east) -- (3.south west);
+  \draw [dashed, rounded corners] (5.05,2.85) circle (3mm);
+\end{tikzpicture}
+
+These three different ways of representing graphs are summarized in Fig~\ref{fig:LocalCoherence}.
+
+
+
 \begin{lstlisting}[mathescape, caption=Quantifying over functions outside the vocabulary, label=QuantifyOutsideVocabulary,basicstyle=\fontfamily{lmvtt}\selectfont]
 #{$\forall g$ : $\exists$ f : $\ldots$ }
 \end{lstlisting}
 
 \paragraph{Issue 2}
-Having solved\matthias{circumvented?} our first issue, we would like to express the homomorphic property, as shown in Listing \ref{QuantifyOutsideVocabulary}.
+%Having solved\matthias{circumvented?} our first issue, 
+Next, we would like to express the homomorphic property, as shown in Listing \ref{QuantifyOutsideVocabulary}.
 However, the restriction to ESO forbids us to quantify over first-order entities such as functions outside of the vocabulary.
 Thus, we are required to promote the homomorphic mapping functions to a global property in the vocabulary, even though we are only interested in the existence of a mapping, and not in a concrete valid mapping itself.
 We prevent the same explosion of mapping functions as with the graph characteristics above, using the same method as above (which in this case corresponds to Skolemization):
@@ -416,6 +437,7 @@ Note that this encoding also requires us to make this function \verb|f| partial,
 \paragraph{Issue 3} Much in the same way, limiting ourselves to existential second order prohibits us from expressing the negative constraint on homomorphism (No more than $N_{-}$ negative examples are homomorphic) in the same model.
 In fact, the negative constraint asserts a property for all candidate homomorphic functions, which would lead to \emph{universal} quantification.
 Therefore, our only recourse is to encode its dual positive constraint and require it to fail when queried.\matthias{Find a convincing but small example}
+\matthias{The moment to introduce the asp saturation technique}
 
 \subsubsection{Inductive Definitions}
 Beyond the Existential Second Order restriction, the IDP language is also extended with inductive definitions. These definitions, evaluated under the well-founded semantics, allows the derivation of negative knowledge that otherwise would be underivable. \matthias{Find a convincing but small example}
@@ -452,6 +474,10 @@ Beyond the Existential Second Order restriction, the IDP language is also extend
 \todo{Tekstuele uitleg hierbij}
 
 \subsection{ProB}
+
+\section{Related Work}
+\sergey{to be expanded}
+
 
 \section{Feature Comparison}
 
