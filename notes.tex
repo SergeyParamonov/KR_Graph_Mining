@@ -337,8 +337,14 @@ Structure Result:V{
 
 %problems in which there is an existentially quantified, generally second order, vocabulary of symbols and a first order theory with symbols from that vocabulary.
 \paragraph{Issue 1}
-The restriction to \emph{Existential} Second Order means we cannot express the set of example graphs, as specified in Definition~\ref{def:gm2}, using a higher-order predicate (shown in Listing~\ref{lst:HOPred}).
-One possible solution is to replicate for each graph the different characteristic predicates and functions, as well as the knowledge (theory) about them.
+First, we must represent the set of example graphs, as specified in \textbf{Def.}~\ref{def:gm2}. 
+This definition uses a higher order predicate, as shown in \textbf{Listing}~\ref{lst:HOPred}. 
+It represents a single graph as a tuple of predicates and functions, visualised in \textbf{fig.}~\ref{fig:LocalCoherence} as the solid shape.
+It is clear that this representation is highly locally coherent, and preserves the independence of graph characteristics.
+However, as we are restricted to \emph{Existential} Second Order, we cannot express this higher order predicate.
+
+One possible solution is to replicate for each graph the different characteristic predicates and functions, as well as the knowledge (theory) about them, as shown in
+in \textbf{Listing}~\ref{lst:multiglobal} and visualised as the dashed shape in \textbf{Fig.}~\ref{fig:LocalCoherence}.
 This way of representing the information about graphs is shown in Listing~\ref{lst:multiglobal}.
 It is clear that this solution is undesirable due to the way it scales and the editing needed with growing problem instances.
 It retains the local coherence and independence of graph characteristics when it comes to data representation, but prohibits the abstraction (generalization) of knowledge about these properties, as evidenced by our obligation to duplicate the theory for each graph.
@@ -370,7 +376,7 @@ E(g2,2,1). lb(g2,2)=b.
 
 
 
-A more workable solution is to represent each characteristic property, such as the edge relation, by a single general relation for all graphs, as shown in Listing~\ref{lst:indexedglobal}.
+A more workable solution is to represent each characteristic property, such as the edge relation, by a single general relation for all graphs, as shown in \textbf{Listing}~\ref{lst:indexedglobal} and by the dotted shape in \textbf{Fig.}~\ref{fig:LocalCoherence}.
 This relation behaves the way it should for a specific graph instance based on an additional argument serving as an identifier for the graph of interest.
 %This gives rise to a set $G$ of \emph{graph identifiers}, one for each example graph.
 This general relation now corresponds to the \emph{disjoint} or \emph{tagged union} of the graphs' relations, where the tags are drawn from a set $G$ consisting of graph identifiers.
@@ -385,7 +391,7 @@ But can we now express the abstraction (generalization) of knowledge about these
 %Furthermore, the restriction to ESO requires us 
 %As an example, we illustrate this trick by showing on the expression of the positive homomorphic property, where it greatly resembles Skolemization.
 As evidenced in \textbf{Def.}~\ref{def:gm2}, normally one would express the positive homomorphic property by quantifying (counting) over all graphs, requiring the existence of a function with the correct properties.
-Using this trick, does not influence our ability to express this restriction.
+Using this trick, does not influence our ability to express this restriction: Instead of quantifying over the graphs themselves, we can now quantify over the set $G$ of graph identifiers.
 
 \begin{figure}[h]
 \centering
@@ -397,7 +403,7 @@ $\graph{G}_{2}$  & $E_{2}$ & $l_{2}$ & pos\\
   \vdots & \vdots  & \vdots  & \vdots\\
 $\graph{G}_{n}$  & $E_{n}$ & $l_{n}$ & pos\\
 \end{tabular}
-\caption{Local coherence\label{Fig:LocalCoherence}}
+\caption{Local coherence\label{fig:LocalCoherence}}
 \end{figure}
 
 \begin{tikzpicture}[overlay]
@@ -409,17 +415,14 @@ $\graph{G}_{n}$  & $E_{n}$ & $l_{n}$ & pos\\
   \draw [dashed, rounded corners] (5.05,2.85) circle (3mm);
 \end{tikzpicture}
 
-These three different ways of representing graphs are summarized in Fig~\ref{fig:LocalCoherence}.
-
-
-
-\begin{lstlisting}[mathescape, caption=Quantifying over functions outside the vocabulary, label=QuantifyOutsideVocabulary,basicstyle=\fontfamily{lmvtt}\selectfont]
-#{$\forall g$ : $\exists$ f : $\ldots$ }
-\end{lstlisting}
+%These three different ways of representing graphs are summarized in Fig~\ref{fig:LocalCoherence}.
 
 \paragraph{Issue 2}
 %Having solved\matthias{circumvented?} our first issue, 
 Next, we would like to express the homomorphic property, as shown in Listing \ref{QuantifyOutsideVocabulary}.
+\begin{lstlisting}[mathescape, caption=Quantifying over functions outside the vocabulary, label=QuantifyOutsideVocabulary,basicstyle=\fontfamily{lmvtt}\selectfont]
+#{$\forall g$ : $\exists$ f : $\ldots$ }
+\end{lstlisting}
 However, the restriction to ESO forbids us to quantify over first-order entities such as functions outside of the vocabulary.
 Thus, we are required to promote the homomorphic mapping functions to a global property in the vocabulary, even though we are only interested in the existence of a mapping, and not in a concrete valid mapping itself.
 We prevent the same explosion of mapping functions as with the graph characteristics above, using the same method as above (which in this case corresponds to Skolemization):
@@ -444,7 +447,7 @@ Beyond the Existential Second Order restriction, the IDP language is also extend
 \reversemarginpar
 \todo{A section about inductive definitions, and their use. (Being able to derive negative knowledge)}
 
-\subsection{Eventual encoding}
+\subsection{Faithful encoding}
 \begin{alltt}
   //Homomorphism/2 is a higher-order predicate:
   //Edge1 and Edge2 are predicates themselves.
@@ -459,9 +462,10 @@ Beyond the Existential Second Order restriction, the IDP language is also extend
   reachable(x,y,Edge) \(\leftarrow \exists\) : reachable(x,z,Edge) \(\wedge\) reachable(z,y,Edge).
   \textbraceright
 
-  isomorph(Edge1,Edge2) \(\iff \exists\)f : (\(\forall\) x,y:Edge1(x,y) \(\iff\) Edge2(f(x),f(y))) \(\wedge\)
-  (\(\forall\) x : Label1(x) = Label2(f(x))) \(\wedge\)
-  (\(\forall\)x,y:x\(\neq\)y\(\implies\)f(x)\(\neq\)f(y)).
+  isomorph(<Edge1,Label1>,<Edge2,Label2>) \(\iff\)
+      \big(\(\exists\)f : (\(\forall\) x,y:Edge1(x,y) \(\iff\) Edge2(f(x),f(y))) \(\wedge\)
+      (\(\forall\) x : Label1(x) = Label2(f(x))) \(\wedge\)
+      (\(\forall\)x,y:x\(\neq\)y\(\implies\)f(x)\(\neq\)f(y))\big).
 
   //\(\forall\)Pat represents quantification over a predicate Pat/2. 
   //A pattern is represented by its Edge relation. 
