@@ -1,0 +1,40 @@
+vocabulary Vout{
+  type node isa nat
+  invar(node)
+}
+
+vocabulary V{
+  extern vocabulary Vout
+  type graph
+  type label
+  
+  pattern_in(graph)
+  node_label(graph, node, label)
+  t_label(node,label)
+  edge(graph, node, node)
+  threshold:int
+  partial f(graph,node):node
+  t_edge(node,node)
+}
+
+include "PositiveInfo.idp"
+include "NegativeInfo.idp"
+
+
+//?x: ((invar(x) & x ~=x1 & x ~=x2 & x ~=x3 & x ~=x4 & x ~=x5) | (~invar(x) & (x =x1 | x =x2 | x =x3 | x =x4 | x =x5))).
+
+procedure main(){
+    i=0;
+    iterator = modelIterator(Positive,S_Pos,Vout);
+    for model in iterator do
+        setvocabulary(model,V)
+        merged = merge(model, S_Neg)
+        if not(sat(Negative, merged)) then
+            setvocabulary(model, Vout)
+			      print(model)
+            i=i+1
+        else
+        end
+    end
+    print("Complete: " .. i)
+}

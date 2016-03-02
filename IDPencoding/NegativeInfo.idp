@@ -1,0 +1,10 @@
+theory Negative: V{
+  // frequency
+  #{ graph[graph] : pattern_in(graph) } >= threshold.
+  // homomorphism definition
+  !g,x : pattern_in(g) & invar(x)  <=> ? y[node]: y=f(g,x).
+  //injectivity
+  !g,x,y : pattern_in(g) & invar(x) & invar(y) & x ~= y => f(g, x) ~= f(g, y).
+  !g,x,y : pattern_in(g) & invar(x) & invar(y) & t_edge(x,y) => edge(g,f(g,x), f(g,y)).
+  !g,x,lx :pattern_in(g) & invar(x) & t_label(x,lx) => node_label(g,f(g,x),lx).
+}

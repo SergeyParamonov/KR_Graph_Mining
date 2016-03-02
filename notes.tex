@@ -61,6 +61,7 @@
 \title{Note on KR and Graph Mining}
 \begin{document}
 \maketitle
+\abstract{This is the abstract.\matthias{This paper shows how the graph mining problem \ldots}}
 
 \section{Introduction}
 \sergey{feel free to rephrase and correct me here, that's an early attempt to set up a story} 
@@ -107,7 +108,9 @@ Our main goal is to investigate the problem of graph mining from the knowledge r
 
 \sergey{we need a smooth transition here or should we just start a new section like ``formalization''?}
 
-%\subsection{Problem definition}
+\section{formalization}
+Before we try to model the graph mining problem, we first formulate a comprehensive formal definition of the graph mining problem as a whole, and all its different components.
+
 \begin{definition}
 \label{def:GM1}
 Given a pair $\triple{\graphset{E}_{+},\graphset{E}_{-}}$ consisting of a set of \emph{positive} and \emph{negative} examples of \emph{labeled graphs}, respectively,
@@ -198,7 +201,7 @@ It is clear that there exists a mapping from each node from the valid pattern to
 Looking at Figure \ref{fig:correctcandidate}, this graph is clearly homomorphic with both the positive as well as the negative example. Therefore, it is not a pattern.
 
 \subsection{Canonical patterns}
-To extend on this graph mining task described above, we can look for multiple patterns, instead of just one.
+To extend on the graph mining task described above, we can look for multiple patterns, instead of just one.
 In this case, one can impose restrictions on the different patterns that are found.
 For example, it stands to reason that one wants only \emph{canonical} solutions, meaning that no two patterns found are \emph{isomorphic}.
 
@@ -454,15 +457,21 @@ $\graph{G}_{n}$  & $E_{n}$ & $l_{n}$ & pos\\
 
 \paragraph{Issue 2}
 %Having solved\matthias{circumvented?} our first issue, 
-Next, we would like to express the homomorphic property, as shown in Listing \ref{QuantifyOutsideVocabulary}.
+Next, we would like to express the homomorphic property.
+This can be done using a count aggregate, as shown in Listing~\ref{QuantifyOutsideVocabulary}.
+First we generate the set of all example graphs to whom we can find a homomorphism from our pattern.
+We do this by quantifying over all example graphs g or, per \textbf{issue 1}, their identifiers, and subsequently 
+expressing the condition under which they are part of this set: i.e. that there must exist a function f that represents a homomorphism from our pattern graph $p$ to $g$.
+In principle, we could then proceed by counting the number of elements in this set.
+
 \begin{lstlisting}[mathescape, caption=Quantifying over functions outside the vocabulary, label=QuantifyOutsideVocabulary,basicstyle=\fontfamily{lmvtt}\selectfont]
-#{$\forall g$ : $\exists$ f : $\ldots$ }
+#{$\forall g$ : $\exists$ $f$ : $f$ is a homomorphism from $p$ to $g$ }
 \end{lstlisting}
-However, the restriction to ESO forbids us to quantify over first-order entities such as functions outside of the vocabulary.
+However, working in IDP, the restriction to ESO forbids us to quantify over first-order entities such as functions outside of the vocabulary.
 Thus, we are required to promote the homomorphic mapping functions to a global property in the vocabulary, even though we are only interested in the existence of a mapping, and not in a concrete valid mapping itself.
-We prevent the same explosion of mapping functions as with the graph characteristics above, using the same method as above (which in this case corresponds to Skolemization):
+We prevent the same explosion of mapping functions as with the graph characteristics above, using the same method as above. Note that in this case, it corresponds to Skolemization.
 We introduce a general function \verb|f| that represents all homomorphisms, and make its dependency on a specific example graph explicit using an additional argument:
-\verb|partial f(graphId, t_var):node|.
+\verb|partial f(graphId, node):node|.
 %As it is impossible
 %We introduce a general function \verb|f| that represents the homomorphisms, and make its dependency on a specific goal graph explicit using an additional argument:
 In Second Order Logic, this dependency would follow directly from the order of the separate quantifications.
@@ -477,67 +486,86 @@ In fact, the negative constraint asserts a property for all candidate homomorphi
 Therefore, our only recourse is to encode its dual positive constraint and require it to fail when queried.\matthias{Find a convincing but small example}
 \matthias{The moment to introduce the asp saturation technique}
 
+%\paragraph{ASP}
+%Let us describe a way to encode the problem into ASP. Conceptually we need to handle three constraints: matching of positive examples, not matching of negative examples and canonicity (that only not isomorphic graphs are produced).
+
 \subsubsection{Inductive Definitions}
 Beyond the Existential Second Order restriction, the IDP language is also extended with inductive definitions. These definitions, evaluated under the well-founded semantics, allows the derivation of negative knowledge that otherwise would be underivable. \matthias{Find a convincing but small example}
 \reversemarginpar
 \todo{A section about inductive definitions, and their use. (Being able to derive negative knowledge)}
 
 \subsection{Faithful encoding}
+\matthias{In this subsection, we show a new encoding and argue that it is more faithful to the problem with respect to the definition as given in Def~\ref{def:gm2}}
 \begin{alltt}
-  //Homomorphism/2 is a higher-order predicate:
-  //Edge1 and Edge2 are predicates themselves.
-  homomorphism(<Edge1,Label1>, <Edge2,Label2>) 
-  \(\iff \exists\) f: (\(\forall\) x, y : x \(\neq\) y \(\Rightarrow\) f(x) \(\neq\) f(y)) \(\wedge\)
-  (\(\forall\)x, y : Edge1(x, y) \(\implies\) Edge2(f (x), f (y))) \(\wedge\)
-  (\(\forall\) x : Label1(x) = Label2(f(x)))
+  homomorphism(<Edge1, Label1>, <Edge2, Label2>) \(\iff\)
+      \big(\(\exists\) f: (\(\forall\) x, y : x \(\neq\) y \(\Rightarrow\) f(x) \(\neq\) f(y)) \(\wedge\)
+      (\(\forall\) x, y : Edge1(x, y) \(\implies\) Edge2(f(x), f(y))) \(\wedge\)
+      (\(\forall\) x : Label1(x) = Label2(f(x)))\big)
 
+  isomorph(<Edge1, Label1>,<Edge2, Label2>) \(\iff\)
+      \big(\(\exists\)f : (\(\forall\)x,y:x\(\neq\)y\(\implies\)f(x)\(\neq\)f(y)) \(\wedge\)
+      (\(\forall\) x, y : Edge1(x, y) \(\iff\) Edge2(f(x), f(y))) \(\wedge\)
+      (\(\forall\) x : Label1(x) = Label2(f(x)))\big).
 
   \textbraceleft
-  reachable(x,y,Edge) \(\leftarrow\) Edge(x,y) \(\lor\) Edge(y,x).
-  reachable(x,y,Edge) \(\leftarrow \exists\) : reachable(x,z,Edge) \(\wedge\) reachable(z,y,Edge).
+  reachable(x, y, Edge) \(\leftarrow\) Edge(x, y) \(\lor\) Edge(y, x).
+  reachable(x, y, Edge) \(\leftarrow \exists\) : reachable(x, z, Edge) \(\wedge\) reachable(z, y, Edge).
   \textbraceright
-
-  isomorph(<Edge1,Label1>,<Edge2,Label2>) \(\iff\)
-      \big(\(\exists\)f : (\(\forall\) x,y:Edge1(x,y) \(\iff\) Edge2(f(x),f(y))) \(\wedge\)
-      (\(\forall\) x : Label1(x) = Label2(f(x))) \(\wedge\)
-      (\(\forall\)x,y:x\(\neq\)y\(\implies\)f(x)\(\neq\)f(y))\big).
 
   //\(\forall\)Pat represents quantification over a predicate Pat/2. 
   //A pattern is represented by its Edge relation. 
   \(\forall\)P : pattern(P) \(\implies\) #\textbraceleft Pos : positive(Pos) \(\wedge\) homomorphism(P, Pos) \textbraceright \(\geq\) \(N{+}\).
   \(\forall\)P : pattern(P) \(\implies\) #\textbraceleft Neg : negative(Neg) \(\wedge\) homomorphism(P, Neg) \textbraceright \(\leq\) \(N_\).
-  \(\forall\)P,P2 :pattern(P)\(\wedge\)pattern(P2)\(\wedge\)P\(\neq\)P2 \(\iff\) \(\neg\)isomorph(P,P2).
+  \(\forall\)P,P2 : pattern(P)\(\wedge\)pattern(P2)\(\wedge\)P\(\neq\)P2 \(\iff\) \(\neg\)isomorph(P, P2).
 
 \end{alltt}
 \reversemarginpar
-\todo{Tekstuele uitleg hierbij}
 
 \subsection{ProB}
+
+\textbf{Pro:}
+\begin{itemize}
+  \item can model negative case
+  \item can model subgraph isomorphism independence
+\end{itemize}
+\textbf{Cons:}
+\begin{itemize}
+  \item cannot handle inductive definitions
+  \item cannot handle different types of aggregates (? needs to be checked again)
+\end{itemize}
 
 \section{Related Work}
 \sergey{to be expanded}
 
 
-\section{Feature Comparison}
+%\section{Feature Comparison}
+%
+%\subsection{IDP} 
+%
+%\textbf{Pro:}
+%\begin{itemize}
+%  \item can model inductive definitions
+%  \item allows core formulation in a high-level language (NP)
+%  \item handles aggregates
+%  \item has support for variety of constraints
+%\end{itemize}
+%\textbf{Cons:}
+%\begin{itemize}
+%  \item cannot handle negative case $\textit{NP}^\textit{NP}$ complexity
+%  \item cannot model subgraph isomorphism independence
+%  \item cannot handle dominance, i.e., when one model is preferred over another 
+%\end{itemize}
 
-\subsection{IDP} 
 
-\textbf{Pro:}
-\begin{itemize}
-  \item can model inductive definitions
-  \item allows core formulation in a high-level language (NP)
-  \item handles aggregates
-  \item has support for variety of constraints
-\end{itemize}
-\textbf{Cons:}
-\begin{itemize}
-  \item cannot handle negative case $\textit{NP}^\textit{NP}$ complexity
-  \item cannot model subgraph isomorphism independence
-  \item cannot handle dominance, i.e., when one model is preferred over another 
-\end{itemize}
+\section{Code in ProB, IDP, ASP}
+\matthias{This is the working ProB code that we'll show as an example}
+\VerbatimInput{original_prob_files/PositiveAndNegative.mch}
+\pagebreak
 
-\paragraph{ASP}
-Let us describe a way to encode the problem into ASP. Conceptually we need to handle three constraints: matching of positive examples, not matching of negative examples and canonicity (that only not isomorphic graphs are produced).
+\matthias{This is the positive constraint expressed in idp}
+\VerbatimInput[label=The main merged theory]{IDPEncoding/Merged.idp}
+\VerbatimInput[label=IDP positive encoding]{IDPEncoding/PositiveInfo.idp}
+\VerbatimInput[label=IDP negative encoding]{IDPEncoding/NegativeInfo.idp}
 
 \lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
 \begin{lstlisting}[caption=ASP positive matching, style=model]
@@ -639,27 +667,11 @@ not_equal(G) :- d2(G,X). % check that in fact candidate is different from the pa
 equal(G) :- not not_equal(G), iso(G,_,_).
 \end{lstlisting}
 
+\section{Proposed extensions}
+\matthias{Here we will list the things we miss in each language, and introduce possible ways of implementing them and ways to learn from eachother}
 
-\subsection{proB}
-\textbf{Pro:}
-\begin{itemize}
-  \item can model negative case
-  \item can model subgraph isomorphism independence
-\end{itemize}
-\textbf{Cons:}
-\begin{itemize}
-  \item cannot handle inductive definitions
-  \item cannot handle different types of aggregates (? needs to be checked again)
-\end{itemize}
-
-the rest of constraints? 
-
-\section{Code in ProB and IDP}
-
-\VerbatimInput{original_prob_files/PositiveAndNegative.mch}
-\pagebreak
-
-\VerbatimInput[label=IDP encoding]{IDPencoding/core_constraints.idp}
+\section{Conclusion}
+\matthias{A conclusion}
 
 \bibliography{references}
 \bibliographystyle{abbrvnat}
