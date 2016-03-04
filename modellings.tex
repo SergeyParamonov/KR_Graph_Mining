@@ -106,18 +106,26 @@ $\graph{G}_{1}$  & $E_{1}$ & $l_{1}$ & pos\\
 $\graph{G}_{2}$  & $E_{2}$ & $l_{2}$ & pos\\
   \vdots & \vdots  & \vdots  & \vdots\\
 $\graph{G}_{n}$  & $E_{n}$ & $l_{n}$ & pos\\
+\begin{tikzpicture}[overlay]
+  \coordinate (dotted) at ($(1.28,0.2) + (4.8,4)$);
+  \coordinate (line) at (7,4.45);
+  \coordinate (dashed) at (1.02,1.6);
+  \draw [dotted, rounded corners] 
+  ($ (dotted) - (4.8,4) $) -- 
+  ($ (dotted) - (4.8,1.5)$) -- 
+  ($ (dotted) - (5.3,1.5)$) -- 
+  ($ (dotted) - (5.3,4)$) -- cycle;
+  \draw [rounded corners] 
+  ($ (line) - (3.9,2.66)$) --
+  ($ (line) - (7.18,2.66)$) --
+  ($ (line) - (7.18,3.1)$) -- 
+  ($ (line) - (3.9,3.08)$) -- cycle;
+  (3.south east) -- (3.south west);
+  \draw [dashed, rounded corners] (dashed) circle (3mm);
+\end{tikzpicture}
 \end{tabular}
 \caption{Local coherence\label{fig:LocalCoherence}}
 \end{figure}
-
-\begin{tikzpicture}[overlay]
-  \draw [dotted, rounded corners](4.8,4) -- (4.8,1.5) -- 
-  (5.3,1.5) -- (5.3,4) -- cycle;
-  \draw [rounded corners] (3.9,2.66)--(7.18,2.66) --
-  (7.18,3.1) -- (3.9,3.08) -- cycle;
-  (3.south east) -- (3.south west);
-  \draw [dashed, rounded corners] (5.05,2.85) circle (3mm);
-\end{tikzpicture}
 
 %These three different ways of representing graphs are summarized in Fig~\ref{fig:LocalCoherence}.
 
@@ -149,19 +157,96 @@ Note that this encoding also requires us to make this function \verb|f| partial,
 
 \paragraph{Issue 3} Much in the same way, limiting ourselves to existential second order prohibits us from expressing the negative constraint on homomorphism (No more than $N_{-}$ negative examples are homomorphic) in the same model.
 In fact, the negative constraint asserts a property for all candidate homomorphic functions, which would lead to \emph{universal} quantification.
-Therefore, our only recourse is to encode its dual positive constraint and require it to fail when queried.\matthias{Find a convincing but small example}
-\matthias{The moment to introduce the asp saturation technique}
+Therefore, our only recourse is to encode its dual positive constraint and require it to fail when queried.
+
+Take, for example, the pattern candidate and positive and negative example graphs from \textbf{Fig.}~\ref{fig:ex2}.
+Assume all nodes have the same label.
+With parameters $N_{+}=1$ and $N_{-}=0$, this pattern candidate is clearly an invalid pattern. 
+It is homomorphic with both the positive and the negative example.
+But because we now look for one general (Skolemized) homomorphic function, we can choose a global which represents a homomorphism with the positive example graph, but not with the negative example graph.
+An example of such a solution is shown in Listing~\ref{lst:invalidf}.
+
+ASP, a language family closely related to IDP, can prevent these kind of models by leveraging the minimality property of their models: ASP looks for the minimal answer set models.
+By detecting example graphs for which the f does not represent a homomorphism, and %requiring that in this case f must be the total relation
+accordingly enlarging the answer set by requiring that in these cases f must be the \emph{total} relation for this graph, the minimality property will cause the solver to look for $f$ that represent a homomorphism for as many example graphs (including negatives) as possible.
+This technique, which would allow us the express the negative property in the same model is called the \emph{saturation} technique~\ref{eiter}.
+It is clear however that this technique is not derived from a natural KR translation of the Graph Mining definition.
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=.5]
+      \node[circle] at (1,0.7) {a};
+      \node[circle] at (2,0.7) {b};
+      \node[circle] at (2.8,2) {c};
+      \draw (1,1) -- (2,1) -- (2.7,2) -- (2,3) -- (1,3) -- (0.3,2) -- cycle;
+      \draw (1,1) -- (2,3);
+      \draw (2.7,2) -- (0.3,2);
+    \end{tikzpicture}
+    \caption{Positive Example}
+  \end{subfigure}
+  ~
+  \begin{subfigure}[b]{0.3\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=.5]
+      \node[circle] at (0,-0.2) {d};
+      \node[circle] at (1,1.2) {e};
+      \node[circle] at (2,-0.2) {f};
+      \node[circle] at (3,1.2) {g};
+      \coordinate (1) at (0,0);
+      \coordinate (2) at (1,1);
+      \coordinate (3) at (2,0);
+      \coordinate (4) at (3,1);
+      \draw (1) -- (2) -- (3) -- (4);
+    \end{tikzpicture}
+    \caption{Negative Example}
+  \end{subfigure}
+  ~
+  \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+      \begin{tikzpicture}[scale=.5]
+        \node[circle] at (0.9,2) {1};
+        \node[circle] at (2,3.3) {2};
+        \node[circle] at (3.15,3.3) {3};
+        \draw (1,2) -- (2,3) -- (3,3);
+      \end{tikzpicture}
+      \caption{Pattern Candidate\label{fig:incorrectcandidate}}
+  \end{subfigure}
+  \caption{Example 2\label{fig:ex2}}
+\end{figure}
+
+\begin{minipage}{\linewidth}
+\begin{lstlisting}[mathescape,caption=An possible assignment for f, label=lst:invalidf]
+f={
+    g1,1$\mapsto$a, g1,2$\mapsto$b,g1,3$\mapsto$c,
+    g2,1$\mapsto$a, g2,d$\mapsto$b,g2,e$\mapsto$g
+}
+\end{lstlisting}
+\end{minipage}
+
+%\matthias{Find a convincing but small example}
+%\matthias{The moment to introduce the asp saturation technique}
 
 %\paragraph{ASP}
 %Let us describe a way to encode the problem into ASP. Conceptually we need to handle three constraints: matching of positive examples, not matching of negative examples and canonicity (that only not isomorphic graphs are produced).
 
 \subsubsection{Inductive Definitions}
-Beyond the Existential Second Order restriction, the IDP language is also extended with inductive definitions. These definitions, evaluated under the well-founded semantics, allows the derivation of negative knowledge that otherwise would be underivable. \matthias{Find a convincing but small example}
-\reversemarginpar
-\todo{A section about inductive definitions, and their use. (Being able to derive negative knowledge)}
+Beyond the Existential Second Order restriction, the IDP language is also extended with inductive definitions. These definitions, evaluated under the well-founded semantics, allows the derivation of negative knowledge that otherwise would be underivable.
+For example, in \textbf{Fig.}~\ref{fig:trans}, without using inductive definitions, one is unable to derive that point $a$ and $b$ are not connected.
+\begin{figure}[h]
+    \centering
+   \begin{tikzpicture}[scale=0.7]
+   \node[circle] at (2.2,0.7) {a};
+      \node[circle] at (1.8,2.5) {b};
+       \draw (1,1) -- (2.2,1) -- (2.7,2) -- cycle;
+       \draw (1,1.3) -- (1.8,2.3) -- (2.7,2.3) -- cycle;
+   \end{tikzpicture}
+\end{figure}
+%\reversemarginpar
+%\todo{A section about inductive definitions, and their use. (Being able to derive negative knowledge)}
 
 \subsection{Faithful encoding}
-\matthias{In this subsection, we show a new encoding and argue that it is more faithful to the problem with respect to the definition as given in Def~\ref{def:gm2}}
+\matthias{In this subsection, we show a new encoding and argue that it is more faithful to the problem with respect to the definition as given in Def~\ref{def:gm2}.}
 \begin{alltt}
   homomorphism(<Edge1, Label1>, <Edge2, Label2>) \(\iff\)
       \big(\(\exists\) f: (\(\forall\) x, y : x \(\neq\) y \(\Rightarrow\) f(x) \(\neq\) f(y)) \(\wedge\)
@@ -199,9 +284,6 @@ Beyond the Existential Second Order restriction, the IDP language is also extend
   \item cannot handle inductive definitions
   \item cannot handle different types of aggregates (? needs to be checked again)
 \end{itemize}
-
-\section{Related Work}
-\sergey{to be expanded}
 
 
 %\section{Feature Comparison}
