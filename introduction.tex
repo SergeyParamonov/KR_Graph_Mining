@@ -1,5 +1,4 @@
 \section{Introduction}
-\sergey{feel free to rephrase and correct me here, that's an early attempt to set up a story} 
 Frequent Pattern Mining, one of the ''super-problems`` in Data Mining, has received significant attention over the last years \citep{pattern_mining_book}. Pattern mining in its basic form is the task of enumerating patterns which occur frequently in a dataset.
 A first class of pattern mining is \emph{unstructured} mining, such as itemset mining, where the pattern is a set of items without any additional structural relation between the different items.
 This problem, in nature, is propositional.
@@ -10,11 +9,12 @@ Here, the items being mined exhibit additional structure, for example the edge r
 
 Recently, the declarative approach has been applied to unstructured mining. It has been a remarkable success: declarative models outperform all existing systems in terms of flexibility and expressivity, initially, there was a significant gap in the runtime performance between specialized algorithms and the CP formulation \citep{tias_original,mining_cp_extra}, however, the gap has been filled with the more developed systems such as MiningZinc \citep{tias_declarative_pattern_mining}. That suggests to apply declarative techniques to structured mining and graph mining in particular. This direction of research just started getting attention in the declarative modeling community \citep{cp_sequence_mining,ilp_graph_mining}. 
 
-From a knowledge representation and modeling point of view the problem of graph mining is way more complex and challenging than unstructured mining. And, in this case, knowledge representation has more to offer: a transparent, natural and extendable model satisfying The Principle of Elaboration Tolerance \citep{elaboration_tolerance}, where a variance of a problem can be modeled by adding or removing a constraint. Here the extendability becomes a crucial property since a lot of problem variations exist in graph mining \citep{gspan,theta_subsumption,subtree_overview}.
+From a knowledge representation and modeling point of view the problem of graph mining is way more complex and challenging than unstructured mining. And, in this case, knowledge representation has more to offer: a transparent, natural and extendable model satisfying The Principle of Elaboration Tolerance \citep{elaboration_tolerance}, where a variance of a problem can be modeled by adding or removing a constraint. 
 
 To indicate why the problem is more complex, let us informally introduce the problem. We need to enumerate all graphs, called \textit{patterns}, that often enough \textit{occur} in the positively labeled graphs and not too often in the negatively labeled. For most of the variations of graph mining even a single matching is already \textit{NP}-complete \citep{subtree_overview}, which implies that not matching is \textit{CoNP}-complete. The formulation is essentially second order. Also each pattern must also be a connected graph, therefore the inductive definability must be present in the language.  This only briefly slices the surface of complexity exhibited by the problem.
 
-Our main goal is to investigate the problem of graph mining from the knowledge representation perspective. We proceed from a theoretical to more pragmatical aspects with the following questions:
+Our main goal is to investigate the problem of graph mining from the knowledge representation perspective. We proceed from a theoretical to more pragmatical aspects with the following questions. More concretely, we will start from the mathematical model of graph mining, and propose models for the graph mining problem in IDP, ASP and ProB that are faithful to these mathematically rigorous model,
+answering the following questions along the way:
 \begin{itemize}
   \item[\Qone:]  How can we specify the problem in declarative language and what modeling primitives would be ideal?
   \item[\Qtwo:]  How this model can be implemented in the existing declarative logical systems such as ASP, Prob and IDP?
