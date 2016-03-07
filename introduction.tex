@@ -3,44 +3,22 @@
 Frequent Pattern Mining, one of the ''super-problems`` in Data Mining, has received significant attention over the last years \citep{pattern_mining_book}. Pattern mining in its basic form is the task of enumerating patterns which occur frequently in a dataset.
 A first class of pattern mining is \emph{unstructured} mining, such as itemset mining, where the pattern is a set of items without any additional structural relation between the different items.
 This problem, in nature, is propositional.
-%A first attempt to model this problem using declarative methods\cite{Tias2008}
 \citet{tias_original} have demonstrated how the \emph{itemset mining} problem can successfully be modeled in a declarative way using CP techniques.
 
 In recent years, focus has shifted from unstructured mining towards structured mining, such as graph or sequence mining.
-Here, the items being mined exhibit additional structure, for example the edge relation in the case of graph mining, or the order of elements in a sequence.
-Due to the success of declarative methods in unstructured mining \citep{tias_original,mining_cp_extra,tias_declarative_pattern_mining} and an adoption of the structured mining in applications \citep{pattern_mining_classification}, 
-structured mining has started getting attention from the declarative modeling community~\citep{cp_sequence_mining,ilp_graph_mining}.
+Here, the items being mined exhibit additional structure, for example the edge relation in the case of graph mining, or the order of elements in a sequence. Graph mining has many applications and one of them is the preprocessing step for the machine learning algorithms. Machine learning algorithms are designed to work with numeric data and cannot handle relational data natively. Graph mining is used to transform graph data into a numeric representation suitable for the learning algorithms~\citep{pattern_mining_classification}. Many variations of the graph mining problems exist \citep{subtree_overview} and many algorithms have been developed \citep{gspan,theta_subsumption}.
 
-In this paper, we look at \emph{graph mining} motivated by its usage in applications, for example, for feature construction:
-machine learning methods are designed to work with numeric data, and can not handle structured data natively, therefore they use graph mining to transform graph data into numerically representable features for these algorithms~\citep{pattern_mining_classification}.
+Recently, the declarative approach has been applied to unstructured mining. It has been a remarkable success: declarative models outperform all existing systems in terms of flexibility and expressivity, initially, there was a significant gap in the runtime performance between specialized algorithms and the CP formulation \citep{tias_original,mining_cp_extra}, however, the gap has been filled with the more developed systems such as MiningZinc \citep{tias_declarative_pattern_mining}. That suggests to apply declarative techniques to structured mining and graph mining in particular. This direction of research just started getting attention in the declarative modeling community \citep{cp_sequence_mining,ilp_graph_mining}. 
 
-Structured mining, and graph mining in particular, lends itself to a declarative approach, as this easily accommodates multiple existing versions of a problem with minimal adjustment to the modeling.
-In the most general case of graph mining there are two forms of matching graphs to one another that are commonly used: homomorphism \citep{theta_subsumption} and subgraph isomorphism \citep{gspan}.
-If we restrict the class of graphs to trees, then we observe many other forms of matching~\citep{subtree_overview}.
-%as we are looking for the most generic case, we will focus on the most generic form of matching ...
+From a knowledge representation and modeling point of view the problem of graph mining is way more complex and challenging than unstructured mining. And, in this case, knowledge representation has more to offer: a transparent, natural and extendable model satisfying The Principle of Elaboration Tolerance \citep{elaboration_tolerance}, where a variance of a problem can be modeled by adding or removing a constraint. Here the extendability becomes a crucial property since a lot of problem variations exist in graph mining \citep{gspan,theta_subsumption,subtree_overview}.
 
-%A main motivation for the declarative approach is that it easily accommodates multiple existing versions of a problem with minimal adjustment to the modelling.
-%One such example are the different forms of homomorphism checks in graph mining~\cite{}
-%under the same roof 
+To indicate why the problem is more complex, let us informally introduce the problem. We need to enumerate all graphs, called \textit{patterns}, that often enough \textit{occur} in the positively labeled graphs and not too often in the negatively labeled. For most of the variations of graph mining even a single matching is already \textit{NP}-complete \citep{subtree_overview}, which implies that not matching is \textit{CoNP}-complete. The formulation is essentially second order. Also each pattern must also be a connected graph, therefore the inductive definability must be present in the language.  This only briefly slices the surface of complexity exhibited by the problem.
 
-
-% p Using CP techniques, the first succesful attempts at modelling the itemset mining problem in a declarative way
-%A first declarative model for itemset mining using CP techniques\cite{Tias2008} proved succesful.
-
-%Especially useful in applications has turned out to be structured mining such as graph mining, where one is looking for sub-structures that often occur in the data, e.g., a graph that is a subgraph of many graphs in the dataset.
-%Recently, there is a line of work towards declarative pattern mining \citep{tias_declarative_pattern_mining} and today we look into declarative structured pattern mining that just started receiving attention in both data mining and knowledge representation communities \citep{cp_sequence_mining,ilp_graph_mining}. A main motivation for this approach is that it can accommodate multiple version of a problem under the same roof (such as different forms of homomorphism checks in graph mining) .
-
-
-%\matthias{We still need to mention the different types of homomorphism/isomorphisms.}There are two most common ``matching'' notions in structured pattern mining: in ILP literature they are $\theta$-subsumption and OI-subsumption and in Data Mining literature they are known as homomorphism and subgraph isomorphism \citep{jan_ramon}. \sergey{I am not sure where to put it exactly but not in the introduction}
-
-
-Our main goal is to investigate the problem of graph mining from the knowledge representation perspective and more concretely we are going to look in the following questions:
+Our main goal is to investigate the problem of graph mining from the knowledge representation perspective. We proceed from a theoretical to more pragmatical aspects with the following questions:
 \begin{itemize}
-  \item[\Qone:]   What is the logical model of the frequent graph mining problem?
-  \item[\Qtwo:]   How this model can be implemented in the existing logic programming languages?
-  \item[\Qthree:] Do all necessary concepts and primitives already present in the existing logic programming languages?
+  \item[\Qone:]  How can we specify the problem in declarative language and what modeling primitives would be ideal?
+  \item[\Qtwo:]  How this model can be implemented in the existing declarative logical systems such as ASP, Prob and IDP?
+  \item[\Qthree:] Do these encodings correspond to the theoretical specification or is there a mismatch between them?
 \end{itemize}
 
-\sergey{we need a smooth transition here or should we just start a new section like ``formalization''?}
-
-
+The paper is structured as follows Section \ref{sec:formalization} addresses Question: it introduces the formalization of graph mining in logic, \sergey{todo: make paper structure here with references to questions}
