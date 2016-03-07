@@ -3,13 +3,6 @@ rewrites of some issues and additional sections
 Before we try to model the graph mining problem, we first formulate a comprehensive formal definition of the graph mining problem as a whole, and all its different components.
 
 \begin{definition}
-\label{def:GM1}
-Given a pair $\triple{\graphset{E}_{+},\graphset{E}_{-}}$ consisting of a set of \emph{positive} and \emph{negative} examples of \emph{labeled graphs}, respectively,
-\emph{Graph mining} is the problem of finding one \emph{connected labeled graph} $\graph{P}$, called a \emph{pattern},
-that is \emph{homomorphic} with at least $N_{+}$ positive, while homomorphic with at most $N_{-}$ negative examples.
-\end{definition}
-
-\begin{definition}
 A graph $\graph{G} = \triple{V,E,l}$, where $V$ is the set of vertices, $E$ the set of edges and $l$ the labeling function, is \emph{connected} iff for each pair of vertices $v$ and $v'$ in $V$, there exists an edge $\pair{v,v'} \in E$ or there exists a sequence $v \ldots v_{1} \ldots v_{n} \ldots v'$ such that there exist edges $\pair{v,v_{1}}$, $\pair{v_{i},v_{i+1}}$ and $\pair{v_{n},v'} \in E$.
 \end{definition}
 
@@ -21,6 +14,13 @@ A graph homomorphism $f$ from labeled graph $\graph{G} = (V,E,l)$ to $\graph{G}'
 \item $\forall v \in V : l(v) = l(f(v))$ (the mapping respects labelings).
 \end{itemize}
 If there exists such a graph homomorphism from graph $\graph{G}$ to $\graph{G'}$ we say $\graph{G}$ is \emph{homomorphic} with $\graph{G'}$.
+\end{definition}
+
+\begin{definition}
+\label{def:GM1}
+Given a pair $\triple{\graphset{E}_{+},\graphset{E}_{-}}$ consisting of a set of \emph{positive} and \emph{negative} examples of \emph{labeled graphs}, respectively,
+\emph{Graph mining} is the problem of finding one \emph{connected labeled graph} $\graph{P}$, called a \emph{pattern},
+that is \emph{homomorphic} with at least $N_{+}$ positive, while homomorphic with at most $N_{-}$ negative examples.
 \end{definition}
 
 \begin{figure}[h]
@@ -69,7 +69,7 @@ If there exists such a graph homomorphism from graph $\graph{G}$ to $\graph{G'}$
     }
     \caption{Pattern Candidates\label{fig:candidates}}
   \end{subfigure}
-  \caption{Example 1:\label{fig:ex1}}
+  \caption{A graph mining instance ($N_{+}=1, N_{-}=0$) with pattern candidates.\label{fig:ex1}}
 \end{figure}
 
 %    \begin{tikzpicture}[scale=.5]
@@ -87,9 +87,9 @@ Take, for example, the problem set shown in Figure~\ref{fig:ex1}.
 There is one positive example (Fig~\ref{fig:pos}), and one negative example (Fig~\ref{fig:neg})
 We assume all nodes have the same label.
 Figure \ref{fig:candidates} shows a valid and an invalid pattern.
-Requiring at least one homomorphism with a positive example, and allowing no homomorphisms with negative examples (i.e. problem parameters $N_{+}=1$ and $N_{-}=0$), only Figure \ref{fig:correctcandidate} represents a valid pattern.
+Requiring at least one homomorphism with a positive example, and allowing no homomorphisms with negative examples (i.e. problem parameters $N_{+}=1$ and $N_{-}=0$), Figure \ref{fig:correctcandidate} represents a valid pattern.
 It is clear that there exists a mapping from each node from the valid pattern to a node of the positive example, while no such mapping exists for the negative example.
-Looking at Figure \ref{fig:correctcandidate}, this graph is clearly homomorphic with both the positive as well as the negative example. Therefore, it is not a pattern.
+Looking at Figure \ref{fig:incorrectcandidate}, this graph is clearly homomorphic with both the positive as well as the negative example. Therefore, it is not a pattern.
 
 \subsection{Canonical patterns}
 To extend on the graph mining task described above, we can look for multiple patterns, instead of just one.
@@ -146,7 +146,7 @@ By Definition~\ref{def:canonicalForm} only one of these two patterns can be the 
 
 \subsection{Rewording}
 %Given the mathematical definition of the graph mining problem above, w
-We want to study how this can be expressed in the logics underlying the IDP~\cite{} and the ProB~\cite{} system.
+We want to study how this formal mathematical definition can be expressed in the logics underlying the IDP~\cite{} and the ProB~\cite{} system.
 First, we will reword the earlier definition~\textbf{Def.}~\ref{def:GM1} into an equivalent formal definition that uses logical sentences and language constructs available in general logics.
 In doing this, it becomes evident that the graph mining problem has fundamental underlying characteristics that result in a higher order definition and specification.
 
@@ -156,7 +156,7 @@ In doing this, it becomes evident that the graph mining problem has fundamental 
 
 %First we introduce a new definition of the graph mining problem, equivalent to \textbf{Def.}~\ref{def:GM1}.
 As mentioned above, the vertices in the graph mining problem have no distinctive property, and can be reused between different example graphs and patterns.
-Therefore, we will assume one shared, sufficiently large set of vertices $V$ and represent example graphs over these vertices $V$ directly as a triple $\triple{Edge, Label, Class}$, consisting of an edge relation between $V$ and a labeling function over $V$, as well as a classification (positive/negative).
+Therefore, we will assume one shared, sufficiently large set of vertices $V$ and represent example graphs over these vertices $V$ directly as a triple $\triple{Edge, Label, Class}$, consisting of an (binary) edge relation on $V$ and a labeling function over $V$, as well as a classification (positive/negative).
 
 \begin{definition} \textbf{Graph Mining (redefined)}
 \label{def:gm2}
@@ -165,7 +165,7 @@ where $E$ and $l$ represent the edge relation and labeling function over $V$ res
 %which consist of an edge relation, 
 we look for a 
 %(set $\graphset{P}$ of) \todo{cleanly extend this definition to multiple graphs, or separate the single and multiple pattern case again}
-graph represented by tuple $\triple{E_{\graph{P}}, l_{\graph{P}}}$ such that:
+graph \graph{P} represented by tuple $\triple{E_{\graph{P}}, l_{\graph{P}}}$ such that:
 %for at least $N_{+}$ of the triples $\triple{ E, l, C}$ with $C=Pos$, and for at most $N_{-}$ of such triples with $C=Neg$, there exists a function $f$ s.t. $\forall u,v \in V, \pair{u,v} \in E_{p} \implies \pair{f(u),f(v)} \in E$ and $\forall v \in V : l_{p}(v) = l(f(v))$.
 
 \todo{draft: possible different wording}
@@ -177,10 +177,10 @@ graph represented by tuple $\triple{E_{\graph{P}}, l_{\graph{P}}}$ such that:
 \end{definition}
 
 \begin{definition} \textbf{Canonical Patterns}
-A set of \emph{canonical patterns} is a set $\graphset{P}$ of graphs $\graph{P}_{i}$, such that for each $\graph{P}_{i}, \graph{P}_{j}$ holds that there does not exist an $f$ that represents an isomorphism between $\graph{P}_{i}$ and $\graph{P}_{j}$.
+A set of \emph{canonical patterns} is a set $\graphset{P}$ of graphs $\graph{P}_{i}$, such that for each pair of different elements(of \graphset{P}) $\graph{P}_{i}, \graph{P}_{j}$ holds that there does not exist an $f$ that represents an isomorphism between $\graph{P}_{i}$ and $\graph{P}_{j}$.
 \end{definition}
 
-As evidenced from the definitions above, graphs are the main concept in the graph mining problem, and, as a triple $\triple{V,l,c}$ are inherent \emph{higher order objects}.
+As evidenced from the definitions above, graphs are the main concept in the graph mining problem, and, when represented using a triple $\triple{E,l,c}$ are inherent \emph{higher order objects}.
 A set of graphs, such as the argument of the cardinality operator above or the set of example graphs $\graphset{G}$, is equivalent to a set of triples.
 The most straightforward representation of such a set would therefore be a ternary predicate.
 As the domains of this predicate range over predicates and functions, this predicate would be a higher order predicate.
