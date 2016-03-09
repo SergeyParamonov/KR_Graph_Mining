@@ -1,6 +1,6 @@
 vocabulary Vout{
   type node isa nat
-  invar(node)
+  inpattern(node)
 }
 
 vocabulary V{
@@ -9,7 +9,7 @@ vocabulary V{
   type label
   
   pattern_in(graph)
-  node_label(graph, node, label)
+  label(graph, node, label)
   t_label(node,label)
   edge(graph, node, node)
   threshold:int

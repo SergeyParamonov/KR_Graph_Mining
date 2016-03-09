@@ -16,23 +16,23 @@ theory Positive:V_Pos{
    #{ graph : pattern_in(graph) } >= threshold.
 
    // homoropshism definition
-   pattern_in(g) & invar(x)  <=> ? y: y=f(g,x).
+   pattern_in(g) & inpattern(x)  <=> ? y: y=f(g,x).
 
 	 //injectivy
-   pattern_in(g) & invar(x) & invar(y) & x ~= y => f(g, x) ~= f(g, y).
-   pattern_in(g) & invar(x) & invar(y) & t_edge(x,y) => edge(g,f(g,x), f(g,y)).
-   pattern_in(g) & invar(x) & t_label(x,lx) => node_label(g,f(g,x),lx).
+   pattern_in(g) & inpattern(x) & inpattern(y) & x ~= y => f(g, x) ~= f(g, y).
+   pattern_in(g) & inpattern(x) & inpattern(y) & t_edge(x,y) => edge(g,f(g,x), f(g,y)).
+   pattern_in(g) & inpattern(x) & t_label(x,lx) => label(g,f(g,x),lx).
 
    {
-     path(x,y) <- t_edge(x,y) & invar(x) & invar(y).
+     path(x,y) <- t_edge(x,y) & inpattern(x) & inpattern(y).
      path(y,x) <- path(x,y).
-     path(x,y) <- ?z: path(x,z) & t_edge(z,y) & invar(y).
+     path(x,y) <- ?z: path(x,z) & t_edge(z,y) & inpattern(y).
    }
 
-   !x y : x ~= y & invar(x) & invar(y) => path(x,y).
+   !x y : x ~= y & inpattern(x) & inpattern(y) => path(x,y).
 
-    ?>1x: invar(x). // consider models with at least one edge
+    ?>1x: inpattern(x). // consider models with at least one edge
 
  // Prevent previous solution.
-//  ?x: ((invar(x) & x ~=x1 & x ~=x2 & x ~=x3 & x ~=x4 & x ~=x5) | (~invar(x) & (x =x1 | x =x2 | x =x3 | x =x4 | x =x5))).
+//  ?x: ((inpattern(x) & x ~=x1 & x ~=x2 & x ~=x3 & x ~=x4 & x ~=x5) | (~inpattern(x) & (x =x1 | x =x2 | x =x3 | x =x4 | x =x5))).
 }

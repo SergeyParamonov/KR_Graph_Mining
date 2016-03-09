@@ -3,12 +3,17 @@ rewrites of some issues and additional sections
 Before we try to model the graph mining problem, we first formulate a comprehensive formal definition of the graph mining problem as a whole, and all its different components.
 
 \begin{definition}
-A graph $\graph{G} = \triple{V,E,l}$, where $V$ is the set of vertices, $E$ the set of edges and $l$ the labeling function, is \emph{connected} iff for each pair of vertices $v$ and $v'$ in $V$, there exists an edge $\pair{v,v'} \in E$ or there exists a sequence $v \ldots v_{1} \ldots v_{n} \ldots v'$ such that there exist edges $\pair{v,v_{1}}$, $\pair{v_{i},v_{i+1}}$ and $\pair{v_{n},v'} \in E$.
+A labeled graph \graph{G} is a triple $\triple{V,E,l}$ where $V$ is the set of vertices or nodes, $E$ is a binary predicate on $V$ that represents the set of edges and $l$ is a unary function from $V$ to a set of labels.
 \end{definition}
 
 
 \begin{definition}
-A graph homomorphism $f$ from labeled graph $\graph{G} = (V,E,l)$ to $\graph{G}' = (V',E',l')$, where $V$ is the set of vertices, $E$ the set of edges and $l$ the labeling function, is an injective mapping f : $V \rightarrow V'$ from vertices of $\graph{G}$ to vertices of $\graph{G'}$ s.t. 
+A graph $\graph{G} = \triple{V,E,l}$ is \emph{connected} iff for each pair of vertices $v$ and $v'$ in $V$, there exists an edge $\pair{v,v'} \in E$ or there exists a sequence $v \ldots v_{1} \ldots v_{n} \ldots v'$ such that there exist edges $\pair{v,v_{1}}$, $\pair{v_{i},v_{i+1}}$ and $\pair{v_{n},v'} \in E$.
+\end{definition}
+
+
+\begin{definition}
+A graph homomorphism $f$ from labeled graph $\graph{G} = (V,E,l)$ to $\graph{G}' = (V',E',l')$ is an injective mapping f : $V \rightarrow V'$ from vertices of $\graph{G}$ to vertices of $\graph{G'}$ such that:
 \begin{itemize}
 \item $\forall u,v \in V, \pair{u,v} \in E \implies \pair{f(u),f(v)} \in E'$ (the mapping preserves edges), and 
 \item $\forall v \in V : l(v) = l(f(v))$ (the mapping respects labelings).
