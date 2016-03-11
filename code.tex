@@ -1,12 +1,16 @@
 \section{Code in ProB, IDP, ASP}\label{sec:code}
 \matthias{This is the working ProB code that we'll show as an example}
+In this section, the graph mining problem is slightly modified: we now restrict the search for a pattern to graphs that are a subgraph of a given \emph{template} graph.
+The declarative approach allows us to implement such a modification with only minimal effort.
 \VerbatimInput{original_prob_files/PositiveAndNegative.mch}
 \pagebreak
 
-\matthias{This is the positive constraint expressed in idp}
 
+\matthias{This is the procedural tie-in code.}
 \VerbatimInput[label=The main merged theory]{IDPencoding/Merged.idp}
+\matthias{This is the positive constraint expressed in idp}
 \VerbatimInput[label=IDP positive encoding]{IDPencoding/PositiveInfo.idp}
+\matthias{These are the negative constraints (negative homomorphism property and isomorphism restriction) expressed in idp}
 \VerbatimInput[label=IDP negative encoding]{IDPencoding/NegativeInfo.idp}
 
 \lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}

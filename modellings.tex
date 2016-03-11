@@ -14,7 +14,7 @@ This corresponds to the implicit \emph{existential quantification} of all symbol
 
 In conclusion, we say IDP can express model expansion for \emph{Existential Second Order} problems.
 This level of expressiveness is not sufficient for GM.
-We will discuss the several issues in the following sections.
+We will discuss the several issues in the remainder of this section.
 
 \begin{lstlisting}[mathescape,basicstyle=\fontfamily{lmvtt}\selectfont,caption=\ldots, label=lst:vocabularyExample]
 Vocabulary V{
@@ -47,11 +47,13 @@ First, we must represent the set of example graphs, as specified in \textbf{Def.
 This definition uses a higher order predicate, as shown in \textbf{Listing}~\ref{lst:HOPred}. 
 It represents a single graph as a tuple of predicates and functions, visualised in \textbf{fig.}~\ref{fig:LocalCoherence} as the solid shape.
 It is clear that this representation is highly locally coherent, and preserves the independence of graph characteristics.
-However, as we are restricted to \emph{Existential} Second Order, we cannot express this higher order predicate.
+However, as we are restricted to \emph{Existential} Second Order, we cannot express this higher order predicate in IDP.
 
-One possible solution is to replicate for each graph the different characteristic predicates and functions, as well as the knowledge (theory) about them, as shown
+One possible solution is to replicate for each graph the different characteristic predicates and functions, as shown
 in \textbf{Listing}~\ref{lst:multiglobal} and visualised as the dashed shape in \textbf{Fig.}~\ref{fig:LocalCoherence}.
 This way of representing the information about graphs is shown in Listing~\ref{lst:multiglobal}.
+Because now every example graph has a differently named edge relation and labeling function, it is necessary to duplicate the knowledge about these example graphs and their relations as well: we cannot abstract \matthias{generalize} over the names of these edge relations and labeling functions.
+
 It is clear that this solution is undesirable due to the way it scales and the editing needed with growing problem instances.
 It retains the local coherence and independence of graph characteristics when it comes to data representation, but prohibits the abstraction (generalization) of knowledge about these properties, as evidenced by our obligation to duplicate the theory for each graph.
 
@@ -60,8 +62,8 @@ It retains the local coherence and independence of graph characteristics when it
 GraphInst({(1,2),(2,1)},{1$\mapsto$a,2$\mapsto$b},pos).
 GraphInst({(1,3),(2,1)},{1$\mapsto$c,2$\mapsto$b,3$\mapsto$a},neg).
 \end{lstlisting}
-\begin{minipage}[t]{0.5\linewidth}
-\begin{lstlisting}[mathescape,caption=Multiple global relations,label=lst:multiglobal]
+\begin{minipage}[t]{0.45\linewidth}
+\begin{lstlisting}[mathescape,caption=Multiple individual global relations,label=lst:multiglobal]
 E1(1,2). lb1(1)=a.
 E1(2,1). lb1(2)=b.
 E2(1,3). lb2(1)=c.
@@ -69,7 +71,10 @@ E2(2,1). lb2(2)=b.
          lb2(3)=a.
 \end{lstlisting}
 \end{minipage}
-\begin{minipage}[t]{0.5\linewidth}
+\begin{minipage}[t]{0.1\linewidth}
+ ~
+\end{minipage}
+\begin{minipage}[t]{0.45\linewidth}
 \begin{lstlisting}[mathescape,caption=Disjoint union using indexed global relations,label=lst:indexedglobal]
 E(g1,1,2). lb(g1,1)=a.
 E(g1,2,1). lb(g1,2)=b.
@@ -82,10 +87,10 @@ E(g2,2,1). lb(g2,2)=b.
 
 
 
-A more workable solution is to represent each characteristic property, such as the edge relation, by a single general relation for all graphs, as shown in \textbf{Listing}~\ref{lst:indexedglobal} and by the dotted shape in \textbf{Fig.}~\ref{fig:LocalCoherence}.
+A more workable solution is to represent each characteristic property, such as the edge relation, by a single global relation for all graphs, as shown in \textbf{Listing}~\ref{lst:indexedglobal} and by the dotted shape in \textbf{Fig.}~\ref{fig:LocalCoherence}.
 This relation behaves the way it should for a specific graph instance based on an additional argument serving as an identifier for the graph of interest.
 %This gives rise to a set $G$ of \emph{graph identifiers}, one for each example graph.
-This general relation now corresponds to the \emph{disjoint} or \emph{tagged union} of the graphs' relations, where the tags are drawn from a set $G$ consisting of graph identifiers.
+This global relation now corresponds to the \emph{disjoint} or \emph{tagged union} of the graphs' relations, where the tags are drawn from a set $G$ consisting of graph identifiers.
 It is clear that this representation forces us to give up the local coherence of graph characteristics that was present in \textbf{Def.}~\ref{def:gm2}: 
 %Nu kunnen we kijken wat deze truuk doet met onze mogelijkheid om de abstraction van de theory uit te drukken. Normaal mwillen we dit zo schrijven. Hoewel we nu de generalisatie kunnen uitdrukken, verplicht de restrictie tot existentieel s..o ons om de homomorphic mapping functies te tot een globale property te promoveren, hoewel we feitelijk niet geinteresseerd zijn in de concrete mappings. om om te gaan met de afhankelijkheid van deze functies op de spec. vb grafen moeten we... die nu erg lijkt op skolemisation. theory
 
@@ -97,8 +102,8 @@ But can we now express the abstraction (generalization) of knowledge about these
 %Furthermore, the restriction to ESO requires us 
 %As an example, we illustrate this trick by showing on the expression of the positive homomorphic property, where it greatly resembles Skolemization.
 As evidenced in \textbf{Def.}~\ref{def:gm2}, normally one would express the positive homomorphic property by quantifying (counting) over all graphs, requiring the existence of a function with the correct properties.
-Using the disjoint union representation does not influence our ability to express this restriction: Instead of quantifying over the graphs themselves, we can now quantify over the set $G$ of graph identifiers.
-
+Using the disjoint union representation, we can quantify over the set $G$ of graph identifiers instead of over the actual graphs.
+Therefore, this representation allows us to express this restriction.
 \begin{figure}[h]
 \centering
 \begin{tabular}{l |l l l}
@@ -135,7 +140,7 @@ $\graph{G}_{n}$  & $E_{n}$ & $l_{n}$ & pos\\
 %Having solved\matthias{circumvented?} our first issue, 
 Next, we would like to express the homomorphic property.
 This can be done using a count aggregate, as shown in Listing~\ref{lst:QuantifyOutsideVocabulary}.
-First we express the set of all eample graphs to whom there exists a homomorphism from our pattern.
+First we express the set of all example graphs to whom there exists a homomorphism from our pattern.
 % generate the set of all example graphs to whom we can find a homomorphism from our pattern.
 We do this by quantifying over all example graphs g or, per \textbf{issue 1}, their identifiers, and subsequently 
 expressing the condition under which they are part of this set: i.e. that there must exist a function f that represents a homomorphism from our pattern graph $p$ to $g$.
@@ -158,27 +163,37 @@ Note that this encoding also requires us to make this function \verb|f| partial,
 %\todo{Of course, other (even uglier) schemes exist to encode this. Should we mention this?}
 
 
-\paragraph{Issue 3} Much in the same way, limiting ourselves to existential second order prohibits us from expressing the negative constraint on homomorphism (No more than $N_{-}$ negative examples are homomorphic) in the same model.
-In fact, the negative constraint asserts a property for all candidate homomorphic functions, which would lead to \emph{universal} quantification.
+\paragraph{Issue 3} Much in the same way, limiting ourselves to existential second order prohibits us from expressing the negative homomorphic property (the pattern is homomorphic with no more than $N_{-}$ negative examples) in the same model.
+In fact, the negative homomorphic constraint asserts a property for all candidate homomorphic functions, which would lead to \emph{universal} quantification.
 Therefore, our only recourse is to encode its dual positive constraint and require it to fail when queried.
 
 Take, for example, the pattern candidate and positive and negative example graphs from \textbf{Fig.}~\ref{fig:ex2}.
 Assume all nodes have the same label.
-With parameters $N_{+}=1$ and $N_{-}=0$, this pattern candidate is clearly an invalid pattern. 
-It is homomorphic with both the positive and the negative example.
-But because we now look for one general (Skolemized) homomorphic function, we can choose a single global function which represents a homomorphism with the positive example graph, but not with the negative example graph.
+With parameters $N_{+}=1$ and $N_{-}=0$, this pattern candidate is clearly an invalid pattern: It is homomorphic with both the positive and the negative example.
+Suppose we express the negative homomorphic property directly, changing only the comparison operator used on the count aggregate from $\geq$ to $\leq$.
+Because we now look for one general (Skolemized) homomorphic function, we can choose a single global function which represents a homomorphism with the positive example graph, but not with the negative example graph.
 An example of such a solution is shown in Listing~\ref{lst:invalidf}.
 
-ASP, a language family closely related to IDP, can prevent these kind of models by leveraging the minimality property of their models: ASP looks for the minimal answer set models.
-As a consequence, ASP can detect negative example graphs for which the f does not represent a homomorphism, and 
-require for these example graphs that $f$ must map every node of the pattern on every node of that example graph, dropping the injectivity constraint.
+If we want to prevent these invalid models, we must encode the dual positive constraint, and require it to fail. 
+However, to do this in IDP, we need another theory and provide procedural (lua) code that ties these theories and their inferences together. 
+It must pass models from the theory that asserts the positive property to the theory that checks the negative property. This procedural code is clearly not declarative.
+In much the same way, IDP cannot express the isomorphism restriction when looking for multiple patterns: if needed, this restriction is transformed into a dual positive restriction (there \emph{must} be an isomorphism) and is required to fail as well. These two theories expressing the dual of the negative homomorphism property and that of the isomorphism restriction can safely be merged.
+
+
+\textbf{ASP}, a language family closely related to IDP, can prevent the invalid models of the example above by leveraging the minimality property of their models: ASP looks for the minimal answer set models, whereas idp looks for well-founded models.
+This technique is called the \emph{saturation} technique~\ref{eiter} and can prevent the procedural code that IDP requires.
+
+When using this technique, ASP detects negative example graphs for which the f does not represent a homomorphism, and 
+requires for these example graphs that $f$ must map every node of the pattern on every node of that example graph, dropping the injectivity constraint.
 This way, $f$ becomes so large that it is impossible that it belongs to the minimal answer set unless there is no homomorphism from the pattern to this (negative) example graph.
 Consequently, the minimality property will cause the solver to look for an $f$ that represents a homomorphism for as many example graphs (including negatives) as possible.
+The same technique can be applied to the isomorphism restriction.
  %requiring that in this case f must be the total relation
 %accordingly enlarging the answer set by requiring that in these cases f must be the \emph{total} relation for this graph, the minimality property will cause the solver to look for $f$ that represent a homomorphism for as many example graphs (including negatives) as possible.
-This technique, which would allow us the express the negative property in the same model is called the \emph{saturation} technique~\ref{eiter}.
-It is clear however that this technique is not derived from a natural KR translation of the Graph Mining definition.
-\matthias{Also, it forces to look for homomorphisms for every negative example graph, whereas $N_{-}$ + 1 example graphs are enough. Quite possible that there's a workaround for this however.}
+
+
+While this technique succesfully prevents the need of a procedural loop and the rewriting of the negative homomorphic property and the isomorphism restriction, it is clear that this technique is not derived from a natural KR translation of the Graph Mining definition.
+\matthias{Also, it forces to look for homomorphisms for every negative example graph, whereas $N_{-}$ + 1 example graphs are enough. Quite possible that there is a workaround for this however.}
 \begin{figure}
   \centering
   \begin{subfigure}[b]{0.3\textwidth}
@@ -255,44 +270,25 @@ For example, in \textbf{Fig.}~\ref{fig:trans}, without using inductive definitio
 %\reversemarginpar
 %\todo{A section about inductive definitions, and their use. (Being able to derive negative knowledge)}
 
-\subsection{Faithful encoding}
-\matthias{In this subsection, we show a new encoding and argue that it is more faithful to the problem with respect to the definition as given in Def~\ref{def:gm2}.}
-\begin{alltt}
-  homomorphism(<Edge1, Label1>, <Edge2, Label2>) \(\iff\)
-      \big(\(\exists\) f: (\(\forall\) x, y : x \(\neq\) y \(\Rightarrow\) f(x) \(\neq\) f(y)) \(\wedge\)
-      (\(\forall\) x, y : Edge1(x, y) \(\implies\) Edge2(f(x), f(y))) \(\wedge\)
-      (\(\forall\) x : Label1(x) = Label2(f(x)))\big)
+\subsubsection{Other inferences}
+One of the advantages of IDP is its underlying \emph{Knowledge Base} paradigm~\ref{}.
+Essentially, this paradigm ensures that we can perform other inferences on the graph mining problem, e.g. finding patterns with as many or as few nodes as possible, without modifying the specification.
 
-  isomorph(<Edge1, Label1>,<Edge2, Label2>) \(\iff\)
-      \big(\(\exists\)f : (\(\forall\)x,y:x\(\neq\)y\(\implies\)f(x)\(\neq\)f(y)) \(\wedge\)
-      (\(\forall\) x, y : Edge1(x, y) \(\iff\) Edge2(f(x), f(y))) \(\wedge\)
-      (\(\forall\) x : Label1(x) = Label2(f(x)))\big).
-
-  \textbraceleft
-  reachable(x, y, Edge) \(\leftarrow\) Edge(x, y) \(\lor\) Edge(y, x).
-  reachable(x, y, Edge) \(\leftarrow \exists\) : reachable(x, z, Edge) \(\wedge\) reachable(z, y, Edge).
-  \textbraceright
-
-  //\(\forall\)Pat represents quantification over a predicate Pat/2. 
-  //A pattern is represented by its Edge relation. 
-  \(\forall\)P : pattern(P) \(\implies\) #\textbraceleft Pos : positive(Pos) \(\wedge\) homomorphism(P, Pos) \textbraceright \(\geq\) \(N{+}\).
-  \(\forall\)P : pattern(P) \(\implies\) #\textbraceleft Neg : negative(Neg) \(\wedge\) homomorphism(P, Neg) \textbraceright \(\leq\) \(N_\).
-  \(\forall\)P,P2 : pattern(P)\(\wedge\)pattern(P2)\(\wedge\)P\(\neq\)P2 \(\iff\) \(\neg\)isomorph(P, P2).
-
-\end{alltt}
 \reversemarginpar
 
 \subsection{ProB}
 
 \textbf{Pro:}
 \begin{itemize}
-  \item can model negative case
-  \item can model subgraph isomorphism independence
+  \item Using ProB's support for higher order, it is possible to quantify over the functions $f$ that represent homorphisms locally, in the context of the set of homomorphic positive (negative) examples.
+  Because these are now quantified locally, the solver will find a homorphism, if possible, regardless of whether we are expressing the positive or negative homomorphism property.
+  As a result, ProB can model the negative homomorphism property directly, without the need for a second theory and procedural tie-in code.
+  The same reasoning allows ProB to model the isomorphism restriction when looking for multiple patterns.
 \end{itemize}
 \textbf{Cons:}
 \begin{itemize}
-  \item cannot handle inductive definitions
-  \item cannot handle different types of aggregates (? needs to be checked again)
+  \item ProB cannot handle inductive definitions. 
+  This makes it difficult to model the connectedness requirement of patterns.
 \end{itemize}
 
 
