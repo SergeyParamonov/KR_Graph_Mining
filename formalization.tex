@@ -1,14 +1,15 @@
 \section{Formalization of the graph mining problem}\label{sec:formalization}
+
+\subsection{Patterns}
 We start with a comprehensive formal definition of the graph mining problem.
 
-
 \begin{definition}
-A labeled graph \graph{G} is a triple $\triple{V,E,l}$ where $V$ is the set of vertices or nodes, $E$ is a binary predicate on $V$ that represents the set of edges and $l$ is a unary function from $V$ to a set of labels.
+A labeled graph \graph{G} is a triple $\triple{V,E,l}$ where $V$ is the finite set of vertices or nodes, $E$ is a binary predicate on $V$ that represents the set of edges and $l$ is a unary function from $V$ to a set of labels.
 \end{definition}
 
 
 \begin{definition}
-A graph $\graph{G} = \triple{V,E,l}$ is \emph{connected} iff for each pair of vertices $v$ and $v'$ in $V$, there exists an edge $\pair{v,v'} \in E$ or there exists a sequence $v \ldots v_{1} \ldots v_{n} \ldots v'$ such that there exist edges $\pair{v,v_{1}}$, $\pair{v_{i},v_{i+1}}$ and $\pair{v_{n},v'} \in E$.
+A graph $\graph{G} = \triple{V,E,l}$ is \emph{connected} iff for each pair of vertices $v$ and $v'$ in $V$, there exists an edge $\pair{v,v'} \in E$ or there exists a sequence $v, v_{1} \ldots v_{n}, v'$ such that there exist edges $\pair{v,v_{1}}$, $\pair{v_{i},v_{i+1}}$ and $\pair{v_{n},v'} \in E$.
 \end{definition}
 
 
@@ -23,16 +24,25 @@ If there exists such a graph homomorphism from graph $\graph{G}$ to $\graph{G'}$
 
 \begin{definition}
 \label{def:GM1}
-Given a pair $\triple{\graphset{E}_{+},\graphset{E}_{-}}$ consisting of a set of \emph{positive} and \emph{negative} examples of \emph{labeled graphs}, respectively,
-\emph{Graph mining} is the problem of finding a \emph{connected labeled graph} $\graph{P}$, called a \emph{pattern},
-that is \emph{homomorphic} with at least $N_{+}$ positive, while homomorphic with at most $N_{-}$ negative examples. We call these homomorpishms the positive (negative) homomorphisms, and the restriction on their number the positive (negative) homomorphic property, respectively.
+Given a pair $\triple{\graphset{E}_{+},\graphset{E}_{-}}$ consisting of a set of \emph{positive} and \emph{negative} examples of \emph{labeled graphs} respectively, 
+and a graph $\graph{T}$ called the template,
+\emph{Graph mining} is the problem of finding a pattern $\graph{P}$ which is a \emph{connected labeled subgraph of $\graph{T}$}.
+This pattern $\graph{P}$ must be \emph{homomorphic} with at least $N_{+}$ positive, while being homomorphic with at most $N_{-}$ negative examples. We call these homomorpishms the positive (negative) homomorphisms, and the restriction on their number the positive (negative) homomorphic property, respectively.
 \end{definition}
+
+\tikzstyle{vertex} = [circle, fill=black, radius=1pt, inner sep=0pt, minimum size=3pt]
 
 \begin{figure}[h]
   \centering
-  \begin{subfigure}[b]{0.3\textwidth}
+  \begin{subfigure}[b]{0.45\textwidth}
     \centering
     \begin{tikzpicture}[scale=.5]
+      \node[vertex] (a) at (1,1) {};
+      \node[vertex] (b) at (2,1) {};
+      \node[vertex] (c) at (2.7,2) {};
+      \node[vertex] (d) at (2,3) {};
+      \node[vertex] (e) at (1,3) {};
+      \node[vertex] (f) at (0.3,2) {};
       \draw (1,1) -- (2,1) -- (2.7,2) -- (2,3) -- (1,3) -- (0.3,2) -- (1,1);
       \draw (1,1) -- (2,3);
       \draw (2.7,2) -- (0.3,2);
@@ -40,9 +50,13 @@ that is \emph{homomorphic} with at least $N_{+}$ positive, while homomorphic wit
     \caption{Positive Example\label{fig:pos}}
   \end{subfigure}
   ~
-  \begin{subfigure}[b]{0.3\textwidth}
+  \begin{subfigure}[b]{0.45\textwidth}
     \centering
     \begin{tikzpicture}[scale=.5]
+      \node[vertex] (a) at (0,0) {};
+      \node[vertex] (b) at (1,1) {};
+      \node[vertex] (c) at (2,0) {};
+      \node[vertex] (d) at (3,1) {};
       \coordinate (1) at (0,0);
       \coordinate (2) at (1,1);
       \coordinate (3) at (2,0);
@@ -51,14 +65,41 @@ that is \emph{homomorphic} with at least $N_{+}$ positive, while homomorphic wit
     \end{tikzpicture}
     \caption{Negative Example\label{fig:neg}}
   \end{subfigure}
+  \\
+  \begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=.5]
+      \node[vertex] (a) at (1,1) {};
+      \node[vertex] (b) at (2,1) {};
+      \node[vertex] (c) at (2.7,2) {};
+      \node[vertex] (d) at (2,3) {};
+      \node[vertex] (e) at (1,3) {};
+      \node[vertex] (f) at (0.3,2) {};
+      \node[vertex] (g) at (3,3) {};
+      \node[vertex] (h) at (3.7,3.7) {};
+      \draw (1,1) -- (2,1) -- (2.7,2) -- (2,3) -- (1,3) -- (0.3,2) -- (1,1);
+      \draw (1,1) -- (2,3);
+      \draw (2.7,2) -- (0.3,2);
+      \draw (1,3) -- (2,1);
+      \draw (2,3) -- (3,3) -- (3.7,3.7);
+    \end{tikzpicture}
+    \caption{Template \label{fig:templ}}
+  \end{subfigure}
   ~
-  \begin{subfigure}[b]{0.3\textwidth}
+  \begin{subfigure}[b]{0.45\textwidth}
     {
       \setcounter{subfigure}{0}
       \renewcommand\thesubfigure{\Roman{subfigure}}
       \centering
       \begin{subfigure}[b]{0.45\textwidth}
         \begin{tikzpicture}[scale=.5]
+          \node[vertex] (a) at (1,1) {};
+          \node[vertex] (b) at (2,1) {};
+          \node[vertex] (c) at (2.7,2) {};
+          \node[vertex] (d) at (2,3) {};
+          \node[vertex] (e) at (1,3) {};
+          \node[vertex] (f) at (0.3,2) {};
+          
           \draw (1,1) -- (2,1) -- (2.7,2) -- (2,3) -- (1,3) -- (0.3,2) -- (1,1);
           \draw (2,1) -- (1,3);
         \end{tikzpicture}
@@ -67,11 +108,15 @@ that is \emph{homomorphic} with at least $N_{+}$ positive, while homomorphic wit
       ~
       \begin{subfigure}[b]{0.45\textwidth}
         \begin{tikzpicture}[scale=.5]
+          \node[vertex] (a) at (1,2) {};
+          \node[vertex] (b) at (2,3) {};
+          \node[vertex] (c) at (3,3) {};
           \draw (1,2) -- (2,3) -- (3,3);
         \end{tikzpicture}
         \caption{Invalid\label{fig:incorrectcandidate}}
       \end{subfigure}
     }
+    \setcounter{subfigure}{3}
     \caption{Pattern Candidates\label{fig:candidates}}
   \end{subfigure}
   \caption{A graph mining instance ($N_{+}=1, N_{-}=0$) with pattern candidates.\label{fig:ex1}}
@@ -88,10 +133,11 @@ that is \emph{homomorphic} with at least $N_{+}$ positive, while homomorphic wit
 %              (4);
 %    \end{tikzpicture}, ...
 
-Take, for example, the problem set shown in Figure~\ref{fig:ex1}.
-There is one positive example (Fig~\ref{fig:pos}), and one negative example (Fig~\ref{fig:neg}).
-We assume all nodes have the same label.
-Figure \ref{fig:candidates} shows a valid and an invalid pattern.
+Take, for example, the problem set shown in Figure~\ref{fig:ex1}. We assume all nodes have the same label.
+There is one positive example (Fig~\ref{fig:pos}), and one negative example (Fig~\ref{fig:neg}). 
+Figure \ref{fig:templ} shows the template graph.
+Figure \ref{fig:candidates} shows a valid and an invalid pattern. 
+They are both connected subgraphs of the template.
 Requiring at least one homomorphism with a positive example, and allowing no homomorphisms with negative examples (i.e. problem parameters $N_{+}=1$ and $N_{-}=0$), Figure \ref{fig:correctcandidate} represents a valid pattern.
 It is clear that there exists a mapping from each node from the valid pattern to a node of the positive example, while no such mapping exists for the negative example.
 Looking at Figure \ref{fig:incorrectcandidate}, this graph is clearly homomorphic with both the positive as well as the negative example. Therefore, it is not a pattern.
@@ -103,7 +149,7 @@ For example, it stands to reason that one wants only \emph{canonical} solutions,
 
 \begin{definition}
 \label{def:isomorphism}
-A graph isomorphism $f$ between two labeled graph $\graph{G} = \triple{V,E,l}$ and $\graph{G'} = \triple{V',E',l'}$ is a \emph{one-to-one} mapping $V \rightarrow V'$ 
+A graph isomorphism $f$ between two labeled graphs $\graph{G} = \triple{V,E,l}$ and $\graph{G'} = \triple{V',E',l'}$ is a \emph{one-to-one} mapping $V \rightarrow V'$ 
 such that $f$ represents a homomorphism from $\graph{G}$ to $\graph{G'}$,
 and its inverse $f^{-1}$ represents a homomorphism from $\graph{G'}$ to $\graph{G}$.
 If there exist such graph isomorphisms between $\graph{G}$ and $\graph{G'}$ we say $\graph{G}$ and $\graph{G'}$ are \emph{isomorphic}.
@@ -118,7 +164,7 @@ As the vertices themselves have no distinctive property, it is possible, and eve
 \label{def:canonicalForm}
 Let $\graphset{G}$ be a set of graphs over a sufficiently large set of vertices $V$, closed under isomorphism.
 A function $c$ for which $\forall \graph{G,H} \in \graphset{G} : \graph{G} \simeq \graph{H} \iff c(\graph{G}) = c(\graph{H})$ and $\forall \graph{G} \in \graphset{G} : \graph{G} \simeq c(\graph{G})$ hold, is called a \emph{canonization}.
-The graph $c(\graph{G})$ is called the \emph{canonical form} w.r.t $c$, and is denoted by $\mathit{canon}(\graph{G})$.
+The graph $c(\graph{G})$ is called the \emph{canonical form} of $\graph{G}$ w.r.t $c$, and is denoted by $\mathit{canon}(\graph{G})$.
 \end{definition}
 
 \begin{figure}[h]
@@ -126,6 +172,13 @@ The graph $c(\graph{G})$ is called the \emph{canonical form} w.r.t $c$, and is d
   \begin{subfigure}[b]{0.45\textwidth}
     \centering
     \begin{tikzpicture}[scale=.5]
+      \node[vertex] (a) at (1,1) {};
+      \node[vertex] (b) at (2,1) {};
+      \node[vertex] (c) at (2.7,2) {};
+      \node[vertex] (d) at (2,3) {};
+      \node[vertex] (e) at (1,3) {};
+      \node[vertex] (f) at (0.3,2) {};   
+      
       \draw (1,1) -- (2,1) -- (2.7,2) -- (2,3) -- (1,3) -- (0.3,2) -- (1,1);
       \draw (2,1) -- (1,3);
     \end{tikzpicture}
@@ -135,6 +188,13 @@ The graph $c(\graph{G})$ is called the \emph{canonical form} w.r.t $c$, and is d
   \begin{subfigure}[b]{0.45\textwidth}
     \centering
     \begin{tikzpicture}[scale=.5]
+      \node[vertex] (a) at (1,1) {};
+      \node[vertex] (b) at (2,1) {};
+      \node[vertex] (c) at (2.7,2) {};
+      \node[vertex] (d) at (2,3) {};
+      \node[vertex] (e) at (1,3) {};
+      \node[vertex] (f) at (0.3,2) {};
+ 
       \draw (1,1) -- (2,1) -- (2.7,2) -- (2,3) -- (1,3) -- (0.3,2) -- (1,1);
       \draw (1,1) -- (2,3);
     \end{tikzpicture}
@@ -165,8 +225,8 @@ Therefore, we will assume one shared, sufficiently large set of vertices $V$ and
 
 \begin{definition} \textbf{Graph Mining (redefined)}
 \label{def:gm2}
-Given a sufficiently large set of vertices $V$, and a set $\graphset{G}$ of graphs over this vertex set $V$, represented by $\triple{E, l, c}$ triples
-where $E$ and $l$ represent the edge relation and labeling function over $V$ respectively,
+Given a sufficiently large set of vertices $V$, a set $\graphset{G}$ of graphs over this vertex set $V$, represented by $\triple{E, l, c}$ triples
+where $E$ and $l$ represent the edge relation and labeling function over $V$ respectively, and a template graph $\graph{T}$,
 %which consist of an edge relation, 
 we look for a 
 %(set $\graphset{P}$ of) \todo{cleanly extend this definition to multiple graphs, or separate the single and multiple pattern case again}
@@ -174,20 +234,21 @@ graph \graph{P} represented by tuple $\triple{E_{\graph{P}}, l_{\graph{P}}}$ suc
 %for at least $N_{+}$ of the triples $\triple{ E, l, C}$ with $C=Pos$, and for at most $N_{-}$ of such triples with $C=Neg$, there exists a function $f$ s.t. $\forall u,v \in V, \pair{u,v} \in E_{p} \implies \pair{f(u),f(v)} \in E$ and $\forall v \in V : l_{p}(v) = l(f(v))$.
 
 \begin{itemize}
-\item $\#\Big\lbrace \triple{E,l,pos} \in \graphset{G} \; | \; \exists f : \text{f is an homomorphism from \graph{P} to \triple{E,l,pos}} \Big\rbrace \geq N_{+}$
+\item $\graph{P}$ is a \emph{connected} subgraph of $\graph{T}$,
+\item $\#\Big\lbrace \triple{E,l,pos} \in \graphset{G} \; | \; \exists f : \text{f is an homomorphism from \graph{P} to \triple{E,l,pos}} \Big\rbrace \geq N_{+}$,
 
-\item $\#\Big\lbrace \triple{E,l,neg} \in \graphset{G} \; | \; \exists f : \text{f is an homomorphism from \graph{P} to \triple{E,l,neg}} \Big\rbrace \leq N_{-}$
+\item $\#\Big\lbrace \triple{E,l,neg} \in \graphset{G} \; | \; \exists f : \text{f is an homomorphism from \graph{P} to \triple{E,l,neg}} \Big\rbrace \leq N_{-}$.
 \end{itemize}
 \end{definition}
 
 \begin{definition} \textbf{Canonical Patterns}
-A set of \emph{canonical patterns} is a set $\graphset{P}$ of graphs $\graph{P}_{i}$, such that for each pair of different elements(of \graphset{P}) $\graph{P}_{i}, \graph{P}_{j}$ holds that there does not exist an isomorphism between $\graph{P}_{i}$ and $\graph{P}_{j}$.
+A set of \emph{canonical patterns} is a set $\graphset{P}$ of graphs $\graph{P}_{1},...,\graph{P}_{n}$, such that for each pair of different elements (of \graphset{P}) $\graph{P}_{i}, \graph{P}_{j}$ holds that there does not exist an isomorphism between $\graph{P}_{i}$ and $\graph{P}_{j}$.
 \end{definition}
 
 As evidenced from the definitions above, graphs are the main concept in the graph mining problem, and, when represented using a triple $\triple{E,l,c}$, graphs are inherent \emph{higher order objects}.
 A set of graphs, such as the argument of the cardinality operator above or the set of example graphs $\graphset{G}$, is equivalent to a set of triples.
 The most straightforward representation of such a set would therefore be a ternary predicate.
-As the domains of this predicate range over predicates and functions, this predicate would be a higher order predicate.
+As the domains of this predicate range over predicates and functions, this predicate is a higher order predicate.
 
 It is very natural to consider and represent each graph as a \emph{coherent} ensemble of its own components: all characteristics (edges, labeling \ldots) of a graph are represented by separate entities or concepts, which are grouped together for each graph $\graph{G}$ in the triple that describes it. We refer to this as the \emph{local coherence} of the graph representation.
 Not only is this a very natural representation, this representation also makes it very explicit that all example graphs are \emph{independent}, and that the searches for homomorphisms between a pattern and example graphs are independent as well.

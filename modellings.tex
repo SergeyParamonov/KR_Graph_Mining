@@ -1,5 +1,7 @@
 \section{Modeling}\label{sec:modeling}
 \subsection{IDP}
+We assume some familiarity with the IDP system.
+An extensive introduction can be found in~\cite{}.
 \subsubsection{Existential Second Order}
 The IDP language can express problems that consist of a set of symbols, called the vocabulary $V$, and a theory, called $T$, that uses symbols from this vocabulary.
 The symbols in the vocabulary can be propositions, but they can also represent predicates and functions.
@@ -8,35 +10,40 @@ For example, vocabulary V in Listing \ref{lst:vocabularyExample} is a second ord
 
 The theory $T$ is restricted to a \emph{first order} theory, extended with types, arithmetic, aggregates, and inductive definitions.
 An example of such a theory is given in Listing \ref{lst:vocabularyExample}.
+It contains an inductive definition for \lstinline{Path/2}, and one constraint.
 
-Our inference of choice in the graph mining problem is model expansion; we search for an interpretation $I$ of symbols in the vocabulary $V$ such that this interpretation $I$ satisfies the theory $T$.
-This corresponds to the implicit \emph{existential quantification} of all symbols in the vocabulary, both the first order as well as the second order symbols.
+Our inference of choice in the graph mining problem is model expansion; we search for an interpretation $I$ of symbols in the vocabulary $V$, called a \emph{model}, such that this interpretation $I$ satisfies the theory $T$.
+This corresponds to the implicit \emph{existential quantification} of all symbols in the vocabulary, both the propositional as well as the first order symbols.
+In the example of Listing~\ref{lst:vocabularyExample}, we expand the $S$ to the model $Result$ with 3 edges: One from the first node to itself, one from the first node to the second, and one from the second to the third.
+Path contains all corresponding paths between these three nodes.
 
 In conclusion, we say IDP can express model expansion for \emph{Existential Second Order} problems.
-This level of expressiveness is not sufficient for GM.
+This level of expressiveness is not sufficient for general graph mining problems.
 We will discuss the several issues in the remainder of this section.
 
-\begin{lstlisting}[mathescape,basicstyle=\fontfamily{lmvtt}\selectfont,caption=\ldots, label=lst:vocabularyExample]
-Vocabulary V{
+\lstset{basicstyle=\scriptsize\ttfamily,breaklines=true}
+\begin{lstlisting}[mathescape,style=model,caption=\ldots, label=lst:vocabularyExample]
+vocabulary V{
     type Node
-    p
-    q
     Edge(Node, Node)
+    Path(Node, Node)
 }
-Theory T : V {
-    $\forall$n : $\exists$n2[Node] Edge(n,n2) | Edge(n2,n).
-    p => q.
+theory T : V {
+    $\forall$n[Node] : $\exists$n2[Node] : Edge(n,n2) $\lor$ Edge(n2,n).
+    {
+        Path(x,y) $\leftarrow$ Edge(x,y).
+        Path(x,y) $\leftarrow \exists$z[Node] : Path(x,z) $\land$ Path(z,y).
+        Path(x,y) $\leftarrow$ Path(y,z).
+    }
 }
-Structure S : V{
-    Node = {1,2,3}
-    p
+structure S : V{
+    Node = {1;2;3}
 }
-\end{lstlisting}
-\begin{lstlisting}
-Structure Result:V{
-    p
-    q
-    Edge = {1,1;1,2;2,3}
+
+structure Result:V{
+    Node = {1; 2; 3}
+    Edge = {1,1; 1,2; 2,3}
+    Path = {1,1; 1,2; 1,3; 2,1; 2,2; 2,3; 3,1; 3,2; 3,3 }
 }
 \end{lstlisting}
 
@@ -44,23 +51,34 @@ Structure Result:V{
 %problems in which there is an existentially quantified, generally second order, vocabulary of symbols and a first order theory with symbols from that vocabulary.
 \paragraph{Issue 1}
 First, we must represent the set of example graphs, as specified in \textbf{Def.}~\ref{def:gm2}. 
-This definition uses a higher order predicate, as shown in \textbf{Listing}~\ref{lst:HOPred}. 
-It represents a single graph as a tuple of predicates and functions, visualised in \textbf{fig.}~\ref{fig:LocalCoherence} as the solid shape.
+This definition uses a higher order predicate(See \textbf{Listing}~\ref{lst:HOPred}) \lstinline{GraphInst/3} with as first argument the edge predicate and as second argument the label function. For the first graph, \lstinline|{1,2; 2,1}| and \lstinline|{1\mapsto a; 2\mapsto b}| respectively. 
+It represents a single graph as a tuple of predicates and functions, visualized in \textbf{fig.}~\ref{fig:LocalCoherence} as the solid shape.
 It is clear that this representation is highly locally coherent, and preserves the independence of graph characteristics.
 However, as we are restricted to \emph{Existential} Second Order, we cannot express this higher order predicate in IDP.
 
 One possible solution is to replicate for each graph the different characteristic predicates and functions, as shown
-in \textbf{Listing}~\ref{lst:multiglobal} and visualised as the dashed shape in \textbf{Fig.}~\ref{fig:LocalCoherence}.
-This way of representing the information about graphs is shown in Listing~\ref{lst:multiglobal}.
-Because now every example graph has a differently named edge relation and labeling function, it is necessary to duplicate the knowledge about these example graphs and their relations as well: we cannot abstract \matthias{generalize} over the names of these edge relations and labeling functions.
+in \textbf{Listing}~\ref{lst:multiglobal} and visualised as the dashed shapes in \textbf{Fig.}~\ref{fig:LocalCoherence}.
+In this encoding, every graph has its own edge predicate and label function. 
+Because there is now no relation between the different edge predicates and label functions, it is necessary to formulate our theory in terms of these different predicates and functions.
+Encoding a property such as ``In every graph, all nodes have at least two \matthias{outgoing} edges'' must be stated for each of the edge predicates explicitly:
+%duplicate in our theory the constraints and properties (i.e. homomorphism) about these example graphs and their relations as well: we cannot generalize over the names of these edge relations and labeling functions.
+\begin{center}
+\begin{tabular}{c}
+\begin{lstlisting}[mathescape]
+$\forall$ n[Node] : $\exists$ n1,n2[Node] : E1(n, n1) $\land$ E1(n,n2) $\land$ n $\neq$ n2.
+$\forall$ n[Node] : $\exists$ n1,n2[Node] : E2(n, n1) $\land$ E2(n,n2) $\land$ n $\neq$ n2.
+\end{lstlisting}
+\end{tabular}
+\end{center}
 
-It is clear that this solution is undesirable due to the way it scales and the editing needed with growing problem instances.
-It retains the local coherence and independence of graph characteristics when it comes to data representation, but prohibits the abstraction (generalization) of knowledge about these properties, as evidenced by our obligation to duplicate the theory for each graph.
+It is clear that this solution is undesirable due to the way it scales and the theory modifications needed with growing problem instances.
+It retains the local coherence and independence of graph characteristics when it comes to data representation, but prohibits the abstraction (generalization) of knowledge in the theory.
+% about these properties, as evidenced by our obligation to duplicate the theory for each graph.
 
 %GraphInst(E:Node$\times$Node,Lb
 \begin{lstlisting}[mathescape,caption=Higher order predicate modeling the set $\graphset{G}$ of Def~\ref{def:gm2}.,label=lst:HOPred]
-GraphInst({(1,2),(2,1)},{1$\mapsto$a,2$\mapsto$b},pos).
-GraphInst({(1,3),(2,1)},{1$\mapsto$c,2$\mapsto$b,3$\mapsto$a},neg).
+GraphInst({1,2; 2,1},{1$\mapsto$a; 2$\mapsto$b},pos).
+GraphInst({1,3; 2,1},{1$\mapsto$c; 2$\mapsto$b; 3$\mapsto$a},neg).
 \end{lstlisting}
 \begin{minipage}[t]{0.45\linewidth}
 \begin{lstlisting}[mathescape,caption=Multiple individual global relations,label=lst:multiglobal]
@@ -91,19 +109,23 @@ A more workable solution is to represent each characteristic property, such as t
 This relation behaves the way it should for a specific graph instance based on an additional argument serving as an identifier for the graph of interest.
 %This gives rise to a set $G$ of \emph{graph identifiers}, one for each example graph.
 This global relation now corresponds to the \emph{disjoint} or \emph{tagged union} of the graphs' relations, where the tags are drawn from a set $G$ consisting of graph identifiers.
-It is clear that this representation forces us to give up the local coherence of graph characteristics that was present in \textbf{Def.}~\ref{def:gm2}: 
+It is clear that this representation forces us to give up the local coherence of graph characteristics that was present in \textbf{Def.}~\ref{def:gm2}.
 %Nu kunnen we kijken wat deze truuk doet met onze mogelijkheid om de abstraction van de theory uit te drukken. Normaal mwillen we dit zo schrijven. Hoewel we nu de generalisatie kunnen uitdrukken, verplicht de restrictie tot existentieel s..o ons om de homomorphic mapping functies te tot een globale property te promoveren, hoewel we feitelijk niet geinteresseerd zijn in de concrete mappings. om om te gaan met de afhankelijkheid van deze functies op de spec. vb grafen moeten we... die nu erg lijkt op skolemisation. theory
 
 %Using this trick however, does not influence our ability to 
-
-But can we now express the abstraction (generalization) of knowledge about these properties, such as the positive homomorphic property?
+Now we can generalize over the different graphs, so that we can encode the property stated above as:
+\begin{lstlisting}[mathescape]
+$\forall$ gid[GraphId] : $\forall$ n[Node] : $\exists$ n1,n2[Node] : E(gid, n, n1) $\land$ E(gid, n,n2) $\land$ n $\neq$ n2.
+\end{lstlisting}
+%But can we now express the abstraction (generalization) of knowledge about these properties, such as the positive homomorphic property?
 %to separate the constraint describing the positive homomorphic property, and the coint on its number of occurrences.
 %This, from a KR point of view, 
 %Furthermore, the restriction to ESO requires us 
 %As an example, we illustrate this trick by showing on the expression of the positive homomorphic property, where it greatly resembles Skolemization.
-As evidenced in \textbf{Def.}~\ref{def:gm2}, normally one would express the positive homomorphic property by quantifying (counting) over all graphs, requiring the existence of a function with the correct properties.
-Using the disjoint union representation, we can quantify over the set $G$ of graph identifiers instead of over the actual graphs.
-Therefore, this representation allows us to express this restriction.
+%As evidenced in \textbf{Def.}~\ref{def:gm2}, normally one would express the positive homomorphic property by quantifying (counting) over all graphs, requiring the existence of a function with the correct properties.
+%Using the disjoint union representation, we can quantify over the set $G$ of graph identifiers instead of over the actual graphs.
+%Therefore, this representation allows us to express this property.
+
 \begin{figure}[h]
 \centering
 \begin{tabular}{l |l l l}
@@ -129,6 +151,7 @@ $\graph{G}_{n}$  & $E_{n}$ & $l_{n}$ & pos\\
   ($ (line) - (3.9,3.08)$) -- cycle;
   (3.south east) -- (3.south west);
   \draw [dashed, rounded corners] (dashed) circle (3mm);
+  \draw [dashed, rounded corners] (1.8,1.6) circle (3mm);
 \end{tikzpicture}
 \end{tabular}
 \caption{Local coherence\label{fig:LocalCoherence}}
@@ -147,7 +170,7 @@ expressing the condition under which they are part of this set: i.e. that there 
 In principle, we could then proceed by counting the number of elements in this set.
 
 \begin{lstlisting}[mathescape, caption=Quantifying over functions outside the vocabulary, label=lst:QuantifyOutsideVocabulary,basicstyle=\fontfamily{lmvtt}\selectfont]
-#{$\forall g$ : $\exists$ $f$ : $f$ is a homomorphism from $p$ to $g$ }
+#{$\forall g \mid g \in G \land \exists$ $f$ : $f$ is a homomorphism from $p$ to $g$ }
 \end{lstlisting}
 However, working in IDP, the restriction to ESO forbids us to quantify over first-order entities such as the functions f from \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary} outside of the vocabulary.
 Thus, we are required to promote the homomorphic mapping functions to a global property in the vocabulary, even though we are only interested in the existence of a mapping, and not in a concrete valid mapping itself.
@@ -167,7 +190,7 @@ Note that this encoding also requires us to make this function \verb|f| partial,
 In fact, the negative homomorphic constraint asserts a property for all candidate homomorphic functions, which would lead to \emph{universal} quantification.
 Therefore, our only recourse is to encode its dual positive constraint and require it to fail when queried.
 
-Take, for example, the pattern candidate and positive and negative example graphs from \textbf{Fig.}~\ref{fig:ex2}.
+Take, for example, the template, pattern candidate and positive and negative example graphs from \textbf{Fig.}~\ref{fig:ex2}.
 Assume all nodes have the same label.
 With parameters $N_{+}=1$ and $N_{-}=0$, this pattern candidate is clearly an invalid pattern: It is homomorphic with both the positive and the negative example.
 Suppose we express the negative homomorphic property directly, changing only the comparison operator used on the count aggregate from $\geq$ to $\leq$.
@@ -196,12 +219,37 @@ While this technique succesfully prevents the need of a procedural loop and the 
 \matthias{Also, it forces to look for homomorphisms for every negative example graph, whereas $N_{-}$ + 1 example graphs are enough. Quite possible that there is a workaround for this however.}
 \begin{figure}
   \centering
-  \begin{subfigure}[b]{0.3\textwidth}
+  \begin{subfigure}[b]{0.15\textwidth}
     \centering
     \begin{tikzpicture}[scale=.5]
+      \node[vertex] (a) at (1,1) {};
+      \node[vertex] (b) at (2,1) {};
+      \node[vertex] (c) at (2.7,2) {};
+      \node[vertex] (d) at (2,3) {};
+      \node[vertex] (e) at (1,3) {};
+      \node[vertex] (f) at (0.3,2) {};
+      
+      \draw (1,1) -- (2,1) -- (2.7,2) -- (2,3) -- (1,3) -- (0.3,2) -- (1,1);
+      \draw (1,1) -- (2,3);
+      \draw (2.7,2) -- (0.3,2);
+      \draw (1,3) -- (2,1);
+    \end{tikzpicture}
+    \caption{Template}
+  \end{subfigure}
+  ~
+  \begin{subfigure}[b]{0.22\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=.5]
+      \node[vertex] (a) at (1,1) {};
+      \node[vertex] (b) at (2,1) {};
+      \node[vertex] (c) at (2.7,2) {};
+      \node[vertex] (d) at (2,3) {};
+      \node[vertex] (e) at (1,3) {};
+      \node[vertex] (f) at (0.3,2) {};
+      
       \node[circle] at (1,0.7) {a};
       \node[circle] at (2,0.7) {b};
-      \node[circle] at (2.8,2) {c};
+      \node[circle] at (3,2) {c};
       \node[circle] at (1.6,3.8) {g1};
       \draw (1,1) -- (2,1) -- (2.7,2) -- (2,3) -- (1,3) -- (0.3,2) -- cycle;
       \draw (1,1) -- (2,3);
@@ -210,14 +258,19 @@ While this technique succesfully prevents the need of a procedural loop and the 
     \caption{Positive Example}
   \end{subfigure}
   ~
-  \begin{subfigure}[b]{0.3\textwidth}
+  \begin{subfigure}[b]{0.23\textwidth}
     \centering
     \begin{tikzpicture}[scale=.5]
-      \node[circle] at (0,-0.2) {d};
-      \node[circle] at (1,1.2) {e};
-      \node[circle] at (2,-0.2) {f};
-      \node[circle] at (3,1.2) {g};
-      \node[circle] at (1.6, 2.8) {g2};
+      \node[vertex] at (0,0) {};
+      \node[vertex] at (1,1) {};
+      \node[vertex] at (2,0) {};
+      \node[vertex] at (3,1) {};
+    
+      \node[] at (0,-0.2) {d};
+      \node[] at (1,1.2) {e};
+      \node[] at (2,-0.2) {f};
+      \node[] at (3,1.2) {g};
+      \node[] at (1.6, 2.8) {g2};
       \coordinate (1) at (0,0);
       \coordinate (2) at (1,1);
       \coordinate (3) at (2,0);
@@ -227,9 +280,13 @@ While this technique succesfully prevents the need of a procedural loop and the 
     \caption{Negative Example}
   \end{subfigure}
   ~
-  \begin{subfigure}[b]{0.3\textwidth}
+  \begin{subfigure}[b]{0.22\textwidth}
       \centering
       \begin{tikzpicture}[scale=.5]
+        \node[vertex] at (1,2) {};
+        \node[vertex] at (2,3) {};
+        \node[vertex] at (3,3) {};
+        
         \node[circle] at (0.9,2) {1};
         \node[circle] at (2,3.3) {2};
         \node[circle] at (3.15,3.3) {3};
@@ -261,8 +318,16 @@ For example, in \textbf{Fig.}~\ref{fig:trans}, without using inductive definitio
 \begin{figure}[h]
     \centering
    \begin{tikzpicture}[scale=0.7]
-   \node[circle] at (2.2,0.7) {a};
-      \node[circle] at (1.8,2.5) {b};
+       \node[vertex] at (1,1) {};
+       \node[vertex] at (2.2,1) {};
+       \node[vertex] at (2.7,2) {};
+       \node[vertex] at (1,1.3) {};
+       \node[vertex] at (1.8,2.3) {};
+       \node[vertex] at (2.7,2.3) {};
+   
+       \node[circle] at (2.2,0.7) {a};
+       \node[circle] at (1.8,2.65) {b};
+     
        \draw (1,1) -- (2.2,1) -- (2.7,2) -- cycle;
        \draw (1,1.3) -- (1.8,2.3) -- (2.7,2.3) -- cycle;
    \end{tikzpicture}
@@ -277,20 +342,29 @@ Essentially, this paradigm ensures that we can perform other inferences on the g
 \reversemarginpar
 
 \subsection{ProB}
+The ProB System can handle mathematical specifications using higher order logic and set theory.
+As a result, ProB specifications can cover the polynomial hierarchy \textbf{PH}.
 
-\textbf{Pro:}
-\begin{itemize}
-  \item Using ProB's support for higher order, it is possible to quantify over the functions $f$ that represent homorphisms locally, in the context of the set of homomorphic positive (negative) examples.
-  Because these are now quantified locally, the solver will find a homorphism, if possible, regardless of whether we are expressing the positive or negative homomorphism property.
-  As a result, ProB can model the negative homomorphism property directly, without the need for a second theory and procedural tie-in code.
-  The same reasoning allows ProB to model the isomorphism restriction when looking for multiple patterns.
-\end{itemize}
-\textbf{Cons:}
-\begin{itemize}
-  \item ProB cannot handle inductive definitions. 
-  This makes it difficult to model the connectedness requirement of patterns.
-\end{itemize}
+\subsubsection{Higher Order}
+Because of ProB's Higher Order support, we can treat graphs as the inherent higher order objects with structure $\triple{E,l,c}$ that they are.
+This allows us to quantify over a graph and easily access all its characteristic predicates and functions.
 
+ProB's support for higher order also makes it possible to quantify over the functions $f$ that represent homorphisms locally: there is no need to declare the function f globally, instead they are defined within the context of the set of homomorphic positive (negative) examples.
+Here, the representation of these functions $f$ is direct, without graph identifier that corresponds to the disjoint union technique as proposed for IDP.
+Instead, the graph \graph{G} for which a homomorphic function is sought, is brought in scope by the quantifier of the set expression.
+
+Because these are now quantified locally, the solver will find a homorphism if one exists, regardless of whether we are expressing the positive or negative homomorphism property.
+As a result, ProB can model the negative homomorphism property directly, without the need for a second theory and procedural tie-in code.
+
+The same reasoning allows ProB to model the isomorphism restriction when looking for multiple patterns.
+\subsubsection{Inductive definitions}
+ProB cannot natively handle inductive definitions.
+This makes it difficult to model the connectedness requirement of patterns.
+Recently, efforts have been made to integrate Kodkod, which provides a high-level interface to SAT-solvers~\citep{DBLP:conf/tacas/TorlakJ07}, into ProB~\citep{DBLP:conf/fm/PlaggeL12}.
+\matthias{How does the translation and mapping mechanism of ProB $\leftrightarrow$ KodKod compare to our ideas of oracles?}
+
+
+\subsection{Conclusion}
 
 %\section{Feature Comparison}
 %
@@ -309,4 +383,26 @@ Essentially, this paradigm ensures that we can perform other inferences on the g
 %  \item cannot model subgraph isomorphism independence
 %  \item cannot handle dominance, i.e., when one model is preferred over another 
 %\end{itemize}
+
+
+\matthias{This table~\ref{tbl:conclusion} is not in the correct place yet. It is an early draft, and must be cleaned up and introduced properly}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+
+\begin{table}[h]
+\begin{center}
+\rowcolors{2}{gray!25}{white}
+\begin{tabular}{>{\centering\arraybackslash}p{0.2\linewidth}| >{\centering\arraybackslash}p{0.2\linewidth} >{\centering\arraybackslash}p{0.2\linewidth} >{\centering\arraybackslash}p{0.2\linewidth}}
+Property & IDP & ASP & ProB\\
+\hline
+Graph as a single object & Global Disjoint Union technique & See IDP & \checkmark\\
+Independence of homomorphisms & Global Disj. Union + partiality & See IDP & \checkmark\\
+Symmetry of $\geq$ and $\leq$ constraint & Yes, but requires theory splitting & No: Saturation technique & \checkmark \\
+Multiple patterns (isomorphism) & Yes, but requires theory splitting & No: Saturation technique & \checkmark \\
+Connectedness & \checkmark & \checkmark & Encoded for specific sizes\\
+Multiple inferences & Model checking, expansion, minimization & See IDP & Model checking, expansion. Minimization must be encoded in the model [?]\\
+Single solver call & No, multiple split theories & \checkmark & \checkmark
+\end{tabular}
+\end{center}
+\caption{Evaluation of the desirable properties in IDP / ASP / ProB\label{tbl:conclusion}}
+\end{table}
 

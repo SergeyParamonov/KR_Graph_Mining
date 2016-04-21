@@ -1,38 +1,37 @@
 \section{Introduction}
-Frequent Pattern Mining, one of the ``super-problems'' in Data Mining, has received significant attention over the last years \citep{pattern_mining_book}. Pattern mining in its basic form is the task of enumerating patterns which occur frequently in a dataset.
-A first class of pattern mining is \emph{unstructured} mining, such as itemset mining, where the pattern is a set of items without any additional structural relation between the different items.
-This problem, in nature, is propositional.
+Many real world problems exhibit a composite structure consisting of multiple smaller problems which can be combined in many different configurations.
+These types of problems lend themselves for a declarative approach as knowledge representations offers a transparent, natural and extendable model satisfying `The Principle of Elaboration Tolerance'~\citep{elaboration_tolerance}.
+Delarative programming distinguishes itself by the ease with which declarative specifications can be adapted to variations in which subproblems are used, and in the way they are combined.
+
+Conversely, the smaller problems in these composite structures are often already NP or coNP complete.
+Combining these already complex problems often raises the computational complexity of the composite problem. As  to a level where it cannot be expressed using first order logic. These problems become inherently higher order logic.
+We study the \emph{Graph Mining} problem as an example problem of such a raise in complexity, and detail some of the techniques that can be used to handle this.
+This includes the generalization of ad-hoc techniques as well as the combination of techniques from different logics.
+
+Graph mining is a specific kind of \emph{frequent pattern mining}, which is one of the ``super-problems'' in Data Mining.~\cite{}
+In its basic form it is the task of enumerating patterns which occur frequently in a dataset.
+A first class of \emph{pattern mining} is \emph{unstructured mining}, such as \emph{itemset mining}, where the pattern is a set of items without any additional structural relation between the different items. 
+Because it does not require any structure, the \emph{unstructured mining} task does not compose multiple smaller problems.
+Therefore the rise in computational complexity associated with problem composition does not occur and the problem is even of propositional nature.
 \citet{tias_original} have demonstrated how the \emph{itemset mining} problem can successfully be modeled in a declarative way using CP techniques.
 
 In recent years, focus has shifted from unstructured mining towards structured mining, such as graph or sequence mining.
-Here, the items being mined exhibit additional structure, for example the edge relation in the case of graph mining, or the order of elements in a sequence. Graph mining has many applications and one of them is the preprocessing step for the machine learning algorithms. Machine learning algorithms are designed to work with numeric data and cannot handle relational data natively. Graph mining is used to transform graph data into a numeric representation suitable for the learning algorithms~\citep{pattern_mining_classification}. Many variations of the graph mining problems exist \citep{subtree_overview} and many algorithms have been developed \citep{gspan,theta_subsumption}.
+Here, the items being mined exhibit additional structure, for example the edge relation in the case of graph mining, or the order of elements in a sequence.
+Graph mining has many applications; it is for example often used as a preprocessing step for machine learning algorithms~\citep{pattern_mining_classification}.
+The additional structure required by the graph mining problem introduces subproblems within the graph mining problem: We need to specify when a graph occurs within other graphs, leading to the concept of homomorphism checks.
+Likewise,\matthias{(also due to the additional structure)}, we need to represent the objects in the graph mining problem in a way that makes it non-obvious to say whether two objects are identical, which gives rise to subgraph isomorphism detection.
+Many different interpretations can be given to these two problems\matthias{homomorphism checks and isomorphism detection}~ \citep{subtree_overview}, and in general these variations of the homomorphism and isomorphism concepts are NP-complete~\ref{}\matthias{referenties op te zoeken}.
+While this gives rise to many wildly different algorithms in imperative languages~\citep{gspan,theta_subsumption}, these variations can be specified with only minimal changes using a declarative modelling approach.
 
-Recently, the declarative approach has been applied to unstructured mining. It has been a remarkable success: declarative models outperform all existing systems in terms of flexibility and expressivity. Initially, there was a significant gap in the runtime performance between specialized algorithms and the CP formulation \citep{tias_original,mining_cp_extra}, however, the gap has been filled with the more developed systems such as MiningZinc \citep{tias_declarative_pattern_mining}. 
-This suggests to apply declarative techniques to structured mining and graph mining in particular. This direction of research just started getting attention in the declarative modeling community \citep{cp_sequence_mining,ilp_graph_mining}. 
-
-From a knowledge representation and modeling point of view the problem of graph mining is way more complex and challenging than unstructured mining. 
-To indicate why the problem is more complex, let us informally introduce the problem. We need to enumerate all graphs, called \textit{patterns}, that often enough \textit{occur} in the positively labeled example graphs and not too often in the negatively labeled.
-Here, the meaning of \textit{occuring} corresponds to the pattern somehow \emph{matching} the example graph, for example, by the existence of a homomorphism or isomorphism.
-For most of the variations of graph mining, checking whether there exists even a single matching is already \textit{NP}-complete \citep{subtree_overview}, which implies that not matching is \textit{CoNP}-complete. 
-Furthermore, each pattern must be a connected graph, therefore the concept of inductive definitions must be present in the language.
-This all makes the formulation essentially second order.
-% and only briefly slices the surface of complexity exhibited by the problem.
-
-Structured mining is not only more complex and challenging than unstructured mining, it also benefits even more from a declarative approach.
-Here, knowledge representation offers a transparent, natural and extendable model satisfying The Principle of Elaboration Tolerance \citep{elaboration_tolerance}, where a variant of a problem can be modeled by adding or removing a constraint.
-For example, the differences between the different ways of matching as mentioned above lead to minimal changes in the model.
-
-Our main goal is to investigate the problem of graph mining using the KB-approach~\ref{} from knowledge representation and reasoning. 
-We start with from the mathematical model of graph mining, which is inherently higher order, and identify the following contributions:
-
+In our case study of the graph mining problem, we start with from the mathematical model of graph mining, which is inherently higher order, and identify the following contributions:
 \begin{itemize}
-\item We identify the higher order aspects of the graph mining problem and show how the problem can be modeled in IDP (which supports Existential Second Order and inductive definitions) and in ProB (which supports higher order sets).
+\item We identify the higher order aspects of the graph mining problem and show how the problem can be modeled in IDP (which supports Existential Second Order and inductive definitions) and in ProB (which supports higher order sets). We propose concrete modelling techniques such as the disjoint union technique.
 \item We propose higher order language constructs for IDP and ProB extensions which greatly improve the ease of expressing the graph mining and other higher order problems.
 \item We indicate how to shift the burden of addressing the higher order aspects of the problem from modeler to the solver. 
 Concretely, solver support is needed to translate the proposed higher order language constructs from the previous item to first order using e.g the disjoint union modeling technique.
 We indicate how additional solver support can leverage these expressive constructs to work more efficient.
 \end{itemize}
-
+\todo{rewrite contributions to two points}
 The paper is structured as follows: Section \ref{sec:formalization} introduces the formalization of graph mining, Section \ref{sec:modeling} introduces a logical model and discusses the primitives at the core of graph mining problem.
-Then, Section \ref{sec:code} introduces graph mining encodings in IDP, ASP and proB. Section \ref{sec:extension} discusses language extensions.
+Then, Section \ref{sec:code} introduces graph mining encodings in IDP, ASP and ProB. Section \ref{sec:extension} discusses language extensions.
 Section \ref{sec:related_work} discusses related work. Section \ref{sec:conclusion} draws conclusions and outlines possible future research directions.

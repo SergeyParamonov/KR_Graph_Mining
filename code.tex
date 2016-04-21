@@ -1,17 +1,57 @@
 \section{Code in ProB, IDP, ASP}\label{sec:code}
 \matthias{This is the working ProB code that we'll show as an example}
-In this section, the graph mining problem is slightly modified: we now restrict the search for a pattern to graphs that are a subgraph of a given \emph{template} graph.
-The declarative approach allows us to implement such a modification with only minimal effort.
+%In this section, the graph mining problem is slightly modified: we now restrict the search for a pattern to graphs that are a subgraph of a given \emph{template} graph.
+%The declarative approach allows us to implement such a modification with only minimal effort.
 \VerbatimInput{original_prob_files/PositiveAndNegative.mch}
 \pagebreak
 
+In Listing~\ref{lst:IDPPos}, we show part of the working model for the graph mining problem.
+It shows the constraints necessary to enforce the positive homomorphic property.
+As expected from the symmetry underlying the two homomorphic constriants, the theory expressing the negative homomorphic property is the same except for the comparison operator.
 
-\matthias{This is the procedural tie-in code.}
-\VerbatimInput[label=The main merged theory]{IDPencoding/Merged.idp}
-\matthias{This is the positive constraint expressed in idp}
-\VerbatimInput[label=IDP positive encoding]{IDPencoding/PositiveInfo.idp}
-\matthias{These are the negative constraints (negative homomorphism property and isomorphism restriction) expressed in idp}
-\VerbatimInput[label=IDP negative encoding]{IDPencoding/NegativeInfo.idp}
+\begin{lstlisting}[caption=IDP positive constraint, style=model, label=lst:IDPPos]
+vocabulary V{
+  type node isa nat
+  type graphid
+  type label
+
+  // Predicates determining the template graph.
+  template_edge(node, node) 
+  template_label(node):label
+
+  // Predicates describing the positive example graphs
+  example_edge(graphid, node, node)
+  label(graphid, node):label
+  threshold: int
+
+  // Predicates describing the pattern graph
+  inpattern(node) // True for the nodes which occur in the pattern
+  partial f(graphid, node):node // Represents the homomorphisms with the example graphs
+  homowith(graphid) // True for graphs for which f represents a correct homomorphism
+  path(node, node) // path(a,b): True if there exists a path from a to b in the pattern
+}
+
+theory Positive:V_Pos{
+   //The pattern is a connected subgraph of the template: From every node in the pattern, 
+   //there exists a path to every other node in the pattern.
+   !x,y[node] : x ~= y & inpattern(x) & inpattern(y) => path(x,y).
+   {
+      path(x,y) <- template_edge(x,y) & inpattern(x) & inpattern(y).
+      path(x,y) <- ?z[node] : path(x,z) & path(z,y).
+      path(x,y) <- path(y,x).
+   }
+
+   //existence of a homomorphic f from the pattern to example graph with graphid gid.
+   !gid[graphid] : !x[node]   : homowith(gid) & inpattern(x) <=> ? y[node] : y=f(gid,x).
+   !gid[graphid] : !x,y[node] : homowith(gid) & inpattern(x) & inpattern(y) & x~=y => f(gid, x) ~= f(gid,y).
+   !gid[graphid] : !x,y[node] : homowith(gid) & inpattern(x) & inpattern(y) & template_edge(x,y) => edge(gid, f(gid,x). f(gid,y)).
+   !gid[graphid] : !x[node] : homowith(gid) & inpattern(x) => template_label(x) = label(gid, f(gid,x)).
+
+   // At least N homomorphisms must be found
+   #{ gid [graphid] : homowith(graph) } >= threshold.
+}
+\end{lstlisting}
+
 
 \lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
 \begin{lstlisting}[caption=ASP positive matching, style=model]
