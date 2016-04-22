@@ -65,8 +65,8 @@ Encoding a property such as ``In every graph, all nodes have at least two \matth
 \begin{center}
 \begin{tabular}{c}
 \begin{lstlisting}[mathescape]
-$\forall$ n[Node] : $\exists$ n1,n2[Node] : E1(n, n1) $\land$ E1(n,n2) $\land$ n $\neq$ n2.
-$\forall$ n[Node] : $\exists$ n1,n2[Node] : E2(n, n1) $\land$ E2(n,n2) $\land$ n $\neq$ n2.
+$\forall$ n[Node] : $\exists$ n1,n2[Node] : E1(n, n1) $\land$ E1(n,n2) $\land$ n1 $\neq$ n2.
+$\forall$ n[Node] : $\exists$ n1,n2[Node] : E2(n, n1) $\land$ E2(n,n2) $\land$ n1 $\neq$ n2.
 \end{lstlisting}
 \end{tabular}
 \end{center}
@@ -115,7 +115,7 @@ It is clear that this representation forces us to give up the local coherence of
 %Using this trick however, does not influence our ability to 
 Now we can generalize over the different graphs, so that we can encode the property stated above as:
 \begin{lstlisting}[mathescape]
-$\forall$ gid[GraphId] : $\forall$ n[Node] : $\exists$ n1,n2[Node] : E(gid, n, n1) $\land$ E(gid, n,n2) $\land$ n $\neq$ n2.
+$\forall$ gid[GraphId] : $\forall$ n[Node] : $\exists$ n1,n2[Node] : E(gid, n, n1) $\land$ E(gid, n,n2) $\land$ n1 $\neq$ n2.
 \end{lstlisting}
 %But can we now express the abstraction (generalization) of knowledge about these properties, such as the positive homomorphic property?
 %to separate the constraint describing the positive homomorphic property, and the coint on its number of occurrences.
@@ -128,32 +128,7 @@ $\forall$ gid[GraphId] : $\forall$ n[Node] : $\exists$ n1,n2[Node] : E(gid, n, n
 
 \begin{figure}[h]
 \centering
-\begin{tabular}{l |l l l}
-         & $E$ & $l$      & $c$ \\
-\hline
-$\graph{G}_{1}$  & $E_{1}$ & $l_{1}$ & pos\\
-$\graph{G}_{2}$  & $E_{2}$ & $l_{2}$ & pos\\
-  \vdots & \vdots  & \vdots  & \vdots\\
-$\graph{G}_{n}$  & $E_{n}$ & $l_{n}$ & pos\\
-\begin{tikzpicture}[overlay]
-  \coordinate (dotted) at ($(1.28,0.2) + (4.8,4)$);
-  \coordinate (line) at (7,4.45);
-  \coordinate (dashed) at (1.02,1.6);
-  \draw [dotted, rounded corners] 
-  ($ (dotted) - (4.8,4) $) -- 
-  ($ (dotted) - (4.8,1.5)$) -- 
-  ($ (dotted) - (5.3,1.5)$) -- 
-  ($ (dotted) - (5.3,4)$) -- cycle;
-  \draw [rounded corners] 
-  ($ (line) - (3.9,2.66)$) --
-  ($ (line) - (7.18,2.66)$) --
-  ($ (line) - (7.18,3.1)$) -- 
-  ($ (line) - (3.9,3.08)$) -- cycle;
-  (3.south east) -- (3.south west);
-  \draw [dashed, rounded corners] (dashed) circle (3mm);
-  \draw [dashed, rounded corners] (1.8,1.6) circle (3mm);
-\end{tikzpicture}
-\end{tabular}
+\includegraphics{CoherenceTable-crop.pdf}
 \caption{Local coherence\label{fig:LocalCoherence}}
 \end{figure}
 
@@ -384,24 +359,12 @@ Recently, efforts have been made to integrate Kodkod, which provides a high-leve
 %  \item cannot handle dominance, i.e., when one model is preferred over another 
 %\end{itemize}
 
-
 \matthias{This table~\ref{tbl:conclusion} is not in the correct place yet. It is an early draft, and must be cleaned up and introduced properly}
 \def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
 
 \begin{table}[h]
 \begin{center}
-\rowcolors{2}{gray!25}{white}
-\begin{tabular}{>{\centering\arraybackslash}p{0.2\linewidth}| >{\centering\arraybackslash}p{0.2\linewidth} >{\centering\arraybackslash}p{0.2\linewidth} >{\centering\arraybackslash}p{0.2\linewidth}}
-Property & IDP & ASP & ProB\\
-\hline
-Graph as a single object & Global Disjoint Union technique & See IDP & \checkmark\\
-Independence of homomorphisms & Global Disj. Union + partiality & See IDP & \checkmark\\
-Symmetry of $\geq$ and $\leq$ constraint & Yes, but requires theory splitting & No: Saturation technique & \checkmark \\
-Multiple patterns (isomorphism) & Yes, but requires theory splitting & No: Saturation technique & \checkmark \\
-Connectedness & \checkmark & \checkmark & Encoded for specific sizes\\
-Multiple inferences & Model checking, expansion, minimization & See IDP & Model checking, expansion. Minimization must be encoded in the model [?]\\
-Single solver call & No, multiple split theories & \checkmark & \checkmark
-\end{tabular}
+\includegraphics{PropertyTable-crop.pdf}
 \end{center}
 \caption{Evaluation of the desirable properties in IDP / ASP / ProB\label{tbl:conclusion}}
 \end{table}

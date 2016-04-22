@@ -1,71 +1,22 @@
-\documentclass{article}
-\usepackage{hyperref}
-\usepackage{color}
-\usepackage[usenames,dvipsnames,table]{xcolor}
-\usepackage{listings}	
-\usepackage{enumerate}
-\usepackage{layouts}
-\usepackage{times}
-\usepackage{natbib}
-\usepackage{notoccite}
-\usepackage{todonotes}
-\usepackage{array}
-\usepackage{alltt}
-\usepackage{url}
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amsthm}
-\usepackage{xspace}
-\usepackage{tikz}
-%\usepackage{cite}
-\usepackage{subcaption}
-\usepackage{calc}
-\usetikzlibrary{calc}
+\documentclass{new_tlp}
 
-\usepackage{fancyvrb}
+\include{packages}
 
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
-\newcommand{\triple}[1]{\ensuremath{\langle #1 \rangle}}
-\newcommand{\pair}[1]{\ensuremath{\left(#1\right)}}
-\newcommand{\graph}[1]{\ensuremath{\mathcal{#1}}}
-\newcommand{\graphset}[1]{\ensuremath{\mathbb{#1}}}
-
-\newcommand{\sergey}[1]{\textcolor{magenta}{\marginpar{\sc Sergey} #1}}
-\newcommand{\matthias}[1]{\textcolor{blue}{\marginpar{\sc Matthias} #1}}
-\newcommand{\Qone}{$\boldsymbol{Q_1}$\xspace}
-\newcommand{\Qtwo}{$\boldsymbol{Q_2}$\xspace}
-\newcommand{\Qthree}{$\boldsymbol{Q_3}$\xspace}
-
-\lstdefinestyle{model}{
-  mathescape,
-  columns=fullflexible,
-  numbers=none,
-  frame=single,
-  escapechar=@
-}
-
-% redefine \VerbatimInput
-\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}%
-{fontsize=\footnotesize,
-   %
-  frame=lines,  % top and bottom rule only
-  framesep=2em, % separation between frame and text
-  rulecolor=\color{Gray},
-      %
-  label=\fbox{\color{Black}proB encoding},
-  labelposition=topline,
-        %
-% commandchars=\|\(\), % escape character and argument delimiters for
-                              % commands within the verbatim
-% commentchar=*        % comment character
-}
-
-\author{Authors}
+\author[]{Matthias van der Hallen, Sergey Paramonov, Michael Leuschel,\\ Luc De Raedt, Marc Denecker, Gerda Janssens}
 \title{Knowledge Representation Analysis of\\ Graph Mining}
+\pdfinfo{
+/Knowledge Representation Analysis of Graph Mining
+/Author (Matthias van der Hallen, Sergey Paramonov, Michael Leuschel, Luc De Raedt, Marc Denecker, Gerda Janssens)
+/Keywords (Knowledge Representation)
+}
+
+
+
 \begin{document}
 \maketitle
-\abstract{This is the abstract.\matthias{This paper shows how the graph mining problem \ldots}}
+\begin{abstract}
+This is the abstract.\matthias{This paper shows how the graph mining problem \ldots}
+\end{abstract}
 
 \input{introduction}
 %\input{alternative_intro}
