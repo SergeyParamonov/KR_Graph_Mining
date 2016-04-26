@@ -76,10 +76,15 @@ It retains the local coherence and independence of graph characteristics when it
 % about these properties, as evidenced by our obligation to duplicate the theory for each graph.
 
 %GraphInst(E:Node$\times$Node,Lb
+\begin{center}
+\begin{minipage}{0.68\linewidth}
 \begin{lstlisting}[mathescape,caption=Higher order predicate modeling the set $\graphset{G}$ of Def~\ref{def:gm2}.,label=lst:HOPred]
 GraphInst({1,2; 2,1},{1$\mapsto$a; 2$\mapsto$b},pos).
 GraphInst({1,3; 2,1},{1$\mapsto$c; 2$\mapsto$b; 3$\mapsto$a},neg).
 \end{lstlisting}
+\end{minipage}
+\end{center}
+
 \begin{minipage}[t]{0.45\linewidth}
 \begin{lstlisting}[mathescape,caption=Multiple individual global relations,label=lst:multiglobal]
 E1(1,2). lb1(1)=a.
@@ -114,9 +119,14 @@ It is clear that this representation forces us to give up the local coherence of
 
 %Using this trick however, does not influence our ability to 
 Now we can generalize over the different graphs, so that we can encode the property stated above as:
+\begin{center}
+\begin{minipage}{0.95\linewidth}
 \begin{lstlisting}[mathescape]
 $\forall$ gid[GraphId] : $\forall$ n[Node] : $\exists$ n1,n2[Node] : E(gid, n, n1) $\land$ E(gid, n,n2) $\land$ n1 $\neq$ n2.
 \end{lstlisting}
+\end{minipage}
+\end{center}
+
 %But can we now express the abstraction (generalization) of knowledge about these properties, such as the positive homomorphic property?
 %to separate the constraint describing the positive homomorphic property, and the coint on its number of occurrences.
 %This, from a KR point of view, 
@@ -138,46 +148,109 @@ $\forall$ gid[GraphId] : $\forall$ n[Node] : $\exists$ n1,n2[Node] : E(gid, n, n
 %Having solved\matthias{circumvented?} our first issue, 
 Next, we would like to express the homomorphic property.
 This can be done using a count aggregate, as shown in Listing~\ref{lst:QuantifyOutsideVocabulary}.
-First we express the set of all example graphs to whom there exists a homomorphism from our pattern.
+First we express the set of all example graphs to whom there exists a homomorphism from our pattern $\graph{P}$.
 % generate the set of all example graphs to whom we can find a homomorphism from our pattern.
 We do this by quantifying over all example graphs g or, per \textbf{issue 1}, their identifiers, and subsequently 
 expressing the condition under which they are part of this set: i.e. that there must exist a function f that represents a homomorphism from our pattern graph $p$ to $g$.
 In principle, we could then proceed by counting the number of elements in this set.
 
-\begin{lstlisting}[mathescape, caption=Quantifying over functions outside the vocabulary, label=lst:QuantifyOutsideVocabulary,basicstyle=\fontfamily{lmvtt}\selectfont]
-#{$\forall g \mid g \in G \land \exists$ $f$ : $f$ is a homomorphism from $p$ to $g$ }
+\begin{center}
+\begin{minipage}{0.64\linewidth}
+\begin{lstlisting}[mathescape, caption=Quantifying over functions outside the vocabulary, label=lst:QuantifyOutsideVocabulary]
+#{$\forall g \mid g \in G \land \exists$ $f$ : $f$ is a homomorphism from $\graph{P}$ to $g$}
 \end{lstlisting}
-However, working in IDP, the restriction to ESO forbids us to quantify over first-order entities such as the functions f from \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary} outside of the vocabulary.
-Thus, we are required to promote the homomorphic mapping functions to a global property in the vocabulary, even though we are only interested in the existence of a mapping, and not in a concrete valid mapping itself.
-We prevent the same explosion of mapping functions as with the graph characteristics above, using the same method as above. Note that in this case, it corresponds to Skolemization.
-We introduce a general function \verb|f| that represents all homomorphisms, and make its dependency on a specific example graph explicit using an additional argument:
+\end{minipage}
+\end{center}
+However, IDP restricts us to Existential Second Order, which forbids us of quantifying over first-order entities such as the function $f$ from \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary} outside of the vocabulary.
+%However, working in IDP, the restriction to ESO forbids us to quantify over first-order entities such as the functions f from \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary} outside of the vocabulary.
+Thus, we are required to promote the homomorphic mapping functions to a global property in the vocabulary, even though we are only interested in the existence of a mapping, and not in \matthias{the identity of such a mapping itself} a concrete valid mapping itself.
+We prevent the same explosion of mapping functions as with the graph characteristics in Issue 1\matthias{of different mapping functions for different example graphs}, by reusing the disjoint union technique proposed above. 
+Note that in this case, the disjoint union technique greatly resembles Skolemization.
+Concretely, we introduce a general function \verb|f| that represents all homomorphisms, and make its dependency on a specific example graph explicit using an additional argument:
 \verb|partial f(graphId, node):node|.
 %As it is impossible
 %We introduce a general function \verb|f| that represents the homomorphisms, and make its dependency on a specific goal graph explicit using an additional argument:
 In Second Order Logic, this dependency would follow directly from the order of the separate quantifications.
+\matthias{Ik zou de partial hier er nog niet bij vermelden? En pas op het einde toevoegen}
+
+\begin{center}
+\begin{minipage}{0.54\linewidth}
+\begin{lstlisting}[mathescape, caption=Globalized existential functions, label=lst:GlobalizeExistentialQuantifications]
+#{$\forall g \mid g \in G$ : $f(g)$ is a homomorphism from $\graph{P}$ to $g$}
+\end{lstlisting}
+\end{minipage}
+\end{center}
 
 We can now use this \verb|partial f| anywhere we would use the regular homomorphic function for a specific graph by fixing the chosen example graph.
-Note that this encoding also requires us to make this function \verb|f| partial, as the Graph Mining problem does not require the solution to be homomorphic with \emph{all} example graphs.
+However, for some example graphs $\graph{G}$, there will not exist a homomorphic function from our pattern $\graph{P}$ to $\graph{G}$, i.e. for these graphs $\graph{G}$, no valid function $f$ exists.
+Because the disjoint union technique introduces a single function $f$ which is the union of all these smaller functions, we have to make this function $f$ partial: it is not defined for tuples where the first the argument is an identifier for a graph $\graph{G}$ for which no homomorphic function exists.
+
+
 %\todo{Of course, other (even uglier) schemes exist to encode this. Should we mention this?}
 
 
-\paragraph{Issue 3} Much in the same way, limiting ourselves to existential second order prohibits us from expressing the negative homomorphic property (the pattern is homomorphic with no more than $N_{-}$ negative examples) in the same model.
-In fact, the negative homomorphic constraint asserts a property for all candidate homomorphic functions, which would lead to \emph{universal} quantification.
-Therefore, our only recourse is to encode its dual positive constraint and require it to fail when queried.
-
-Take, for example, the template, pattern candidate and positive and negative example graphs from \textbf{Fig.}~\ref{fig:ex2}.
-Assume all nodes have the same label.
+\paragraph{Issue 3} The problem of deciding whether a homomorphism from one graph to another exists is \NP-complete.
+As a result, deciding that no homomorphism from one graph to another exists, which forms the basis for the negative homomorphic property, is \coNP.
+As an \NP\ (or $\Sigma^{p}_{1}$) solver, IDP cannot solve this problem directly.
+Consider, for example the template, pattern candidate and positive and negative example graphs from \textbf{Fig.}~\ref{fig:ex2}, and assume all nodes have the same label.
 With parameters $N_{+}=1$ and $N_{-}=0$, this pattern candidate is clearly an invalid pattern: It is homomorphic with both the positive and the negative example.
-Suppose we express the negative homomorphic property directly, changing only the comparison operator used on the count aggregate from $\geq$ to $\leq$.
-Because we now look for one general (Skolemized) homomorphic function, we can choose a single global function which represents a homomorphism with the positive example graph, but not with the negative example graph.
-An example of such a solution is shown in Listing~\ref{lst:invalidf}.
+When one would use the most straightforward encoding of the negative homomorphic property, one would reuse our result from \textbf{Issue 2}, and state:
+\begin{center}
+\begin{minipage}{0.61\linewidth}
+\begin{lstlisting}[mathescape]
+#{$\forall g \mid g \in G$ : $f(g)$ is a homomorphism from $\graph{P}$ to $g$}$\leq$| N$_{-}$.
+\end{lstlisting}
+\end{minipage}
+\end{center}
+But now, our solver must choose a single global function $f$ which satisfies the constraints.
+It has no obligation to maximize the number of homomorphisms in $f$, only to satisfy the constraints.
+Therefore, even if there is a negative example $\graph{G}_{-}$ for which a homomorphism exists, the solver can choose $f$ in such a way that $f$ does not represent a homomorphism for this graph $\graph{G}_{-}$.
+An example of such a model is shown in Listing~\ref{lst:invalidf}: this function $f$ maps the pattern candidate's nodes $1, 2, 3$ to $a, b, c$ for the positive example, i.e. f is a homomorphism, but maps $1, 2, 3$ to $d, e,$ and $g$ for the negative example.
+Now, even though it is possible to find a homomorphism between the pattern candidate and the negative example, our constraints are satisfied and we are led to believe that our pattern candidate is, indeed, a valid pattern.
 
-If we want to prevent these invalid models, we must encode the dual positive constraint, and require it to fail. 
-However, to do this in IDP, we need another theory and provide procedural (lua) code that ties these theories and their inferences together. 
-It must pass models from the theory that asserts the positive property to the theory that checks the negative property. This procedural code is clearly not declarative.
-In much the same way, IDP cannot express the isomorphism restriction when looking for multiple patterns: if needed, this restriction is transformed into a dual positive restriction (there \emph{must} be an isomorphism) and is required to fail as well. These two theories expressing the dual of the negative homomorphism property and that of the isomorphism restriction can safely be merged.
+\citep{} have shown that this is inherently linked to IDPs limit to Existential Second Order.
+Indeed, in order to check that our pattern \graph{P} is homomorphic with no more than $N_{-}$ negative graphs, we have to check that there are enough negative graphs for which no homomorphism exists, for example using a count aggregate as in Listing~\ref{lst:universalquant}.
+By asserting a property for all candidate homomorphic functions $f$ of a certain graph $g$, the negative homomorphic constraint leads to universal quantification over a function \matthias{functionspace?}.
+
+\begin{center}
+\begin{minipage}{0.62\linewidth}
+\begin{lstlisting}[mathescape, caption=Quantifying over functions outside the vocabulary, label=lst:universalquant]
+#{$\forall g \mid g \in G \land \forall$ $f$ : $f$ is $\mathbf{not}$ a homomorphism from $\graph{P}$ to $g$}
+\end{lstlisting}
+\end{minipage}
+\end{center}
+
+One way to solve a \coNP\ problem such as the negative homomorphism constraint using an \NP\ solver is by encoding the dual (i.e. negated) problem, and conclude that the problem is satisfied if no model exists for the dual problem.
+This can be checked using an \NP\ solver.
+However, this technique can only be implemented in IDP by writing two theories: 
+\begin{compactitem}
+\item one (positive) theory $\theory^{+}$, which expresses the positive homomorphic property and generates pattern candidates, and
+\item one negative theory $\theory^{-}$, which expresses the negative homomorphic property and rejects pattern candidates that do not satisfy this constraint.
+\end{compactitem}
+We must also provide procedural (lua) code that ties these two theories and their inferences together by allowing the communication of pattern candidates between these two theories.
+
+As the isomorphism restriction when looking for multiple patterns is also \coNP, we can use the same technique, giving rise to another theory $\theory^{iso}$.
+Luckily, it is possible to merge the negative theory $\theory^{-}$ and $\theory^{iso}$.
 
 
+%Much in the same way, limiting ourselves to existential second order prohibits us from expressing the negative homomorphic property (the pattern is homomorphic with no more than $N_{-}$ negative examples) in the same model.
+%In fact, the negative homomorphic constraint asserts a property for all candidate homomorphic functions, which would lead to \emph{universal} quantification.
+%Therefore, our only recourse is to encode its dual positive constraint and require it to fail when queried.
+
+%Take, for example, the template, pattern candidate and positive and negative example graphs from \textbf{Fig.}~\ref{fig:ex2}.
+%Assume all nodes have the same label.
+%With parameters $N_{+}=1$ and $N_{-}=0$, this pattern candidate is clearly an invalid pattern: It is homomorphic with both the positive and the negative example.
+%Suppose we express the negative homomorphic property directly, changing only the comparison operator used on the count aggregate from $\geq$ to $\leq$.
+%Because we now look for one general (Skolemized) homomorphic function, we can choose a single global function which represents a homomorphism with the positive example graph, but not with the negative example graph.
+%An example of such a solution is shown in Listing~\ref{lst:invalidf}.
+
+%If we want to prevent these invalid models, we must encode the dual positive constraint, and require it to fail. 
+%However, to do this in IDP, we need another theory and provide procedural (lua) code that ties these theories and their inferences together. 
+%It must pass models from the theory that asserts the positive property to the theory that checks the negative property. This procedural code is clearly not declarative.
+%In much the same way, IDP cannot express the isomorphism restriction when looking for multiple patterns: if needed, this restriction is transformed into a dual positive restriction (there \emph{must} be an isomorphism) and is required to fail as well. These two theories expressing the dual of the negative homomorphism property and that of the isomorphism restriction can safely be merged.
+
+
+\matthias{Should this be moved?}
 \textbf{ASP}, a language family closely related to IDP, can prevent the invalid models of the example above by leveraging the minimality property of their models: ASP looks for the minimal answer set models, whereas idp looks for well-founded models.
 This technique is called the \emph{saturation} technique~\ref{eiter} and can prevent the procedural code that IDP requires.
 
@@ -252,7 +325,7 @@ While this technique succesfully prevents the need of a procedural loop and the 
       \coordinate (4) at (3,1);
       \draw (1) -- (2) -- (3) -- (4);
     \end{tikzpicture}
-    \caption{Negative Example}
+    \caption{Negative Example  \label{fig:ex2-neg}}
   \end{subfigure}
   ~
   \begin{subfigure}[b]{0.22\textwidth}
@@ -267,32 +340,23 @@ While this technique succesfully prevents the need of a procedural loop and the 
         \node[circle] at (3.15,3.3) {3};
         \draw (1,2) -- (2,3) -- (3,3);
       \end{tikzpicture}
-      \caption{Pattern Candidate}
+      \caption{Pattern Candidate \label{fig:ex2-cand}}
   \end{subfigure}
   \caption{Example 2\label{fig:ex2}}
 \end{figure}
 
 \begin{minipage}{\linewidth}
-\begin{lstlisting}[mathescape,caption=An possible assignment for f, label=lst:invalidf]
+    \begin{minipage}{0.5\linewidth}
+    \begin{lstlisting}[mathescape,caption={A possible assignment for f s.t. it represents no homomorphism from Fig.~\ref{fig:ex2-cand} to Fig.~\ref{fig:ex2-neg}}, label=lst:invalidf]
 f={
-    g1,1$\mapsto$a, g1,2$\mapsto$b,g1,3$\mapsto$c,
-    g2,1$\mapsto$d, g2,2$\mapsto$e,g2,3$\mapsto$g
+    g1,1$\mapsto$a; g1,2$\mapsto$b; g1,3$\mapsto$c;
+    g2,1$\mapsto$d; g2,2$\mapsto$e; g2,3$\mapsto$g
 }
-\end{lstlisting}
-\end{minipage}
-
-%\matthias{Find a convincing but small example}
-%\matthias{The moment to introduce the asp saturation technique}
-
-%\paragraph{ASP}
-%Let us describe a way to encode the problem into ASP. Conceptually we need to handle three constraints: matching of positive examples, not matching of negative examples and canonicity (that only not isomorphic graphs are produced).
-
-\subsubsection{Inductive Definitions}
-Beyond the Existential Second Order restriction, the IDP language is also extended with inductive definitions. These definitions, evaluated under the well-founded semantics, allows the derivation of negative knowledge that otherwise would be underivable.
-For example, in \textbf{Fig.}~\ref{fig:trans}, without using inductive definitions, one is unable to derive that point $a$ and $b$ are not connected.
-\begin{figure}[h]
+    \end{lstlisting}
+    \end{minipage}
+    \begin{minipage}{0.5\linewidth}
     \centering
-   \begin{tikzpicture}[scale=0.7]
+    \begin{tikzpicture}[scale=0.7]
        \node[vertex] at (1,1) {};
        \node[vertex] at (2.2,1) {};
        \node[vertex] at (2.7,2) {};
@@ -305,14 +369,32 @@ For example, in \textbf{Fig.}~\ref{fig:trans}, without using inductive definitio
      
        \draw (1,1) -- (2.2,1) -- (2.7,2) -- cycle;
        \draw (1,1.3) -- (1.8,2.3) -- (2.7,2.3) -- cycle;
-   \end{tikzpicture}
-\end{figure}
+    \end{tikzpicture}
+    \captionof{figure}{Example of a disconnected graph}
+   \label{fig:trans}
+    \end{minipage}
+\end{minipage}
+
+%\matthias{Find a convincing but small example}
+%\matthias{The moment to introduce the asp saturation technique}
+
+%\paragraph{ASP}
+%Let us describe a way to encode the problem into ASP. Conceptually we need to handle three constraints: matching of positive examples, not matching of negative examples and canonicity (that only not isomorphic graphs are produced).
+
+\subsubsection{Inductive Definitions}
+Beyond the Existential Second Order restriction, the IDP language is also extended with inductive definitions. These definitions, evaluated under the well-founded semantics, allow the derivation of negative knowledge that otherwise would be underivable.
+Take the path predicate defined in Listing~\ref{lst:vocabularyExample}.
+Models of this theory contain the transitive closure \lstinline|Path|/2 of the \lstinline|Edge|/2 relation.
+When the edge relation would be chosen such that it represents the graph of \textbf{Fig.}~\ref{fig:trans}, there is no model in which nodes $a$ and $b$ are connected. Note that when the transitivity property is expressed as an FO constraint instead, there do exist models in which \lstinline|Path(a,b)| is true.
+
 %\reversemarginpar
 %\todo{A section about inductive definitions, and their use. (Being able to derive negative knowledge)}
 
 \subsubsection{Other inferences}
 One of the advantages of IDP is its underlying \emph{Knowledge Base} paradigm~\ref{}.
-Essentially, this paradigm ensures that we can perform other inferences on the graph mining problem, e.g. finding patterns with as many or as few nodes as possible, without modifying the specification.
+Essentially, this paradigm ensures that we can perform other inferences on the graph mining problem.
+One of these inferences is, for example, optimization.
+This would allow us to, e.g., minimize or maximize over the number of nodes in the pattern graph, or the number of nodes in the pattern with a certain label, \ldots, with only minimal changes to the specification.
 
 \reversemarginpar
 

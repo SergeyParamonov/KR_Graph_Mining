@@ -15,7 +15,16 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-This is the abstract.\matthias{This paper shows how the graph mining problem \ldots}
+Many problems are inherently higher order due to their complex nature and composite structure.
+Modeling these problems in an intu\"itive way becomes a challenging task.
+This paper analyses, from a KR perspective, what difficulties arise when modeling such a problem, using the graph mining problem as an application-based example.
+We summarize several techniques such as the disjoint union technique or the saturation technique, and show how they can be applied to tackle the difficulties of modeling higher order problems, although it comes with a considerable loss of declarativeness and clarity of the specification.
+
+Furthermore, we identify several properties which should hold for a good modeling of the graph mining problem, from a KR perspective, and evaluate working models in several KR languages (IDP, ASP, ProB) on these properties.
+We also propose a ``faithfull'' encoding, which closely follows the mathematical definition of the graph mining problem and satisfies all different desired properties.
+Based on this faithfull encoding, we propose solver extensions that would shift the burden of rewriting the specification using the identified encoding techniques from the user to the solver itself, or would eliminate the need entirely.
+
+%This paper analyses how problems of a composite and complex nature 
 \end{abstract}
 
 \input{introduction}

@@ -4,7 +4,7 @@ These types of problems lend themselves for a declarative approach as knowledge 
 Delarative programming distinguishes itself by the ease with which declarative specifications can be adapted to variations in which subproblems are used, and in the way they are combined.
 
 Conversely, the smaller problems in these composite structures are often already NP or coNP complete.
-Combining these already complex problems often raises the computational complexity of the composite problem. As  to a level where it cannot be expressed using first order logic. These problems become inherently higher order logic.
+Combining these already complex problems often raises the computational complexity of the composite problem, up to a level where it cannot be expressed using first order logic. These problems become inherently higher order logic.
 We study the \emph{Graph Mining} problem as an example problem of such a raise in complexity, and detail some of the techniques that can be used to handle this.
 This includes the generalization of ad-hoc techniques as well as the combination of techniques from different logics.
 
@@ -24,14 +24,16 @@ Many different interpretations can be given to these two problems\matthias{homom
 While this gives rise to many wildly different algorithms in imperative languages~\citep{gspan,theta_subsumption}, these variations can be specified with only minimal changes using a declarative modelling approach.
 
 In our case study of the graph mining problem, we start with from the mathematical model of graph mining, which is inherently higher order, and identify the following contributions:
-\begin{itemize}
-\item We identify the higher order aspects of the graph mining problem and show how the problem can be modeled in IDP (which supports Existential Second Order and inductive definitions) and in ProB (which supports higher order sets). We propose concrete modelling techniques such as the disjoint union technique.
-\item We propose higher order language constructs for IDP and ProB extensions which greatly improve the ease of expressing the graph mining and other higher order problems.
-\item We indicate how to shift the burden of addressing the higher order aspects of the problem from modeler to the solver. 
+\begin{compactitem}
+\item We identify the higher order aspects of the graph mining problem and \matthias{desirable properties for a declarative encoding. We} show how the problem can be modeled in IDP (which supports Existential Second Order and inductive definitions) \matthias{, in ASP ($\Sigma_{2}^{p}$),} and in ProB (which supports higher order sets), proposing concrete modelling techniques such as the disjoint union technique. \matthias{We compare how the different solutions perform.} \todo{w.r.t. the desirable properties, or w.r.t. time/resources, or both?}
+%\item We propose higher order language constructs for IDP and ProB extensions which greatly improve the ease of expressing the graph mining and other higher order problems.
+%\item We indicate how to shift the burden of addressing the higher order aspects of the problem from modeler to the solver. 
+\item We propose an encoding that closely follows the mathematical model of graph mining, and satisfies all desirable properties of a graph mining model.
+We indicate how to shift the burden of addressing the higher order aspects of the problem using encoding techniques from modeler to the solver. 
 Concretely, solver support is needed to translate the proposed higher order language constructs from the previous item to first order using e.g the disjoint union modeling technique.
 We indicate how additional solver support can leverage these expressive constructs to work more efficient.
-\end{itemize}
-\todo{rewrite contributions to two points}
+\end{compactitem}
+%\todo{rewrite contributions to two points}
 The paper is structured as follows: Section \ref{sec:formalization} introduces the formalization of graph mining, Section \ref{sec:modeling} introduces a logical model and discusses the primitives at the core of graph mining problem.
 Then, Section \ref{sec:code} introduces graph mining encodings in IDP, ASP and ProB. Section \ref{sec:extension} discusses language extensions.
 Section \ref{sec:related_work} discusses related work. Section \ref{sec:conclusion} draws conclusions and outlines possible future research directions.
