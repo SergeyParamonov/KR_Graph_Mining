@@ -21,7 +21,7 @@ In conclusion, we say IDP can express model expansion for \emph{Existential Seco
 This level of expressiveness is not sufficient for general graph mining problems.
 We will discuss the several issues in the remainder of this section.
 
-\lstset{basicstyle=\scriptsize\ttfamily,breaklines=true}
+
 \begin{lstlisting}[mathescape,style=model,caption=\ldots, label=lst:vocabularyExample]
 vocabulary V{
     type Node
@@ -210,8 +210,9 @@ Now, even though it is possible to find a homomorphism between the pattern candi
 
 \citep{} have shown that this is inherently linked to IDPs limit to Existential Second Order.
 Indeed, in order to check that our pattern \graph{P} is homomorphic with no more than $N_{-}$ negative graphs, we have to check that there are enough negative graphs for which no homomorphism exists, for example using a count aggregate as in Listing~\ref{lst:universalquant}.
-By asserting a property for all candidate homomorphic functions $f$ of a certain graph $g$, the negative homomorphic constraint leads to universal quantification over a function \matthias{functionspace?}.
+By asserting a property for all candidate homomorphic functions $f$ of a certain graph $g$, the negative homomorphic constraint leads to universal quantification over a function variable.
 
+\vspace{-0.5em}
 \begin{center}
 \begin{minipage}{0.62\linewidth}
 \begin{lstlisting}[mathescape, caption=Quantifying over functions outside the vocabulary, label=lst:universalquant]
@@ -219,18 +220,22 @@ By asserting a property for all candidate homomorphic functions $f$ of a certain
 \end{lstlisting}
 \end{minipage}
 \end{center}
+\vspace{-0.5em}
 
 One way to solve a \coNP\ problem such as the negative homomorphism constraint using an \NP\ solver is by encoding the dual (i.e. negated) problem, and conclude that the problem is satisfied if no model exists for the dual problem.
 This can be checked using an \NP\ solver.
 However, this technique can only be implemented in IDP by writing two theories: 
 \begin{compactitem}
 \item one (positive) theory $\theory^{+}$, which expresses the positive homomorphic property and generates pattern candidates, and
-\item one negative theory $\theory^{-}$, which expresses the negative homomorphic property and rejects pattern candidates that do not satisfy this constraint.
+\item one negative theory $\theory^{-}$, which expresses the (dual of) negative homomorphic property and rejects pattern candidates that do not satisfy this constraint.
 \end{compactitem}
 We must also provide procedural (lua) code that ties these two theories and their inferences together by allowing the communication of pattern candidates between these two theories.
 
-As the isomorphism restriction when looking for multiple patterns is also \coNP, we can use the same technique, giving rise to another theory $\theory^{iso}$.
-Luckily, it is possible to merge the negative theory $\theory^{-}$ and $\theory^{iso}$.
+It is not known whether the problem of graph isomorphism is polynomial time solvable,
+however is sure to be no more complex than NP.
+Conversely, the isomorphism restriction when looking for multiple patterns is also no more complex than \coNP.
+Therefore, we can use the same technique, giving rise to another theory $\theory^{iso}$.
+Note that it is possible to combine the negative theories $\theory^{-}$ and $\theory^{iso}$ into a single negative theory.
 
 
 %Much in the same way, limiting ourselves to existential second order prohibits us from expressing the negative homomorphic property (the pattern is homomorphic with no more than $N_{-}$ negative examples) in the same model.
@@ -249,22 +254,6 @@ Luckily, it is possible to merge the negative theory $\theory^{-}$ and $\theory^
 %It must pass models from the theory that asserts the positive property to the theory that checks the negative property. This procedural code is clearly not declarative.
 %In much the same way, IDP cannot express the isomorphism restriction when looking for multiple patterns: if needed, this restriction is transformed into a dual positive restriction (there \emph{must} be an isomorphism) and is required to fail as well. These two theories expressing the dual of the negative homomorphism property and that of the isomorphism restriction can safely be merged.
 
-
-\matthias{Should this be moved?}
-\textbf{ASP}, a language family closely related to IDP, can prevent the invalid models of the example above by leveraging the minimality property of their models: ASP looks for the minimal answer set models, whereas idp looks for well-founded models.
-This technique is called the \emph{saturation} technique~\ref{eiter} and can prevent the procedural code that IDP requires.
-
-When using this technique, ASP detects negative example graphs for which the f does not represent a homomorphism, and 
-requires for these example graphs that $f$ must map every node of the pattern on every node of that example graph, dropping the injectivity constraint.
-This way, $f$ becomes so large that it is impossible that it belongs to the minimal answer set unless there is no homomorphism from the pattern to this (negative) example graph.
-Consequently, the minimality property will cause the solver to look for an $f$ that represents a homomorphism for as many example graphs (including negatives) as possible.
-The same technique can be applied to the isomorphism restriction.
- %requiring that in this case f must be the total relation
-%accordingly enlarging the answer set by requiring that in these cases f must be the \emph{total} relation for this graph, the minimality property will cause the solver to look for $f$ that represent a homomorphism for as many example graphs (including negatives) as possible.
-
-
-While this technique succesfully prevents the need of a procedural loop and the rewriting of the negative homomorphic property and the isomorphism restriction, it is clear that this technique is not derived from a natural KR translation of the Graph Mining definition.
-\matthias{Also, it forces to look for homomorphisms for every negative example graph, whereas $N_{-}$ + 1 example graphs are enough. Quite possible that there is a workaround for this however.}
 \begin{figure}
   \centering
   \begin{subfigure}[b]{0.15\textwidth}
@@ -398,6 +387,24 @@ This would allow us to, e.g., minimize or maximize over the number of nodes in t
 
 \reversemarginpar
 
+\subsection{ASP}
+\textbf{ASP}, a language family closely related to IDP, mostly encounters the same issues when modeling the graph mining problem.
+One of the main differences between ASP and IDP is the choice of semantics: ASP looks for the minimal answer set models, whereas IDP looks for well-founded models.
+Leveraging the minimality property of their models, ASP can prevent the invalid models of the example discussed in issue 3.
+The corresponding technique is called the \emph{saturation} technique~\ref{eiter} and can prevent the creation of two separate theories and writing of procedural code that IDP requires.
+
+When using this technique, ASP detects negative example graphs for which the f does not represent a homomorphism, and requires for these example graphs that $f$ must map every node of the pattern on every node of that example graph, dropping the injectivity constraint.
+This way, $f$ becomes so large that it is impossible that it belongs to the minimal answer set unless there does not exist a homomorphism from the pattern to this (negative) example graph.
+Consequently, the minimality property will cause the solver to look for an $f$ that represents a homomorphism for as many example graphs (including negatives) as possible.
+The same technique can be applied to the isomorphism restriction.
+ %requiring that in this case f must be the total relation
+%accordingly enlarging the answer set by requiring that in these cases f must be the \emph{total} relation for this graph, the minimality property will cause the solver to look for $f$ that represent a homomorphism for as many example graphs (including negatives) as possible.
+
+
+While this technique succesfully prevents the need of a procedural loop and the rewriting of the negative homomorphic property and the isomorphism restriction, it is clear that this technique is not derived from a natural KR translation of the Graph Mining definition.
+\matthias{Also, it forces to look for homomorphisms for every negative example graph, whereas $N_{-}$ + 1 example graphs are enough. Quite possible that there is a workaround for this however.}
+
+
 \subsection{ProB}
 The ProB System can handle mathematical specifications using higher order logic and set theory.
 As a result, ProB specifications can cover the polynomial hierarchy \textbf{PH}.
@@ -423,6 +430,22 @@ Recently, efforts have been made to integrate Kodkod, which provides a high-leve
 
 \subsection{Conclusion}
 
+From the definition of the graph mining problem and the issues with its encodings above, it is  possible to derive a set of \emph{desirable properties} that a good KR specification of the graph mining problem should satisfy.
+
+\begin{compactitem}
+\item Labeled graphs are the main concept in the mathematical definition of the graph mining problem. 
+Here, labeled graphs are seen as a mathematical object consisting of an edge relation and a labeling function.
+A good KR language should allow to carry over this view on graphs as a single, locally coherent object to its specifications. 
+\item All example graphs in the dataset are independent, so the search for a homomorphism between pattern and a given example graph is independent from the others. This should be clear from the specification.
+\item The search for a homomorphism between pattern and example graph is always the same, regardless of the sign of the example graph (negative or positive). The only difference is the at most/at least constraint we pose on the number of homomorphisms we can find.
+This introduces great similarity between the two constraints: in a good KR language, the specification should exhibit great similarity in this aspect.
+\item We want to be able to find multiple, non-isomorphic, patterns.
+\item We want to express constraints such as connectedness of the different nodes in the pattern.
+\item We want to perform multiple inferences on the problem, with only minimal model changes.
+\item We prefer a single specification over many multiple specifications. 
+Although specifications are preferably modular to make it easier to reuse them, ideally the specification would be solved within a single solver call, requiring no procedural code to tie them together.
+\end{compactitem}
+
 %\section{Feature Comparison}
 %
 %\subsection{IDP} 
@@ -441,7 +464,7 @@ Recently, efforts have been made to integrate Kodkod, which provides a high-leve
 %  \item cannot handle dominance, i.e., when one model is preferred over another 
 %\end{itemize}
 
-\matthias{This table~\ref{tbl:conclusion} is not in the correct place yet. It is an early draft, and must be cleaned up and introduced properly}
+%\matthias{This table~\ref{tbl:conclusion} is not in the correct place yet. It is an early draft, and must be cleaned up and introduced properly}
 \def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
 
 \begin{table}[h]

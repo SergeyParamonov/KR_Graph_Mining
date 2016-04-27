@@ -2,7 +2,7 @@
 \matthias{This is the working ProB code that we'll show as an example}
 %In this section, the graph mining problem is slightly modified: we now restrict the search for a pattern to graphs that are a subgraph of a given \emph{template} graph.
 %The declarative approach allows us to implement such a modification with only minimal effort.
-\VerbatimInput{original_prob_files/PositiveAndNegative.mch}
+%\VerbatimInput{original_prob_files/PositiveAndNegative.mch}
 \pagebreak
 
 In Listing~\ref{lst:IDPPos}, we show part of the working model for the graph mining problem.
@@ -86,70 +86,84 @@ negative_count(N) :- N = #count{G:negative_match(G)}.
 :- negative_count(N), N > 1.
 
 \end{lstlisting}
+\todo{Sergey: Why is the canonicity template-based check so different from the negative maching specification. In the negative matchin, all that is added is the saturated predicate, is it not possible to add only that in the case of canonicity?}
 
-\begin{lstlisting}[caption=Canonicity template-based check, style=model]
-iso(X,x1) | iso(X,x2) | iso(X,x3) | iso(X,x4) :- invar(X).
+\todo{Michael, could you think of a snippet of code for ProB. Preferrably, we would also use as much of the same terminology as possible as in idp/asp.}
 
-candidate_var(X) :- iso(_,X).
+%\begin{lstlisting}[caption=Canonicity template-based check, style=model]
+%iso(X,x1) | iso(X,x2) | iso(X,x3) | iso(X,x4) :- invar(X).
+%
+%candidate_var(X) :- iso(_,X).
+%
+%%not iso!
+%iso_saturated :- invar(X1), invar(X2), iso(X1,V1), iso(X2,V2),     t_edge(V1,V2), not t_edge(X1,X2). 
+%iso_saturated :- invar(X1), invar(X2), iso(X1,V1), iso(X2,V2), not t_edge(V1,V2),     t_edge(X1,X2).
+%
+%iso(X,V) :- invar(X), t_node(V), iso_saturated.
+%
+%d1(X) :-     invar(X), not candidate_var(X). 
+%d2(X) :- not invar(X),     candidate_var(X).
+%
+%not_equal :- d1(X). % check that in fact candidate is different from the pattern itself
+%not_equal :- d2(X). % check that in fact candidate is different from the pattern itself
+%
+%iso_saturated :- not not_equal. % should not be completely equal
+%
+%min_d1(N) :- N = #min{ X: d1(X) }, not iso_saturated.
+%min_d2(N) :- N = #min{ X: d2(X) }, not iso_saturated.
+%
+%iso_saturated :- min_d1(N1), min_d2(N2), N1 > N2.
+%\end{lstlisting}
+%
+%\begin{lstlisting}[caption=Auxilary predicates -- probably should be moved to appendix, style=model]
+%%selects subpattern
+%
+%t_path(X,Y) :- t_edge(X,Y), invar(X), invar(Y).
+%t_path(X,Y) :- t_edge(X,Z), t_path(Z,Y), invar(X).
+%
+%:- invar(X), invar(Y), not t_path(X,Y).
+%
+%0 { invar(X) } 1 :- t_node(X).
+%% auxilary constraints
+%
+%
+%edge(G,Y,X) :- edge(G,X,Y).
+%t_edge(Y,X) :- t_edge(X,Y).
+%node(G,Y)   :- edge(G,Y,_).
+%t_node(X)   :- t_edge(X,_).
+%\end{lstlisting}
 
-%not iso!
-iso_saturated :- invar(X1), invar(X2), iso(X1,V1), iso(X2,V2),     t_edge(V1,V2), not t_edge(X1,X2). 
-iso_saturated :- invar(X1), invar(X2), iso(X1,V1), iso(X2,V2), not t_edge(V1,V2),     t_edge(X1,X2).
+%\begin{lstlisting}[caption=Canonicity previous solution isomorphism check, style=model]
+%iso(s1,X,x1) | iso(s1,X,x2) :- invar(X).
+%iso(s2,X,x2) | iso(s2,X,x3) :- invar(X).
+%
+%candidate_var(G,X) :- iso(G,_,X).
+%
+%iso_saturated(G) :- invar(X1), invar(X2), iso(G,X1,V1), iso(G,X2,V2),     t_edge(V1,V2), not t_edge(X1,X2). 
+%iso_saturated(G) :- invar(X1), invar(X2), iso(G,X1,V1), iso(G,X2,V2), not t_edge(V1,V2),     t_edge(X1,X2). 
+%iso_saturatea(G) :- not equal(G), iso(G,_,_). 
+%
+%iso(G,X,V) :- invar(X), t_node(V), iso_saturated(G).
+%
+%:- not iso_saturated(G), iso(G,_,_).
+%
+%d1(G,X) :-     invar(X), not candidate_var(G,X), iso(G,_,_).
+%d2(G,X) :- not invar(X),     candidate_var(G,X).
+%
+%not_equal(G) :- d1(G,X). % check that in fact candidate is different from the pattern itself
+%not_equal(G) :- d2(G,X). % check that in fact candidate is different from the pattern itself
+%
+%equal(G) :- not not_equal(G), iso(G,_,_).
+%
+%\end{lstlisting}
 
-iso(X,V) :- invar(X), t_node(V), iso_saturated.
+\subsection{Performance}
+We compared the performance of the different encoding techniques on the mutagenesis~\ref{} dataset for graph mining.
+First, we randomly picked a positive example to use as the template graph.
+Next, we mined a random sample subset of the mutagenesis dataset for $n$ patterns with thresholds $N_{+} = $ 5\% of the size of the positive example set, and $N_{-} =$ 5\% of the size of the negative example set.
+During the mining process, we tracked the time it takes to mine the $i=1..n$'th pattern.
+The results shown are the times needed to mine the $i$'th pattern, averaged over * repeats of the process above.
 
-d1(X) :-     invar(X), not candidate_var(X). 
-d2(X) :- not invar(X),     candidate_var(X).
-
-not_equal :- d1(X). % check that in fact candidate is different from the pattern itself
-not_equal :- d2(X). % check that in fact candidate is different from the pattern itself
-
-iso_saturated :- not not_equal. % should not be completely equal
-
-min_d1(N) :- N = #min{ X: d1(X) }, not iso_saturated.
-min_d2(N) :- N = #min{ X: d2(X) }, not iso_saturated.
-
-iso_saturated :- min_d1(N1), min_d2(N2), N1 > N2.
-\end{lstlisting}
-
-\begin{lstlisting}[caption=Auxilary predicates -- probably should be moved to appendix, style=model]
-%selects subpattern
-
-t_path(X,Y) :- t_edge(X,Y), invar(X), invar(Y).
-t_path(X,Y) :- t_edge(X,Z), t_path(Z,Y), invar(X).
-
-:- invar(X), invar(Y), not t_path(X,Y).
-
-0 { invar(X) } 1 :- t_node(X).
-% auxilary constraints
-
-
-edge(G,Y,X) :- edge(G,X,Y).
-t_edge(Y,X) :- t_edge(X,Y).
-node(G,Y)   :- edge(G,Y,_).
-t_node(X)   :- t_edge(X,_).
-\end{lstlisting}
-
-\begin{lstlisting}[caption=Canonicity previous solution isomorphism check, style=model]
-iso(s1,X,x1) | iso(s1,X,x2) :- invar(X).
-iso(s2,X,x2) | iso(s2,X,x3) :- invar(X).
-
-candidate_var(G,X) :- iso(G,_,X).
-
-iso_saturated(G) :- invar(X1), invar(X2), iso(G,X1,V1), iso(G,X2,V2),     t_edge(V1,V2), not t_edge(X1,X2). 
-iso_saturated(G) :- invar(X1), invar(X2), iso(G,X1,V1), iso(G,X2,V2), not t_edge(V1,V2),     t_edge(X1,X2). 
-iso_saturatea(G) :- not equal(G), iso(G,_,_). 
-
-iso(G,X,V) :- invar(X), t_node(V), iso_saturated(G).
-
-:- not iso_saturated(G), iso(G,_,_).
-
-d1(G,X) :-     invar(X), not candidate_var(G,X), iso(G,_,_).
-d2(G,X) :- not invar(X),     candidate_var(G,X).
-
-not_equal(G) :- d1(G,X). % check that in fact candidate is different from the pattern itself
-not_equal(G) :- d2(G,X). % check that in fact candidate is different from the pattern itself
-
-equal(G) :- not not_equal(G), iso(G,_,_).
-\end{lstlisting}
-
+\begin{figure}
+\includegraphics[width=\linewidth]{extra/figure_comparison_yoshida.pdf}
+\end{figure}
