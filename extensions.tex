@@ -13,46 +13,22 @@ For example, in this case HO preserves the local coherence and independence of t
 
 \subsection{Faithful encoding}
 \matthias{In this subsection, we show a new encoding, which is not yet supported in IDP, and argue that it is more faithful to the problem with respect to the definition as given in Def~\ref{def:gm2}.}
-\begin{alltt}
-  homomorphism(<Edge1, Label1>, <Edge2, Label2>) \(\iff\)
-      \big(\(\exists\) f: (\(\forall\) x, y : x \(\neq\) y \(\Rightarrow\) f(x) \(\neq\) f(y)) \(\wedge\)
-      (\(\forall\) x, y : Edge1(x, y) \(\implies\) Edge2(f(x), f(y))) \(\wedge\)
-      (\(\forall\) x : Label1(x) = Label2(f(x)))\big)
-
-  isomorph(<Edge1, Label1>,<Edge2, Label2>) \(\iff\)
-      \big(\(\exists\)f : (\(\forall\)x,y:x\(\neq\)y\(\implies\)f(x)\(\neq\)f(y)) \(\wedge\)
-      (\(\forall\) x, y : Edge1(x, y) \(\iff\) Edge2(f(x), f(y))) \(\wedge\)
-      (\(\forall\) x : Label1(x) = Label2(f(x)))\big).
-
-  \textbraceleft
-  reachable(x, y, <Edge, Label>) \(\leftarrow\) Edge(x, y) \(\lor\) Edge(y, x).
-  reachable(x, y, <Edge, Label>) \(\leftarrow \exists\) : reachable(x, z, <Edge, Label>) \(\wedge\) reachable(z, y, <Edge, Label>).
-  \textbraceright
-  
-  isPattern(P) \(\iff\)
-      \big((\#\textbraceleft Pos : positive(Pos) \(\wedge\) homomorphism(P, Pos) \textbraceright \(\geq\) \(N{+}\)) \(\land\)
-      (\#\textbraceleft Neg : negative(Neg) \(\wedge\) homomorphism(P, Neg) \textbraceright \(\leq\) \(N_\)) \(\land\)
-      (\(\forall\) x, y : reachable(x, y, P))\big).
-      
-  \(\forall\)P : pattern(P) \(\implies\) isPattern(P). 
-  \(\forall\)P,P2 : pattern(P)\(\wedge\)pattern(P2)\(\wedge\)P\(\neq\)P2 \(\implies\) \(\neg\)isomorph(P, P2).
-
-\end{alltt}
-
 \begin{lstlisting}[mathescape,style=model,caption={Faithfull encoding}]
-  homomorphism(<Edge1, Label1>, <Edge2, Label2>) $\iff$
-      @\big(@$\exists$ f: ($\forall$ x, y : x $\neq$ y $\Rightarrow$ f(x) $\neq$ f(y)) $\wedge$
-       ($\forall$ x, y : Edge1(x, y) $\implies$ Edge2(f(x), f(y))) $\wedge$
-       ($\forall$ x : Label1(x) = Label2(f(x)))@\big)@
+  @\textbraceleft@
+  homomorphism((Edge1, Label1), (Edge2, Label2)) $\leftarrow$
+      @\big(@$\exists$ F: ($\forall$ x, y : x $\neq$ y $\implies$ F(x) $\neq$ F(y)) $\wedge$
+       ($\forall$ x, y : Edge1(x, y) $\implies$ Edge2(F(x), F(y))) $\wedge$
+       ($\forall$ x : Label1(x) = Label2(F(x)))@\big)@
 
-  isomorph(<Edge1, Label1>,<Edge2, Label2>) $\iff$
-      @\big(@$\exists$f : ($\forall$x,y:x$\neq$y$\implies$f(x)$\neq$f(y)) $\wedge$
-       ($\forall$ x, y : Edge1(x, y) $\iff$ Edge2(f(x), f(y))) $\wedge$
-       ($\forall$ x : Label1(x) = Label2(f(x)))@\big)@.
+  isomorph((Edge1, Label1),(Edge2, Label2)) $\leftarrow$
+      @\big(@$\exists$ F: ($\forall$x,y:x$\neq$y$\implies$F(x)$\neq$F(y)) $\wedge$
+       ($\forall$ x, y : Edge1(x, y) $\iff$ Edge2(F(x), F(y))) $\wedge$
+       ($\forall$ x : Label1(x) = Label2(F(x)))@\big)@.
+  @\textbraceright@
 
   @\textbraceleft@
-  reachable(x, y, <Edge, Label>) $\leftarrow$ Edge(x, y) $\lor$ Edge(y, x).
-  reachable(x, y, <Edge, Label>) $\leftarrow \exists$ : reachable(x, z, <Edge, Label>) $\wedge$ reachable(z, y, <Edge, Label>).
+  reachable(x, y, (Edge, Label)) $\leftarrow$ Edge(x, y) $\lor$ Edge(y, x).
+  reachable(x, y, (Edge, Label)) $\leftarrow \exists$ : reachable(x, z, (Edge, Label)) $\wedge$ reachable(z, y, (Edge, Label)).
   @\textbraceright@
   
   isPattern(P) $\iff$

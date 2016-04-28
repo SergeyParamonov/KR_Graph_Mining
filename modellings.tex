@@ -396,7 +396,7 @@ The corresponding technique is called the \emph{saturation} technique~\ref{eiter
 When using this technique, ASP detects negative example graphs for which the f does not represent a homomorphism, and requires for these example graphs that $f$ must map every node of the pattern on every node of that example graph, dropping the injectivity constraint.
 This way, $f$ becomes so large that it is impossible that it belongs to the minimal answer set unless there does not exist a homomorphism from the pattern to this (negative) example graph.
 Consequently, the minimality property will cause the solver to look for an $f$ that represents a homomorphism for as many example graphs (including negatives) as possible.
-The same technique can be applied to the isomorphism restriction.
+The same technique can be applied to the isomorphism restriction, as well as other possible $\Sigma_{2}^{p}$ constraints such as subset minimality.
  %requiring that in this case f must be the total relation
 %accordingly enlarging the answer set by requiring that in these cases f must be the \emph{total} relation for this graph, the minimality property will cause the solver to look for $f$ that represent a homomorphism for as many example graphs (including negatives) as possible.
 
@@ -446,25 +446,6 @@ This introduces great similarity between the two constraints: in a good KR langu
 Although specifications are preferably modular to make it easier to reuse them, ideally the specification would be solved within a single solver call, requiring no procedural code to tie them together.
 \end{compactitem}
 
-%\section{Feature Comparison}
-%
-%\subsection{IDP} 
-%
-%\textbf{Pro:}
-%\begin{itemize}
-%  \item can model inductive definitions
-%  \item allows core formulation in a high-level language (NP)
-%  \item handles aggregates
-%  \item has support for variety of constraints
-%\end{itemize}
-%\textbf{Cons:}
-%\begin{itemize}
-%  \item cannot handle negative case $\textit{NP}^\textit{NP}$ complexity
-%  \item cannot model subgraph isomorphism independence
-%  \item cannot handle dominance, i.e., when one model is preferred over another 
-%\end{itemize}
-
-%\matthias{This table~\ref{tbl:conclusion} is not in the correct place yet. It is an early draft, and must be cleaned up and introduced properly}
 \def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
 
 \begin{table}[h]
@@ -473,4 +454,6 @@ Although specifications are preferably modular to make it easier to reuse them, 
 \end{center}
 \caption{Evaluation of the desirable properties in IDP / ASP / ProB\label{tbl:conclusion}}
 \end{table}
+
+As can be seen from Table~\ref{tbl:conclusion}, \todo{Provide an explanation of the table, with some references to earliers parts of the text to justify certain claims/results}
 

@@ -1,5 +1,5 @@
 \section{Code in ProB, IDP, ASP}\label{sec:code}
-\matthias{This is the working ProB code that we'll show as an example}
+%\matthias{This is the working ProB code that we'll show as an example}
 %In this section, the graph mining problem is slightly modified: we now restrict the search for a pattern to graphs that are a subgraph of a given \emph{template} graph.
 %The declarative approach allows us to implement such a modification with only minimal effort.
 %\VerbatimInput{original_prob_files/PositiveAndNegative.mch}
@@ -8,6 +8,7 @@
 In Listing~\ref{lst:IDPPos}, we show part of the working model for the graph mining problem.
 It shows the constraints necessary to enforce the positive homomorphic property.
 As expected from the symmetry underlying the two homomorphic constriants, the theory expressing the negative homomorphic property is the same except for the comparison operator.
+\todo{Michael, could you think of a snippet of code for ProB? Preferrably, we would also use as much of the same terminology as possible as in idp/asp.}
 
 \begin{lstlisting}[caption=IDP positive constraint, style=model, label=lst:IDPPos]
 vocabulary V{
@@ -87,8 +88,6 @@ negative_count(N) :- N = #count{G:negative_match(G)}.
 
 \end{lstlisting}
 \todo{Sergey: Why is the canonicity template-based check so different from the negative maching specification. In the negative matchin, all that is added is the saturated predicate, is it not possible to add only that in the case of canonicity?}
-
-\todo{Michael, could you think of a snippet of code for ProB. Preferrably, we would also use as much of the same terminology as possible as in idp/asp.}
 
 %\begin{lstlisting}[caption=Canonicity template-based check, style=model]
 %iso(X,x1) | iso(X,x2) | iso(X,x3) | iso(X,x4) :- invar(X).
