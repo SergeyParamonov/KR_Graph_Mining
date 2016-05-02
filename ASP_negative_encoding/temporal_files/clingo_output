@@ -1,0 +1,11 @@
+clingo version 4.5.4
+Reading from temporal_files/executable_program.asp ...
+Solving...
+Answer: 1
+invar(20) invar(21) positive_match(3) positive_match(4) positive_match(18) positive_match(54) positive_match(92) positive_match(94) positive_match(152) positive_match(175) positive_match(176) positive_match(180) positive_match(188) positive_match(213) positive_match(226) positive_match(255) positive_count(14) used_map(3,20,8) used_map(3,21,7) used_map(4,20,9) used_map(4,21,8) used_map(18,20,10) used_map(18,21,9) used_map(54,20,7) used_map(54,21,5) used_map(92,20,11) used_map(92,21,9) used_map(94,20,7) used_map(94,21,6) used_map(152,20,8) used_map(152,21,7) used_map(175,20,3) used_map(175,21,1) used_map(176,20,9) used_map(176,21,7) used_map(180,20,7) used_map(180,21,5) used_map(188,20,9) used_map(188,21,8) used_map(213,20,8) used_map(213,21,7) used_map(226,20,10) used_map(226,21,8) used_map(255,20,6) used_map(255,21,5)
+SATISFIABLE
+
+Models       : 1+    
+Calls        : 1
+Time         : 20.272s (Solving: 0.05s 1st Model: 0.04s Unsat: 0.00s)
+CPU Time     : 20.260s
