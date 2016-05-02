@@ -1,0 +1,37 @@
+\documentclass{article}
+\usepackage[usenames,dvipsnames,table]{xcolor}
+\include{packages}
+\usepackage{array}
+
+\usepackage{tikz}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{tabular}{l |l l l}
+         & $E$ & $l$      & $c$ \\
+\hline
+$\graph{G}_{1}$  & $E_{1}$ & $l_{1}$ & pos\\
+$\graph{G}_{2}$  & $E_{2}$ & $l_{2}$ & pos\\
+  \vdots & \vdots  & \vdots  & \vdots\\
+$\graph{G}_{n}$  & $E_{n}$ & $l_{n}$ & pos\\
+\begin{tikzpicture}[overlay]
+  \coordinate (dotted) at ($(1.28,0.2) + (4.8,4)$);
+  \coordinate (line) at (7,4.45);
+  \coordinate (dashed1) at (1.02,1.6);
+  \coordinate (dashed2) at (1.8,1.6);
+  \draw [dotted, rounded corners] 
+  ($ (dotted) - (4.8,4) $) -- 
+  ($ (dotted) - (4.8,1.5)$) -- 
+  ($ (dotted) - (5.3,1.5)$) -- 
+  ($ (dotted) - (5.3,4)$) -- cycle;
+  \draw [rounded corners] 
+  ($ (line) - (3.9,2.66)$) --
+  ($ (line) - (7.18,2.66)$) --
+  ($ (line) - (7.18,3.1)$) -- 
+  ($ (line) - (3.9,3.08)$) -- cycle;
+  (3.south east) -- (3.south west);
+  \draw [dashed, rounded corners] (dashed1) circle (3mm);
+  \draw [dashed, rounded corners] (dashed2) circle (3mm);
+\end{tikzpicture}
+\end{tabular}
+\end{document}

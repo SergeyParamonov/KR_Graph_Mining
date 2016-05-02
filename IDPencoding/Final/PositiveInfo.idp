@@ -1,0 +1,18 @@
+theory Positive:V_Pos{
+   //The pattern is a connected subgraph of the template: From every node in the pattern, 
+   //there exists a path to every other node in the pattern.
+   !x,y[node] : x ~= y & inpattern(x) & inpattern(y) => path(x,y).
+   {
+      path(x,y) <- template_edge(x,y) & inpattern(x) & inpattern(y).
+      path(x,y) <- ?z[node] : path(x,z) & path(z,y).
+      path(x,y) <- path(y,x).
+   }
+
+   //existence of a homomorphic f from the pattern to example graph with graphid gid.
+   !gid[graphid] : !x[node]   : homowith(gid) & inpattern(x) <=> ? y[node] : y=f(gid,x).
+   !gid[graphid] : !x,y[node] : homowith(gid) & inpattern(x) & inpattern(y) & x~=y => f(gid, x) ~= f(gid,y).
+   !gid[graphid] : !x,y[node] : homowith(gid) & inpattern(x) & inpattern(y) & template_edge(x,y) => edge(gid, f(gid,x). f(gid,y)).
+   !gid[graphid] : !x[node] : homowith(gid) & inpattern(x) => template_label(x) = label(gid, f(gid,x)).
+
+   #{ gid [graphid] : homowith(graph) } >= threshold.
+}

@@ -1,4 +1,8 @@
 \section{Modeling}\label{sec:modeling}
+In this section, we show how state-of-the-art KR systems without support for higher order, such as IDP and ASP, can model the graph mining problem and its higher order features using encoding techniques.
+We identify the desirable properties that from a KR perspective should hold for a good modeling of the graph mining problem and we evaluate how a modeling in ProB, as a KR language with support for higher order sets, satisfies these properties.
+%We conclude with a comparison of the performance of the three approaches. 
+
 \subsection{IDP}
 We assume some familiarity with the IDP system.
 An extensive introduction can be found in~\cite{}.
@@ -60,7 +64,7 @@ One possible solution is to replicate for each graph the different characteristi
 in \textbf{Listing}~\ref{lst:multiglobal} and visualised as the dashed shapes in \textbf{Fig.}~\ref{fig:LocalCoherence}.
 In this encoding, every graph has its own edge predicate and label function. 
 Because there is now no relation between the different edge predicates and label functions, it is necessary to formulate our theory in terms of these different predicates and functions.
-Encoding a property such as ``In every graph, all nodes have at least two \matthias{outgoing} edges'' must be stated for each of the edge predicates explicitly:
+Encoding a property such as ``In every graph, all nodes have at least two outgoing edges'' must be stated for each of the edge predicates explicitly:
 %duplicate in our theory the constraints and properties (i.e. homomorphism) about these example graphs and their relations as well: we cannot generalize over the names of these edge relations and labeling functions.
 \begin{center}
 \begin{tabular}{c}
@@ -157,17 +161,17 @@ In principle, we could then proceed by counting the number of elements in this s
 \begin{center}
 \begin{minipage}{0.64\linewidth}
 \begin{lstlisting}[mathescape, caption=Quantifying over functions outside the vocabulary, label=lst:QuantifyOutsideVocabulary]
-#{$\forall g \mid g \in G \land \exists$ $f$ : $f$ is a homomorphism from $\graph{P}$ to $g$}
+#{$g \mid g \in G \land \exists$ $f$ : $f$ is a homomorphism from $\graph{P}$ to $g$}
 \end{lstlisting}
 \end{minipage}
 \end{center}
 However, IDP restricts us to Existential Second Order, which forbids us of quantifying over first-order entities such as the function $f$ from \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary} outside of the vocabulary.
 %However, working in IDP, the restriction to ESO forbids us to quantify over first-order entities such as the functions f from \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary} outside of the vocabulary.
-Thus, we are required to promote the homomorphic mapping functions to a global property in the vocabulary, even though we are only interested in the existence of a mapping, and not in \matthias{the identity of such a mapping itself} a concrete valid mapping itself.
+Thus, we are required to promote the homomorphic mapping functions to a global property in the vocabulary, even though we are only interested in the existence of a mapping, and not in the concrete instance of the mapping itself.
 We prevent the same explosion of mapping functions as with the graph characteristics in Issue 1\matthias{of different mapping functions for different example graphs}, by reusing the disjoint union technique proposed above. 
 Note that in this case, the disjoint union technique greatly resembles Skolemization.
 Concretely, we introduce a general function \verb|f| that represents all homomorphisms, and make its dependency on a specific example graph explicit using an additional argument:
-\verb|partial f(graphId, node):node|.
+\verb|f(graphId, node):node|.
 %As it is impossible
 %We introduce a general function \verb|f| that represents the homomorphisms, and make its dependency on a specific goal graph explicit using an additional argument:
 In Second Order Logic, this dependency would follow directly from the order of the separate quantifications.
@@ -176,12 +180,12 @@ In Second Order Logic, this dependency would follow directly from the order of t
 \begin{center}
 \begin{minipage}{0.54\linewidth}
 \begin{lstlisting}[mathescape, caption=Globalized existential functions, label=lst:GlobalizeExistentialQuantifications]
-#{$\forall g \mid g \in G$ : $f(g)$ is a homomorphism from $\graph{P}$ to $g$}
+#{$g \mid g \in G$ : $f(g)$ is a homomorphism from $\graph{P}$ to $g$}
 \end{lstlisting}
 \end{minipage}
 \end{center}
 
-We can now use this \verb|partial f| anywhere we would use the regular homomorphic function for a specific graph by fixing the chosen example graph.
+We can now use this \verb|f| anywhere we would use the regular homomorphic function for a specific graph by fixing the chosen example graph.
 However, for some example graphs $\graph{G}$, there will not exist a homomorphic function from our pattern $\graph{P}$ to $\graph{G}$, i.e. for these graphs $\graph{G}$, no valid function $f$ exists.
 Because the disjoint union technique introduces a single function $f$ which is the union of all these smaller functions, we have to make this function $f$ partial: it is not defined for tuples where the first the argument is an identifier for a graph $\graph{G}$ for which no homomorphic function exists.
 
@@ -198,7 +202,7 @@ When one would use the most straightforward encoding of the negative homomorphic
 \begin{center}
 \begin{minipage}{0.61\linewidth}
 \begin{lstlisting}[mathescape]
-#{$\forall g \mid g \in G$ : $f(g)$ is a homomorphism from $\graph{P}$ to $g$}$\leq$| N$_{-}$.
+#{$g \mid g \in G$ : $f(g)$ is a homomorphism from $\graph{P}$ to $g$}$\leq$ N$_{-}$.
 \end{lstlisting}
 \end{minipage}
 \end{center}
@@ -206,7 +210,7 @@ But now, our solver must choose a single global function $f$ which satisfies the
 It has no obligation to maximize the number of homomorphisms in $f$, only to satisfy the constraints.
 Therefore, even if there is a negative example $\graph{G}_{-}$ for which a homomorphism exists, the solver can choose $f$ in such a way that $f$ does not represent a homomorphism for this graph $\graph{G}_{-}$.
 An example of such a model is shown in Listing~\ref{lst:invalidf}: this function $f$ maps the pattern candidate's nodes $1, 2, 3$ to $a, b, c$ for the positive example, i.e. f is a homomorphism, but maps $1, 2, 3$ to $d, e,$ and $g$ for the negative example.
-Now, even though it is possible to find a homomorphism between the pattern candidate and the negative example, our constraints are satisfied and we are led to believe that our pattern candidate is, indeed, a valid pattern.
+Now, even though it is possible to find a homomorphism between the pattern candidate and the negative example (by mapping $3$ to $f$ instead), our constraints are satisfied and we are led to believe that our pattern candidate is, indeed, a valid pattern.
 
 \citep{} have shown that this is inherently linked to IDPs limit to Existential Second Order.
 Indeed, in order to check that our pattern \graph{P} is homomorphic with no more than $N_{-}$ negative graphs, we have to check that there are enough negative graphs for which no homomorphism exists, for example using a count aggregate as in Listing~\ref{lst:universalquant}.
@@ -216,23 +220,23 @@ By asserting a property for all candidate homomorphic functions $f$ of a certain
 \begin{center}
 \begin{minipage}{0.62\linewidth}
 \begin{lstlisting}[mathescape, caption=Quantifying over functions outside the vocabulary, label=lst:universalquant]
-#{$\forall g \mid g \in G \land \forall$ $f$ : $f$ is $\mathbf{not}$ a homomorphism from $\graph{P}$ to $g$}
+#{$g \mid g \in G \land \forall$ $f$ : $f$ is $\mathbf{not}$ a homomorphism from $\graph{P}$ to $g$}
 \end{lstlisting}
 \end{minipage}
 \end{center}
 \vspace{-0.5em}
 
-One way to solve a \coNP\ problem such as the negative homomorphism constraint using an \NP\ solver is by encoding the dual (i.e. negated) problem, and conclude that the problem is satisfied if no model exists for the dual problem.
+Some techniques to circumvent this problem: one way to solve a \coNP\ problem such as the negative homomorphism constraint using an \NP\ solver is by encoding the dual (i.e. negated) problem, and conclude that the problem is satisfied if no model exists for the dual problem.
 This can be checked using an \NP\ solver.
 However, this technique can only be implemented in IDP by writing two theories: 
 \begin{compactitem}
 \item one (positive) theory $\theory^{+}$, which expresses the positive homomorphic property and generates pattern candidates, and
 \item one negative theory $\theory^{-}$, which expresses the (dual of) negative homomorphic property and rejects pattern candidates that do not satisfy this constraint.
 \end{compactitem}
-We must also provide procedural (lua) code that ties these two theories and their inferences together by allowing the communication of pattern candidates between these two theories.
+In IDP, one must provide procedural (lua) code that ties these two theories and their inferences together by allowing the communication of pattern candidates between these two theories.
 
 It is not known whether the problem of graph isomorphism is polynomial time solvable,
-however is sure to be no more complex than NP.
+however it is sure to be no more complex than NP.
 Conversely, the isomorphism restriction when looking for multiple patterns is also no more complex than \coNP.
 Therefore, we can use the same technique, giving rise to another theory $\theory^{iso}$.
 Note that it is possible to combine the negative theories $\theory^{-}$ and $\theory^{iso}$ into a single negative theory.
@@ -371,7 +375,7 @@ f={
 %Let us describe a way to encode the problem into ASP. Conceptually we need to handle three constraints: matching of positive examples, not matching of negative examples and canonicity (that only not isomorphic graphs are produced).
 
 \subsubsection{Inductive Definitions}
-Beyond the Existential Second Order restriction, the IDP language is also extended with inductive definitions. These definitions, evaluated under the well-founded semantics, allow the derivation of negative knowledge that otherwise would be underivable.
+One of the main features of the IDP language is the fact that it extends first order logic with \emph{inductive definitions}. These definitions, evaluated under the well-founded semantics, allow the derivation of negative knowledge that otherwise would be underivable.
 Take the path predicate defined in Listing~\ref{lst:vocabularyExample}.
 Models of this theory contain the transitive closure \lstinline|Path|/2 of the \lstinline|Edge|/2 relation.
 When the edge relation would be chosen such that it represents the graph of \textbf{Fig.}~\ref{fig:trans}, there is no model in which nodes $a$ and $b$ are connected. Note that when the transitivity property is expressed as an FO constraint instead, there do exist models in which \lstinline|Path(a,b)| is true.
@@ -380,7 +384,7 @@ When the edge relation would be chosen such that it represents the graph of \tex
 %\todo{A section about inductive definitions, and their use. (Being able to derive negative knowledge)}
 
 \subsubsection{Other inferences}
-One of the advantages of IDP is its underlying \emph{Knowledge Base} paradigm~\ref{}.
+One of the advantages of IDP is its underlying \emph{Knowledge Base} paradigm~\citep{?}.
 Essentially, this paradigm ensures that we can perform other inferences on the graph mining problem.
 One of these inferences is, for example, optimization.
 This would allow us to, e.g., minimize or maximize over the number of nodes in the pattern graph, or the number of nodes in the pattern with a certain label, \ldots, with only minimal changes to the specification.
@@ -391,7 +395,7 @@ This would allow us to, e.g., minimize or maximize over the number of nodes in t
 \textbf{ASP}, a language family closely related to IDP, mostly encounters the same issues when modeling the graph mining problem.
 One of the main differences between ASP and IDP is the choice of semantics: ASP looks for the minimal answer set models, whereas IDP looks for well-founded models.
 Leveraging the minimality property of their models, ASP can prevent the invalid models of the example discussed in issue 3.
-The corresponding technique is called the \emph{saturation} technique~\ref{eiter} and can prevent the creation of two separate theories and writing of procedural code that IDP requires.
+The corresponding technique is called the \emph{saturation} technique~\citep{Eiter} and can prevent the creation of two separate theories and writing of procedural code that IDP requires.
 
 When using this technique, ASP detects negative example graphs for which the f does not represent a homomorphism, and requires for these example graphs that $f$ must map every node of the pattern on every node of that example graph, dropping the injectivity constraint.
 This way, $f$ becomes so large that it is impossible that it belongs to the minimal answer set unless there does not exist a homomorphism from the pattern to this (negative) example graph.
@@ -403,6 +407,7 @@ The same technique can be applied to the isomorphism restriction, as well as oth
 
 While this technique succesfully prevents the need of a procedural loop and the rewriting of the negative homomorphic property and the isomorphism restriction, it is clear that this technique is not derived from a natural KR translation of the Graph Mining definition.
 \matthias{Also, it forces to look for homomorphisms for every negative example graph, whereas $N_{-}$ + 1 example graphs are enough. Quite possible that there is a workaround for this however.}
+\todo{Mention the fact that we need to encode problem instance specific knowledge i.e. the number of vertices}
 
 
 \subsection{ProB}
@@ -455,5 +460,6 @@ Although specifications are preferably modular to make it easier to reuse them, 
 \caption{Evaluation of the desirable properties in IDP / ASP / ProB\label{tbl:conclusion}}
 \end{table}
 
-As can be seen from Table~\ref{tbl:conclusion}, \todo{Provide an explanation of the table, with some references to earliers parts of the text to justify certain claims/results}
+As can be seen from Table~\ref{tbl:conclusion}, 
+\matthias{Provide an explanation of the table, with some references to earliers parts of the text to justify certain claims/results}
 

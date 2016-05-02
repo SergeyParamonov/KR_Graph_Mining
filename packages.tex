@@ -1,0 +1,89 @@
+\usepackage{hyperref}
+\usepackage{color}
+%\usepackage[usenames,dvipsnames,table]{xcolor}
+%\usepackage{colortbl}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{listings, multicol}	
+\usepackage{enumerate}
+\usepackage{layouts}
+\usepackage{times}
+\usepackage{natbib}
+\usepackage{notoccite}
+\usepackage{todonotes}
+%\usepackage{array}
+\usepackage{alltt}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{caption}
+\usepackage{paralist}
+\usepackage{soul}
+
+\usepackage{fancyhdr}
+\usepackage{datetime}
+
+\fancyhf{}
+\fancyfoot[L]{\today\ \currenttime}
+\fancyfoot[C]{\thepage}
+\pagestyle{fancy}
+
+\let\proof\relax 
+\let\endproof\relax
+\usepackage{amsthm}
+
+\usepackage{xspace}
+\usepackage{tikz}
+%\usepackage{cite}
+\usepackage{subcaption}
+\usepackage{calc}
+\usetikzlibrary{calc}
+
+\usepackage{fancyvrb}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newcommand{\triple}[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand{\pair}[1]{\ensuremath{\left(#1\right)}}
+\newcommand{\graph}[1]{\ensuremath{\mathcal{#1}}}
+\newcommand{\graphset}[1]{\ensuremath{\mathbb{#1}}}
+
+\newcommand{\sergey}[1]{\textcolor{magenta}{\marginpar{\sc Sergey} #1}}
+\newcommand{\matthias}[1]{\textcolor{blue}{\marginpar{\sc Matthias} #1}}
+\newcommand{\Qone}{$\boldsymbol{Q_1}$\xspace}
+\newcommand{\Qtwo}{$\boldsymbol{Q_2}$\xspace}
+\newcommand{\Qthree}{$\boldsymbol{Q_3}$\xspace}
+\newcommand{\NP}{\ensuremath{\mathbf{NP}}}
+\newcommand{\coNP}{\ensuremath{\mathbf{coNP}}}
+\newcommand{\QBF}{\ensuremath{\mathbf{QBF}}}
+\newcommand{\theory}{\ensuremath{\mathcal{T}}}
+
+%\renewenvironment{tabular}{\oldtabular}{\endoldtabular}
+%\renewcommand{\hline}{\oldhline}
+
+\lstdefinestyle{model}{
+  mathescape,
+  columns=fullflexible,
+  numbers=none,
+  frame=single,
+  escapechar=@,
+  %escapeinside={(*@}{@*)}
+  basicstyle=\scriptsize\ttfamily
+}
+
+\lstset{basicstyle=\scriptsize\ttfamily,breaklines=true}
+
+% redefine \VerbatimInput
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}%
+{fontsize=\footnotesize,
+   %
+  frame=lines,  % top and bottom rule only
+  framesep=2em, % separation between frame and text
+  rulecolor=\color{Gray},
+      %
+  label=\fbox{\color{Black}proB encoding},
+  labelposition=topline,
+        %
+% commandchars=\|\(\), % escape character and argument delimiters for
+                              % commands within the verbatim
+% commentchar=*        % comment character
+}
