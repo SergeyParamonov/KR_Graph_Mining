@@ -1,0 +1,23 @@
+\documentclass{article}
+\usepackage[usenames,dvipsnames,table]{xcolor}
+\include{packages}
+\usepackage{array}
+
+\usepackage{tikz}
+
+\pagestyle{empty}
+\begin{document}
+\pagenumbering{gobble}
+\rowcolors{2}{gray!25}{white}
+\begin{tabular}{>{\centering\arraybackslash}p{0.2\linewidth}| >{\centering\arraybackslash}p{0.2\linewidth} >{\centering\arraybackslash}p{0.2\linewidth} >{\centering\arraybackslash}p{0.2\linewidth}}
+Property & IDP & ASP & ProB\\
+\hline
+Graph as a single object & Global Disjoint Union technique & See IDP & \checkmark\\
+Independence of homomorphisms & Global Disj. Union + partiality & See IDP & \checkmark\\
+Similarity of $\geq$ and $\leq$ constraint & $\pm$: requires theory splitting & No: Saturation technique & \checkmark \\
+Multiple patterns (isomorphism) & $\pm$: requires theory splitting & No: Saturation technique & \checkmark \\
+Connectedness & \checkmark & \checkmark & $\pm$: using the transitive closure primitive\\
+Multiple inferences & Model checking, expansion, minimization & See IDP & Model checking, expansion. Minimization must be encoded in the model [?]\\
+Single solver call & No, multiple split theories & $\pm$: One for each pattern & \checkmark
+\end{tabular}
+\end{document}

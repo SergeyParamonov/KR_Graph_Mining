@@ -1,0 +1,20 @@
+vocabulary V{
+  type node isa nat
+  type graphid
+  type label
+
+  // Predicates determining the template graph.
+  template_edge(node, node) 
+  template_label(node):label
+
+  // Predicates describing the positive example graphs
+  example_edge(graphid, node, node)
+  label(graphid, node):label
+  threshold: int
+
+  // Predicates describing the pattern graph
+  inpattern(node) // True for the nodes which occur in the pattern
+  partial f(graphid, node):node // Represents the homomorphisms with the example graphs
+  homowith(graphid) // True for graphs for which f represents a correct homomorphism
+  path(node, node) // path(a,b): True if there exists a path from a to b in the pattern
+}
