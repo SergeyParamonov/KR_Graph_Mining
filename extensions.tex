@@ -89,15 +89,27 @@ Suppose now that $\phi$ does not contain any further second order quantification
 Then the above formula is an existential second order formula, which can be solved by a new instance of the \NP-solver.
 Recently, \cite{AAAIW1612603} have identified an interface by which any solver can be nested within another solver.
 %As \cite{AAAIW1612603} note, any solver that supports working with assumptions can be nested within another solver.
-Because our \NP-solver conforms to this interface, we can modify the \NP-solver such that it calls a new instance of itself as an oracle to evaluate the truth of these formulas.
+Because our \NP-solver conforms to this interface, we can modify the \NP-solver such that it calls a new instance of itself as an \emph{oracle} to evaluate the truth of these formulas.
+The outer solver is called the \emph{top solver}, and the inner solver is called the \emph{subsolver} or \emph{oracle}.
 As it is possible to nest these solvers arbitrarily deep, we can now solve a formula of the form $\exists_{SO} X : \phi$, regardless of whether $\phi$ contains any more second order quantifications.
 Essentially, the \NP-solver becomes a \QBF-solver.
 
-To set up a nested solver for a formula $\exists_{SO} X : \phi$, we must establish a vocabulary $V$ and a theory $T$ over $V$ for this solver. 
-To this end, we first identify the symbols used in $\phi$.
-These symbols, together with the symbol X from the quantification itself, are collected in the new vocabulary $V$.
-Next, it is possible to use the formula $\phi$ as the theory $T$.
+To set up a nested solver for a formula $\exists_{SO} X : \phi$, we must set up a vocabulary $V$ and a theory $T$ over $V$ for this solver. 
+To this end, we first identify the variables $\Sigma$ used in $\phi$.
+These variables $\Sigma$, together with the variable X from the quantification itself, are collected in the new vocabulary $V$. 
+We call the free variables $\mathit{free}(\phi)$ the shared variables $\Sigma_s$.
+By using the formula $\phi$ as the theory $T$, we conclude the setup of the nested subsolver.
 
+Whenever we now need to evaluate the truth of a second order quantification, we simply call this oracle on vocabulary $V$ and theory $T$, providing it with a set of assumptions consisting of the values that the top solver assigns to the shared symbols $\Sigma_s$.
+Depending on whether the subsolver succeeds or fails to find a model, we update the current interpretation of the top solver with the model or learn a new clause, as detailed by~\cite{AAAIW1612603}.
+
+\todo{Toevoegen van een voorbeeld}
+
+\subsection{Conclusion}
+Higher order logic is sometimes criticized as being to expressive.
+Sometimes however, the additional structure HO exhibits allows solvers to perform better.
+For example, in the case of graph mining, higher order logic preserves the local coherence of graphs, and the independence of homomorphisms for the different examples, a property that a higher order solver can leverage in order to raise efficiency. 
+Concretely, we predict that our subsolver technique will perform like the decomposed model from Section~\ref{sec:performance}, and expect a comparable performance gain over the first order model that uses only the disjoint union technique.
 
 %Because these formulas are now written in existential second order, these can be solved by an \NP-solver.
 
