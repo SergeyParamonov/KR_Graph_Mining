@@ -1,4 +1,8 @@
 \section{Modeling}\label{sec:modeling}
+In this section, we show how state-of-the-art KR systems without support for higher order, such as IDP and ASP, can model the graph mining problem and its higher order features using encoding techniques.
+We identify the desirable properties that from a KR perspective should hold for a good modeling of the graph mining problem and we evaluate how a modeling in ProB, as a KR language with support for higher order sets, satisfies these properties.
+%We conclude with a comparison of the performance of the three approaches. 
+
 \subsection{IDP}
 We assume some familiarity with the IDP system.
 An extensive introduction can be found in~\cite{}.
@@ -60,7 +64,7 @@ One possible solution is to replicate for each graph the different characteristi
 in \textbf{Listing}~\ref{lst:multiglobal} and visualised as the dashed shapes in \textbf{Fig.}~\ref{fig:LocalCoherence}.
 In this encoding, every graph has its own edge predicate and label function. 
 Because there is now no relation between the different edge predicates and label functions, it is necessary to formulate our theory in terms of these different predicates and functions.
-Encoding a property such as ``In every graph, all nodes have at least two \matthias{outgoing} edges'' must be stated for each of the edge predicates explicitly:
+Encoding a property such as ``In every graph, all nodes have at least two outgoing edges'' must be stated for each of the edge predicates explicitly:
 %duplicate in our theory the constraints and properties (i.e. homomorphism) about these example graphs and their relations as well: we cannot generalize over the names of these edge relations and labeling functions.
 \begin{center}
 \begin{tabular}{c}
@@ -167,7 +171,7 @@ Thus, we are required to promote the homomorphic mapping functions to a global p
 We prevent the same explosion of mapping functions as with the graph characteristics in Issue 1\matthias{of different mapping functions for different example graphs}, by reusing the disjoint union technique proposed above. 
 Note that in this case, the disjoint union technique greatly resembles Skolemization.
 Concretely, we introduce a general function \verb|f| that represents all homomorphisms, and make its dependency on a specific example graph explicit using an additional argument:
-\verb|partial f(graphId, node):node|.
+\verb|f(graphId, node):node|.
 %As it is impossible
 %We introduce a general function \verb|f| that represents the homomorphisms, and make its dependency on a specific goal graph explicit using an additional argument:
 In Second Order Logic, this dependency would follow directly from the order of the separate quantifications.
@@ -181,7 +185,7 @@ In Second Order Logic, this dependency would follow directly from the order of t
 \end{minipage}
 \end{center}
 
-We can now use this \verb|partial f| anywhere we would use the regular homomorphic function for a specific graph by fixing the chosen example graph.
+We can now use this \verb|f| anywhere we would use the regular homomorphic function for a specific graph by fixing the chosen example graph.
 However, for some example graphs $\graph{G}$, there will not exist a homomorphic function from our pattern $\graph{P}$ to $\graph{G}$, i.e. for these graphs $\graph{G}$, no valid function $f$ exists.
 Because the disjoint union technique introduces a single function $f$ which is the union of all these smaller functions, we have to make this function $f$ partial: it is not defined for tuples where the first the argument is an identifier for a graph $\graph{G}$ for which no homomorphic function exists.
 
@@ -391,7 +395,7 @@ This would allow us to, e.g., minimize or maximize over the number of nodes in t
 \textbf{ASP}, a language family closely related to IDP, mostly encounters the same issues when modeling the graph mining problem.
 One of the main differences between ASP and IDP is the choice of semantics: ASP looks for the minimal answer set models, whereas IDP looks for well-founded models.
 Leveraging the minimality property of their models, ASP can prevent the invalid models of the example discussed in issue 3.
-The corresponding technique is called the \emph{saturation} technique~\ref{eiter} and can prevent the creation of two separate theories and writing of procedural code that IDP requires.
+The corresponding technique is called the \emph{saturation} technique~\citep{Eiter} and can prevent the creation of two separate theories and writing of procedural code that IDP requires.
 
 When using this technique, ASP detects negative example graphs for which the f does not represent a homomorphism, and requires for these example graphs that $f$ must map every node of the pattern on every node of that example graph, dropping the injectivity constraint.
 This way, $f$ becomes so large that it is impossible that it belongs to the minimal answer set unless there does not exist a homomorphism from the pattern to this (negative) example graph.
@@ -456,5 +460,6 @@ Although specifications are preferably modular to make it easier to reuse them, 
 \caption{Evaluation of the desirable properties in IDP / ASP / ProB\label{tbl:conclusion}}
 \end{table}
 
-As can be seen from Table~\ref{tbl:conclusion}, \todo{Provide an explanation of the table, with some references to earliers parts of the text to justify certain claims/results}
+As can be seen from Table~\ref{tbl:conclusion}, 
+\matthias{Provide an explanation of the table, with some references to earliers parts of the text to justify certain claims/results}
 

@@ -1,15 +1,15 @@
-\section{Proposed extensions}\label{sec:extension}
+\section{A faithful encoding}\label{sec:extension}
 %\matthias{Here we will list the things we miss in each language, and introduce possible ways of implementing them and ways to learn from eachother}
-\matthias{How does ProB add HO, and what can we learn from them (and vice-versa)}
-In this section, we compile a list of missing language constructs, and introduce possible ways of implementing them and ways to learn from eachother.
-\subsection{Language}
-HO is sometimes criticized as being to expressive.
-Sometimes however, the additional structure HO exhibits allows solvers to perform better.
-For example, in this case HO preserves the local coherence and independence of the different examples, a property that the solver could leverage to become more efficient.
-\subsection{solver}
+%\matthias{How does ProB add HO, and what can we learn from them (and vice-versa)}
+%In this section, we compile a list of missing language constructs, and introduce possible ways of implementing them and ways to learn from eachother.
+%\subsection{Language}
+%HO is sometimes criticized as being to expressive.
+%Sometimes however, the additional structure HO exhibits allows solvers to perform better.
+%For example, in this case HO preserves the local coherence and independence of the different examples, a property that the solver could leverage to become more efficient.
+%\subsection{solver}
 
-\subsubsection{Oracles}
-\subsubsection{Benders decomposition}
+%\subsubsection{Oracles}
+%\subsubsection{Benders decomposition}
 
 \subsection{Faithful encoding}
 In Listing~\ref{lst:faithful}, we now propose a new encoding for a language combining higher order logic support with the readability of inductive definitions.
@@ -69,7 +69,7 @@ Theory T @\textbraceleft@
 
 This encoding compactly specifies the graph mining problem, in a way that closely corresponds to its mathematical definition.
 To allow inferences on this theory, extended solver support is necessary.
-We now propose a way in which a solver can provide this additional support\matthias{, and potentially even improve performance}.
+We now propose a way in which a solver can provide this additional support, and potentially even improve performance.
 
 \subsubsection{Second order types}
 We represent objects of any \lstinline|so-type| using the disjoint union technique, declaring a new first order type $id$ containing identifiers for the higher objects, e.g. \lstinline|graphId|.
@@ -84,15 +84,19 @@ Lastly, every time a component of an object is accessed (e.g. \lstinline|Edge(x,
 
 \subsubsection{Second order quantifications $\exists_{SO}$/$\forall_{SO}$}
 Second order quantifications such as $\exists_{SO}$ and $\forall_{SO}$ are supported using the concept of oracles as subsolvers.
-First, all second order universal quantifications $\forall_{SO} X : \phi$ are rewritten to existential quantifications $\exists_{SO} X : \neg \phi$ or $\neg \exists_{SO} X : \phi$.
+First, all second order universal quantifications $\forall_{SO} X : \phi$ are rewritten to existential quantification $\neg \exists_{SO} X : \neg \phi$.
 Suppose now that $\phi$ does not contain any further second order quantifications.
 Then the above formula is an existential second order formula, which can be solved by a new instance of the \NP-solver.
 Recently, \cite{AAAIW1612603} have identified an interface by which any solver can be nested within another solver.
 %As \cite{AAAIW1612603} note, any solver that supports working with assumptions can be nested within another solver.
 Because our \NP-solver conforms to this interface, we can modify the \NP-solver such that it calls a new instance of itself as an oracle to evaluate the truth of these formulas.
-As it is possible to nest these solvers arbitrarily deep, we can now solve a formula of the form $\exists_{SO} X : \phi$
+As it is possible to nest these solvers arbitrarily deep, we can now solve a formula of the form $\exists_{SO} X : \phi$, regardless of whether $\phi$ contains any more second order quantifications.
+Essentially, the \NP-solver becomes a \QBF-solver.
 
-
+To set up a nested solver for a formula $\exists_{SO} X : \phi$, we must establish a vocabulary $V$ and a theory $T$ over $V$ for this solver. 
+To this end, we first identify the symbols used in $\phi$.
+These symbols, together with the symbol X from the quantification itself, are collected in the new vocabulary $V$.
+Next, it is possible to use the formula $\phi$ as the theory $T$.
 
 
 %Because these formulas are now written in existential second order, these can be solved by an \NP-solver.
