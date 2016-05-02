@@ -5,9 +5,9 @@
 %\VerbatimInput{original_prob_files/PositiveAndNegative.mch}
 \pagebreak
 
-In Listing~\ref{lst:IDPPos}, we show part of the working model for the graph mining problem.
+In Listing~\ref{lst:IDPPos}, we show part of the working model for the graph mining problem (for complete encodings, we refer to the appendix).
 It shows the constraints necessary to enforce the positive homomorphic property.
-As expected from the symmetry underlying the two homomorphic constriants, the theory expressing the negative homomorphic property is the same except for the comparison operator.
+As one would desire due to the similarity underlying the two homomorphic constraints, the theory expressing the negative homomorphic property is the same except for the threshold.
 \todo{Michael, could you think of a snippet of code for ProB? Preferrably, we would also use as much of the same terminology as possible as in idp/asp.}
 
 \begin{lstlisting}[caption=IDP positive constraint, style=model, label=lst:IDPPos]
@@ -56,14 +56,14 @@ theory Positive:V_Pos{
 
 \lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
 \begin{lstlisting}[caption=ASP positive matching, style=model]
-positive_match(G) | not_positive_match(G) :- positive(G).
+homowith(G) | not_homowith(G) :- positive(G).
 
-1 { map(G,X,V) : node(G,V) } 1 :- positive(G), invar(X).
+1 { f(G,X,V) : node(G,V) } 1 :- positive(G), inpattern(X).
 
-:- positive_match(G), map(G,X,V1), map(G,Y,V2), t_edge(X,Y), 
-not edge(G,V1,V2), invar(X), invar(Y).
+:- homo_with(G), f(G,X,V1), f(G,Y,V2), template_edge(X,Y), 
+not edge(G,V1,V2), inpattern(X), inpattern(Y).
 
-positive_count(N) :- N = #count{G:positive_match(G)}.
+positive_count(N) :- N = #count{G:homowith(G)}.
 
 :- positive_count(N), N < 2.
 \end{lstlisting}
@@ -80,9 +80,9 @@ map(G,X,V) :- saturated(G), t_node(X), node(G,V).
 saturated(G) :- t_edge(X,Y), map(G,X,V1), map(G,Y,V2), not edge(G,V1,V2), negative(G), invar(X), invar(Y).
 saturated(G) :- map(G,X,V),  map(G,Y,V), X != Y, invar(X), invar(Y). // we cannot map two different template nodes to the same 
 
-negative_match(G) :- not saturated(G), negative(G).
+neg_homowith(G) :- not saturated(G), negative(G).
 
-negative_count(N) :- N = #count{G:negative_match(G)}.
+negative_count(N) :- N = #count{G:neg_homowith(G)}.
 
 :- negative_count(N), N > 1.
 
@@ -157,12 +157,12 @@ negative_count(N) :- N = #count{G:negative_match(G)}.
 %\end{lstlisting}
 
 \subsection{Performance}
-We compared the performance of the different encoding techniques on the mutagenesis~\ref{} dataset for graph mining.
+We compared the performance of the different encoding techniques on the mutagenesis~\citep{?} dataset for graph mining.
 First, we randomly picked a positive example to use as the template graph.
 Next, we mined a random sample subset of the mutagenesis dataset for $n$ patterns with thresholds $N_{+} = $ 5\% of the size of the positive example set, and $N_{-} =$ 5\% of the size of the negative example set.
 During the mining process, we tracked the time it takes to mine the $i=1..n$'th pattern.
 The results shown are the times needed to mine the $i$'th pattern, averaged over * repeats of the process above.
-
+\todo{oracles maken disjoint union terug efficient.}
 \begin{figure}
 \includegraphics[width=\linewidth]{extra/figure_comparison_yoshida.pdf}
 \end{figure}
