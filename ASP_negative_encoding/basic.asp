@@ -1,3 +1,9 @@
+% NOGOODS_BEGIN
+
+
+% NOGOODS_END
+
+
 % pattern len constraint
 pattern_len(N) :- N = #count{X:invar(X)}.
 good_model :- pattern_len(2).

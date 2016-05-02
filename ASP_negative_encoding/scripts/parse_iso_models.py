@@ -2,6 +2,7 @@ import sys
 import re
 
 model_filename = sys.argv[1]
+program_filename = sys.argv[2]
 
 def parse_answer(line):
   ids = re.findall(r'map\(\d+,(\d+)\)',line)
@@ -11,10 +12,11 @@ def generate_nogood():
   pass
 
 
+unsat = False
 with open(model_filename,"r") as models:
     data = models.read()
     if "UNSATISFIABLE" in data:
-        pass
+        unsat = True
     else:
         num_iso_models = re.search("Models\s+:\s(?P<num>\d+)",data).group("num")
         after   = data.index("Solving...")
@@ -30,4 +32,24 @@ with open(model_filename,"r") as models:
           else:
             answer_map[answer_count] = parse_answer(line)
 
-print(answer_map)
+if not unsat:
+    rules = []
+    for iso_model in answer_map.values():
+        rule  = " :- "
+        rule += ",".join(["invar({})".format(node) for node in iso_model])
+        rule += "."
+        rules.append(rule)
+    with open(program_filename,"r") as program_file:
+        program = program_file.read()
+        begin_key = "% NOGOODS_BEGIN"
+        begin = program.index(begin_key) + len(begin_key)
+        end   = program.index("% NOGOODS_END")
+        new_program = program[:begin]  +"\n" + program[begin:end] +"\n"+ "\n".join(rules) +"\n" + program[end:]
+    with open(program_filename,"w") as program_file:
+        print(new_program,file=program_file)
+
+    
+
+
+
+
