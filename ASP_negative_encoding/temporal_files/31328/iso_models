@@ -2,16 +2,12 @@ clingo version 4.5.4
 Reading from iso_encoding.asp ...
 Solving...
 Answer: 1
-map(11,12) map(12,11) map(13,21) map(21,13)
+map(2,1) map(14,12) map(12,14) map(15,11) map(20,21) map(13,13)
 Answer: 2
-map(12,12) map(11,11) map(21,21) map(13,13)
-Answer: 3
-map(12,14) map(13,13) map(11,15) map(21,20)
-Answer: 4
-map(11,14) map(21,13) map(12,15) map(13,20)
+map(12,12) map(2,2) map(14,14) map(13,13) map(15,15) map(20,20)
 SATISFIABLE
 
-Models       : 4     
+Models       : 2     
 Calls        : 1
-Time         : 0.008s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
-CPU Time     : 0.000s
+Time         : 0.011s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s

@@ -6,49 +6,29 @@
 
 
 
+ :- invar(10),invar(11),invar(12),invar(13),invar(18),invar(14),invar(15),invar(16).
+ :- invar(10),invar(11),invar(12),invar(13),invar(18),invar(14),invar(15),invar(17).
 
- :- invar(11),invar(12),invar(13),invar(18),invar(14).
+ :- invar(10),invar(11),invar(12),invar(13),invar(14),invar(15),invar(16),invar(17).
+ :- invar(10),invar(11),invar(12),invar(13),invar(14),invar(15),invar(16),invar(17).
 
- :- invar(11),invar(12),invar(13),invar(14),invar(15).
+ :- invar(9),invar(7),invar(8),invar(10),invar(11),invar(12),invar(13),invar(18).
+ :- invar(1),invar(9),invar(5),invar(10),invar(11),invar(12),invar(13),invar(18).
+ :- invar(1),invar(9),invar(2),invar(10),invar(11),invar(12),invar(13),invar(18).
 
- :- invar(10),invar(11),invar(12),invar(13),invar(18).
+ :- invar(11),invar(12),invar(13),invar(18),invar(14),invar(15),invar(16),invar(17).
+ :- invar(11),invar(12),invar(13),invar(18),invar(14),invar(15),invar(16),invar(17).
 
- :- invar(1),invar(9),invar(6),invar(7),invar(8).
- :- invar(1),invar(5),invar(6),invar(7),invar(8).
- :- invar(1),invar(5),invar(6),invar(7),invar(8).
- :- invar(9),invar(5),invar(6),invar(7),invar(8).
- :- invar(9),invar(5),invar(6),invar(7),invar(8).
- :- invar(1),invar(9),invar(6),invar(7),invar(8).
- :- invar(1),invar(2),invar(5),invar(3),invar(4).
- :- invar(1),invar(9),invar(2),invar(3),invar(4).
- :- invar(1),invar(9),invar(5),invar(6),invar(7).
- :- invar(1),invar(2),invar(5),invar(6),invar(7).
- :- invar(1),invar(9),invar(5),invar(7),invar(8).
- :- invar(1),invar(9),invar(2),invar(7),invar(8).
- :- invar(1),invar(2),invar(5),invar(3),invar(4).
- :- invar(1),invar(9),invar(2),invar(3),invar(4).
- :- invar(1),invar(2),invar(5),invar(6),invar(7).
- :- invar(1),invar(9),invar(5),invar(6),invar(7).
- :- invar(1),invar(9),invar(2),invar(7),invar(8).
- :- invar(1),invar(9),invar(5),invar(7),invar(8).
- :- invar(1),invar(9),invar(5),invar(6),invar(8).
- :- invar(1),invar(2),invar(5),invar(3),invar(6).
- :- invar(1),invar(9),invar(2),invar(3),invar(8).
- :- invar(1),invar(9),invar(5),invar(6),invar(8).
- :- invar(1),invar(2),invar(5),invar(3),invar(6).
- :- invar(1),invar(9),invar(2),invar(3),invar(8).
-
- :- invar(10),invar(11),invar(12),invar(13),invar(14).
-
- :- invar(1),invar(9),invar(5),invar(6),invar(10).
- :- invar(1),invar(9),invar(2),invar(3),invar(10).
- :- invar(9),invar(6),invar(7),invar(8),invar(10).
+ :- invar(1),invar(9),invar(2),invar(3),invar(4),invar(6),invar(7),invar(8).
+ :- invar(1),invar(2),invar(5),invar(3),invar(4),invar(6),invar(7),invar(8).
+ :- invar(1),invar(9),invar(2),invar(3),invar(4),invar(6),invar(7),invar(8).
+ :- invar(1),invar(2),invar(5),invar(3),invar(4),invar(6),invar(7),invar(8).
 % NOGOODS_END
 
 
 % pattern len constraint
 pattern_len(N) :- N = #count{X:invar(X)}.
-good_model :- pattern_len(5).
+good_model :- pattern_len(8).
 :- not good_model.
 
 
@@ -92,6 +72,79 @@ t_node(X)   :- t_edge(X,_).
 #show positive_match/1.
 #show positive_count/1.
 #show used_map/3.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

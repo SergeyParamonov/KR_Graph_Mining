@@ -5,97 +5,350 @@
 
 
 
- :- invar(3),invar(4),invar(5),invar(6).
- :- invar(14),invar(11),invar(12),invar(13).
- :- invar(14),invar(11),invar(12),invar(13).
- :- invar(3),invar(4),invar(5),invar(6).
- :- invar(1),invar(19),invar(9),invar(14).
- :- invar(1),invar(2),invar(9),invar(14).
- :- invar(1),invar(19),invar(9),invar(10).
- :- invar(1),invar(2),invar(9),invar(10).
- :- invar(10),invar(11),invar(12),invar(13).
- :- invar(10),invar(11),invar(12),invar(13).
- :- invar(2),invar(3),invar(4),invar(5).
- :- invar(23),invar(24),invar(25),invar(26).
- :- invar(23),invar(24),invar(25),invar(26).
- :- invar(9),invar(10),invar(11),invar(12).
- :- invar(9),invar(14),invar(10),invar(11).
- :- invar(1),invar(9),invar(10),invar(11).
- :- invar(22),invar(23),invar(24),invar(25).
- :- invar(22),invar(23),invar(24),invar(25).
- :- invar(9),invar(10),invar(11),invar(12).
- :- invar(9),invar(14),invar(10),invar(11).
- :- invar(1),invar(9),invar(10),invar(11).
- :- invar(2),invar(3),invar(4),invar(5).
- :- invar(2),invar(7),invar(3),invar(4).
- :- invar(1),invar(2),invar(3),invar(4).
- :- invar(21),invar(22),invar(23),invar(24).
- :- invar(21),invar(22),invar(23),invar(24).
- :- invar(9),invar(14),invar(10),invar(13).
- :- invar(1),invar(9),invar(14),invar(13).
- :- invar(9),invar(14),invar(12),invar(13).
- :- invar(20),invar(21),invar(22),invar(23).
- :- invar(20),invar(21),invar(22),invar(23).
- :- invar(9),invar(14),invar(12),invar(13).
- :- invar(9),invar(14),invar(10),invar(13).
- :- invar(1),invar(9),invar(14),invar(13).
- :- invar(19),invar(20),invar(21),invar(22).
- :- invar(1),invar(19),invar(20),invar(21).
- :- invar(19),invar(20),invar(21),invar(22).
- :- invar(7),invar(4),invar(5),invar(6).
- :- invar(2),invar(7),invar(5),invar(6).
- :- invar(7),invar(4),invar(5),invar(6).
- :- invar(2),invar(7),invar(5),invar(6).
- :- invar(2),invar(7),invar(3),invar(6).
- :- invar(1),invar(2),invar(7),invar(6).
- :- invar(2),invar(7),invar(3),invar(6).
- :- invar(1),invar(2),invar(7),invar(6).
- :- invar(1),invar(19),invar(2),invar(3).
- :- invar(1),invar(2),invar(9),invar(3).
- :- invar(1),invar(19),invar(2),invar(7).
- :- invar(1),invar(2),invar(9),invar(7).
- :- invar(2),invar(7),invar(3),invar(4).
- :- invar(1),invar(2),invar(3),invar(4).
- :- invar(1),invar(19),invar(20),invar(21).
- :- invar(1),invar(19),invar(2),invar(20).
- :- invar(1),invar(19),invar(9),invar(20).
- :- invar(1),invar(19),invar(9),invar(20).
- :- invar(1),invar(19),invar(2),invar(20).
- :- invar(1),invar(19),invar(2),invar(7).
- :- invar(1),invar(19),invar(2),invar(3).
- :- invar(1),invar(2),invar(9),invar(3).
- :- invar(1),invar(2),invar(9),invar(7).
- :- invar(1),invar(19),invar(9),invar(10).
- :- invar(1),invar(19),invar(9),invar(14).
- :- invar(1),invar(2),invar(9),invar(10).
- :- invar(1),invar(2),invar(9),invar(14).
 
- :- invar(1),invar(19),invar(2),invar(15).
- :- invar(19),invar(15),invar(20),invar(21).
- :- invar(9),invar(14),invar(10),invar(15).
- :- invar(14),invar(12),invar(13),invar(15).
- :- invar(1),invar(9),invar(14),invar(15).
- :- invar(1),invar(19),invar(9),invar(15).
 
- :- invar(15),invar(16),invar(17),invar(18).
- :- invar(15),invar(16),invar(17),invar(18).
- :- invar(9),invar(14),invar(13),invar(15).
- :- invar(9),invar(14),invar(13),invar(15).
- :- invar(1),invar(19),invar(15),invar(20).
- :- invar(1),invar(19),invar(15),invar(20).
 
- :- invar(22),invar(23),invar(30),invar(24).
- :- invar(20),invar(21),invar(22),invar(30).
- :- invar(24),invar(25),invar(29),invar(26).
- :- invar(22),invar(23),invar(24),invar(29).
- :- invar(24),invar(25),invar(26),invar(27).
- :- invar(24),invar(25),invar(26),invar(28).
+
+
+
+
+
+
+
+
+
+
+ :- invar(21),invar(22),invar(23),invar(24),invar(25),invar(29),invar(26).
+ :- invar(20),invar(21),invar(22),invar(23),invar(30),invar(24),invar(25).
+ :- invar(19),invar(20),invar(21),invar(22),invar(23),invar(30),invar(24).
+
+ :- invar(1),invar(19),invar(2),invar(7),invar(6),invar(15),invar(16).
+ :- invar(1),invar(19),invar(2),invar(7),invar(6),invar(14),invar(15).
+ :- invar(1),invar(19),invar(2),invar(3),invar(4),invar(15),invar(16).
+ :- invar(1),invar(19),invar(2),invar(3),invar(4),invar(14),invar(15).
+ :- invar(1),invar(19),invar(9),invar(10),invar(11),invar(15),invar(16).
+ :- invar(9),invar(14),invar(10),invar(11),invar(12),invar(15),invar(16).
+ :- invar(19),invar(9),invar(14),invar(10),invar(11),invar(12),invar(15).
+ :- invar(1),invar(2),invar(9),invar(3),invar(14),invar(15),invar(16).
+ :- invar(1),invar(2),invar(9),invar(7),invar(14),invar(15),invar(16).
+ :- invar(14),invar(10),invar(11),invar(12),invar(13),invar(15),invar(16).
+ :- invar(19),invar(14),invar(10),invar(11),invar(12),invar(13),invar(15).
+ :- invar(19),invar(15),invar(16),invar(20),invar(21),invar(22),invar(23).
+ :- invar(19),invar(14),invar(15),invar(20),invar(21),invar(22),invar(23).
+
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(10),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(14),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(10),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(14),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(14),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(14),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(10),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(10),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(10),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(14),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(14),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(10),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(14),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(14),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(10),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(10),invar(20).
+ :- invar(1),invar(19),invar(2),invar(7),invar(3),invar(4),invar(6).
+ :- invar(1),invar(2),invar(9),invar(7),invar(3),invar(4),invar(6).
+ :- invar(1),invar(19),invar(2),invar(7),invar(3),invar(4),invar(6).
+ :- invar(1),invar(2),invar(9),invar(7),invar(3),invar(4),invar(6).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(14),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(14),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(10),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(10),invar(20).
+ :- invar(1),invar(19),invar(2),invar(7),invar(3),invar(4),invar(6).
+ :- invar(1),invar(2),invar(9),invar(7),invar(3),invar(4),invar(6).
+ :- invar(1),invar(19),invar(9),invar(14),invar(10),invar(11),invar(13).
+ :- invar(1),invar(2),invar(9),invar(14),invar(10),invar(11),invar(13).
+ :- invar(1),invar(19),invar(9),invar(14),invar(10),invar(11),invar(13).
+ :- invar(1),invar(2),invar(9),invar(14),invar(10),invar(11),invar(13).
+ :- invar(1),invar(19),invar(2),invar(7),invar(3),invar(4),invar(6).
+ :- invar(1),invar(2),invar(9),invar(7),invar(3),invar(4),invar(6).
+ :- invar(1),invar(19),invar(2),invar(7),invar(3),invar(4),invar(6).
+ :- invar(1),invar(2),invar(9),invar(7),invar(3),invar(4),invar(6).
+ :- invar(1),invar(19),invar(2),invar(7),invar(3),invar(4),invar(6).
+ :- invar(1),invar(2),invar(9),invar(7),invar(3),invar(4),invar(6).
+ :- invar(1),invar(19),invar(9),invar(14),invar(10),invar(11),invar(13).
+ :- invar(1),invar(2),invar(9),invar(14),invar(10),invar(11),invar(13).
+ :- invar(1),invar(19),invar(9),invar(14),invar(10),invar(11),invar(13).
+ :- invar(1),invar(2),invar(9),invar(14),invar(10),invar(11),invar(13).
+ :- invar(1),invar(19),invar(9),invar(14),invar(10),invar(11),invar(13).
+ :- invar(1),invar(2),invar(9),invar(14),invar(10),invar(11),invar(13).
+ :- invar(1),invar(19),invar(9),invar(14),invar(10),invar(11),invar(13).
+ :- invar(1),invar(2),invar(9),invar(14),invar(10),invar(11),invar(13).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(14),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(10),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(10),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(14),invar(20).
+
+ :- invar(1),invar(19),invar(2),invar(3),invar(4),invar(5),invar(6).
+ :- invar(1),invar(2),invar(9),invar(3),invar(4),invar(5),invar(6).
+ :- invar(1),invar(2),invar(9),invar(7),invar(14),invar(12),invar(13).
+ :- invar(1),invar(2),invar(9),invar(3),invar(14),invar(12),invar(13).
+ :- invar(1),invar(2),invar(9),invar(7),invar(10),invar(11),invar(12).
+ :- invar(1),invar(2),invar(9),invar(3),invar(10),invar(11),invar(12).
+ :- invar(1),invar(19),invar(2),invar(7),invar(20),invar(21),invar(22).
+ :- invar(1),invar(19),invar(2),invar(3),invar(20),invar(21),invar(22).
+ :- invar(1),invar(19),invar(9),invar(14),invar(12),invar(13),invar(20).
+ :- invar(1),invar(19),invar(9),invar(10),invar(11),invar(12),invar(20).
+ :- invar(1),invar(2),invar(9),invar(7),invar(5),invar(6),invar(10).
+ :- invar(1),invar(2),invar(9),invar(7),invar(5),invar(6),invar(14).
+ :- invar(1),invar(19),invar(2),invar(7),invar(5),invar(6),invar(20).
+ :- invar(1),invar(2),invar(9),invar(3),invar(4),invar(5),invar(10).
+ :- invar(1),invar(2),invar(9),invar(3),invar(4),invar(5),invar(14).
+ :- invar(1),invar(19),invar(2),invar(3),invar(4),invar(5),invar(20).
+ :- invar(1),invar(19),invar(9),invar(10),invar(20),invar(21),invar(22).
+ :- invar(1),invar(19),invar(9),invar(14),invar(20),invar(21),invar(22).
+ :- invar(1),invar(2),invar(9),invar(3),invar(4),invar(14),invar(13).
+ :- invar(1),invar(2),invar(9),invar(3),invar(4),invar(10),invar(11).
+ :- invar(1),invar(19),invar(2),invar(3),invar(4),invar(20),invar(21).
+ :- invar(1),invar(2),invar(9),invar(7),invar(6),invar(10),invar(11).
+ :- invar(1),invar(2),invar(9),invar(7),invar(6),invar(14),invar(13).
+ :- invar(1),invar(19),invar(2),invar(7),invar(6),invar(20),invar(21).
+ :- invar(1),invar(19),invar(2),invar(7),invar(4),invar(5),invar(6).
+ :- invar(1),invar(2),invar(9),invar(7),invar(4),invar(5),invar(6).
+ :- invar(1),invar(19),invar(2),invar(3),invar(4),invar(5),invar(6).
+ :- invar(1),invar(2),invar(9),invar(3),invar(4),invar(5),invar(6).
+ :- invar(1),invar(2),invar(9),invar(3),invar(4),invar(14),invar(13).
+ :- invar(1),invar(2),invar(9),invar(7),invar(6),invar(14),invar(13).
+ :- invar(1),invar(19),invar(9),invar(14),invar(13),invar(20),invar(21).
+ :- invar(1),invar(2),invar(9),invar(3),invar(4),invar(10),invar(11).
+ :- invar(1),invar(2),invar(9),invar(7),invar(6),invar(10),invar(11).
+ :- invar(1),invar(19),invar(9),invar(10),invar(11),invar(20),invar(21).
+ :- invar(1),invar(19),invar(9),invar(14),invar(11),invar(12),invar(13).
+ :- invar(1),invar(2),invar(9),invar(14),invar(11),invar(12),invar(13).
+ :- invar(1),invar(19),invar(9),invar(10),invar(11),invar(12),invar(13).
+ :- invar(1),invar(2),invar(9),invar(10),invar(11),invar(12),invar(13).
+ :- invar(1),invar(2),invar(9),invar(3),invar(14),invar(12),invar(13).
+ :- invar(1),invar(2),invar(9),invar(7),invar(14),invar(12),invar(13).
+ :- invar(1),invar(19),invar(9),invar(14),invar(12),invar(13),invar(20).
+ :- invar(1),invar(19),invar(9),invar(10),invar(11),invar(20),invar(21).
+ :- invar(1),invar(19),invar(9),invar(14),invar(13),invar(20),invar(21).
+ :- invar(1),invar(19),invar(2),invar(3),invar(4),invar(20),invar(21).
+ :- invar(1),invar(19),invar(2),invar(7),invar(6),invar(20),invar(21).
+ :- invar(1),invar(19),invar(9),invar(20),invar(21),invar(22),invar(23).
+ :- invar(1),invar(19),invar(2),invar(20),invar(21),invar(22),invar(23).
+ :- invar(1),invar(19),invar(20),invar(21),invar(22),invar(23),invar(24).
+ :- invar(1),invar(19),invar(9),invar(14),invar(20),invar(21),invar(22).
+ :- invar(1),invar(19),invar(9),invar(10),invar(20),invar(21),invar(22).
+ :- invar(1),invar(19),invar(2),invar(7),invar(20),invar(21),invar(22).
+ :- invar(1),invar(19),invar(2),invar(3),invar(20),invar(21),invar(22).
+ :- invar(19),invar(20),invar(21),invar(22),invar(23),invar(24),invar(25).
+ :- invar(1),invar(19),invar(9),invar(20),invar(21),invar(22),invar(23).
+ :- invar(1),invar(19),invar(2),invar(20),invar(21),invar(22),invar(23).
+ :- invar(20),invar(21),invar(22),invar(23),invar(24),invar(25),invar(26).
+ :- invar(1),invar(19),invar(20),invar(21),invar(22),invar(23),invar(24).
+ :- invar(19),invar(20),invar(21),invar(22),invar(23),invar(24),invar(25).
+ :- invar(20),invar(21),invar(22),invar(23),invar(24),invar(25),invar(26).
+ :- invar(1),invar(2),invar(9),invar(3),invar(4),invar(5),invar(10).
+ :- invar(1),invar(2),invar(9),invar(3),invar(4),invar(5),invar(14).
+ :- invar(1),invar(19),invar(2),invar(3),invar(4),invar(5),invar(20).
+ :- invar(1),invar(2),invar(9),invar(10),invar(11),invar(12),invar(13).
+ :- invar(1),invar(19),invar(9),invar(10),invar(11),invar(12),invar(13).
+ :- invar(1),invar(2),invar(9),invar(3),invar(10),invar(11),invar(12).
+ :- invar(1),invar(2),invar(9),invar(7),invar(10),invar(11),invar(12).
+ :- invar(1),invar(19),invar(9),invar(10),invar(11),invar(12),invar(20).
+ :- invar(1),invar(2),invar(9),invar(14),invar(11),invar(12),invar(13).
+ :- invar(1),invar(19),invar(9),invar(14),invar(11),invar(12),invar(13).
+ :- invar(1),invar(2),invar(9),invar(7),invar(5),invar(6),invar(14).
+ :- invar(1),invar(2),invar(9),invar(7),invar(5),invar(6),invar(10).
+ :- invar(1),invar(19),invar(2),invar(7),invar(5),invar(6),invar(20).
+ :- invar(1),invar(19),invar(2),invar(7),invar(4),invar(5),invar(6).
+ :- invar(1),invar(2),invar(9),invar(7),invar(4),invar(5),invar(6).
+
+ :- invar(1),invar(19),invar(2),invar(9),invar(10),invar(11),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(14),invar(13),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(10),invar(11).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(10),invar(11).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(14),invar(13).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(14),invar(13).
+ :- invar(1),invar(19),invar(9),invar(14),invar(10),invar(11),invar(12).
+ :- invar(1),invar(19),invar(9),invar(14),invar(10),invar(12),invar(13).
+ :- invar(1),invar(2),invar(9),invar(14),invar(10),invar(12),invar(13).
+ :- invar(1),invar(2),invar(9),invar(14),invar(10),invar(11),invar(12).
+ :- invar(1),invar(19),invar(9),invar(14),invar(10),invar(13),invar(20).
+ :- invar(1),invar(2),invar(9),invar(3),invar(14),invar(10),invar(13).
+ :- invar(1),invar(2),invar(9),invar(7),invar(14),invar(10),invar(13).
+ :- invar(1),invar(19),invar(9),invar(14),invar(10),invar(11),invar(20).
+ :- invar(1),invar(2),invar(9),invar(7),invar(14),invar(10),invar(11).
+ :- invar(1),invar(2),invar(9),invar(3),invar(14),invar(10),invar(11).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(6),invar(14).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(6),invar(10).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(4),invar(10).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(4),invar(14).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(6),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(4),invar(20).
+ :- invar(1),invar(19),invar(2),invar(9),invar(10),invar(20),invar(21).
+ :- invar(1),invar(19),invar(2),invar(9),invar(14),invar(20),invar(21).
+ :- invar(1),invar(2),invar(9),invar(7),invar(3),invar(4),invar(10).
+ :- invar(1),invar(2),invar(9),invar(7),invar(3),invar(4),invar(14).
+ :- invar(1),invar(19),invar(2),invar(7),invar(3),invar(4),invar(20).
+ :- invar(1),invar(2),invar(9),invar(7),invar(3),invar(6),invar(14).
+ :- invar(1),invar(2),invar(9),invar(7),invar(3),invar(6),invar(10).
+ :- invar(1),invar(19),invar(2),invar(7),invar(3),invar(6),invar(20).
+ :- invar(1),invar(19),invar(2),invar(7),invar(3),invar(5),invar(6).
+ :- invar(1),invar(2),invar(9),invar(7),invar(3),invar(5),invar(6).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(20),invar(21).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(20),invar(21).
+ :- invar(1),invar(19),invar(2),invar(7),invar(3),invar(4),invar(5).
+ :- invar(1),invar(2),invar(9),invar(7),invar(3),invar(4),invar(5).
+
+ :- invar(1),invar(19),invar(2),invar(7),invar(3),invar(20),invar(21).
+ :- invar(1),invar(2),invar(9),invar(7),invar(3),invar(10),invar(11).
+ :- invar(1),invar(2),invar(9),invar(7),invar(3),invar(14),invar(13).
+ :- invar(1),invar(19),invar(2),invar(7),invar(3),invar(20),invar(21).
+ :- invar(1),invar(2),invar(9),invar(7),invar(3),invar(14),invar(13).
+ :- invar(1),invar(2),invar(9),invar(7),invar(3),invar(10),invar(11).
+ :- invar(1),invar(19),invar(9),invar(14),invar(10),invar(20),invar(21).
+ :- invar(1),invar(2),invar(9),invar(7),invar(6),invar(14),invar(10).
+ :- invar(1),invar(2),invar(9),invar(3),invar(4),invar(14),invar(10).
+ :- invar(1),invar(19),invar(9),invar(14),invar(10),invar(20),invar(21).
+ :- invar(1),invar(2),invar(9),invar(3),invar(4),invar(14),invar(10).
+ :- invar(1),invar(2),invar(9),invar(7),invar(6),invar(14),invar(10).
+ :- invar(1),invar(19),invar(2),invar(9),invar(10),invar(11),invar(12).
+ :- invar(1),invar(19),invar(2),invar(9),invar(14),invar(12),invar(13).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(4),invar(5).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(5),invar(6).
+ :- invar(1),invar(19),invar(2),invar(9),invar(14),invar(12),invar(13).
+ :- invar(1),invar(19),invar(2),invar(9),invar(10),invar(11),invar(12).
+ :- invar(1),invar(19),invar(2),invar(9),invar(20),invar(21),invar(22).
+ :- invar(1),invar(19),invar(2),invar(9),invar(7),invar(5),invar(6).
+ :- invar(1),invar(19),invar(2),invar(9),invar(3),invar(4),invar(5).
+ :- invar(1),invar(19),invar(2),invar(9),invar(20),invar(21),invar(22).
+
+ :- invar(22),invar(23),invar(24),invar(25),invar(26),invar(27),invar(28).
+ :- invar(22),invar(23),invar(24),invar(25),invar(26),invar(27),invar(28).
+
+ :- invar(1),invar(19),invar(2),invar(20),invar(21),invar(22),invar(30).
+ :- invar(1),invar(19),invar(9),invar(20),invar(21),invar(22),invar(30).
+ :- invar(19),invar(20),invar(21),invar(22),invar(23),invar(24),invar(29).
+ :- invar(21),invar(22),invar(23),invar(24),invar(25),invar(26),invar(28).
+ :- invar(21),invar(22),invar(23),invar(24),invar(25),invar(26),invar(27).
+
+ :- invar(20),invar(21),invar(22),invar(23),invar(30),invar(24),invar(29).
+ :- invar(22),invar(23),invar(30),invar(24),invar(25),invar(29),invar(26).
+ :- invar(22),invar(23),invar(24),invar(25),invar(29),invar(26),invar(27).
+ :- invar(22),invar(23),invar(24),invar(25),invar(29),invar(26),invar(28).
+
+ :- invar(19),invar(15),invar(16),invar(18),invar(20),invar(21),invar(22).
+ :- invar(19),invar(15),invar(16),invar(17),invar(20),invar(21),invar(22).
+ :- invar(19),invar(14),invar(13),invar(15),invar(20),invar(21),invar(22).
+ :- invar(19),invar(9),invar(14),invar(15),invar(20),invar(21),invar(22).
+ :- invar(1),invar(19),invar(2),invar(3),invar(15),invar(16),invar(17).
+ :- invar(1),invar(19),invar(2),invar(3),invar(15),invar(16),invar(18).
+ :- invar(1),invar(19),invar(2),invar(3),invar(14),invar(13),invar(15).
+ :- invar(1),invar(19),invar(2),invar(7),invar(15),invar(16),invar(17).
+ :- invar(1),invar(19),invar(2),invar(7),invar(15),invar(16),invar(18).
+ :- invar(1),invar(19),invar(2),invar(7),invar(14),invar(13),invar(15).
+ :- invar(1),invar(19),invar(9),invar(10),invar(15),invar(16),invar(18).
+ :- invar(1),invar(19),invar(9),invar(10),invar(15),invar(16),invar(17).
+ :- invar(19),invar(9),invar(14),invar(10),invar(11),invar(15),invar(20).
+ :- invar(9),invar(14),invar(10),invar(11),invar(15),invar(16),invar(17).
+ :- invar(9),invar(14),invar(10),invar(11),invar(15),invar(16),invar(18).
+ :- invar(1),invar(2),invar(9),invar(14),invar(15),invar(16),invar(18).
+ :- invar(1),invar(2),invar(9),invar(14),invar(15),invar(16),invar(17).
+ :- invar(19),invar(14),invar(11),invar(12),invar(13),invar(15),invar(20).
+ :- invar(1),invar(19),invar(14),invar(11),invar(12),invar(13),invar(15).
+ :- invar(14),invar(11),invar(12),invar(13),invar(15),invar(16),invar(18).
+ :- invar(14),invar(11),invar(12),invar(13),invar(15),invar(16),invar(17).
+
+ :- invar(1),invar(19),invar(20),invar(21),invar(22),invar(23),invar(30).
+ :- invar(21),invar(22),invar(23),invar(30),invar(24),invar(25),invar(26).
+ :- invar(20),invar(21),invar(22),invar(23),invar(24),invar(25),invar(29).
+
+ :- invar(14),invar(12),invar(13),invar(15),invar(16),invar(17),invar(18).
+ :- invar(14),invar(12),invar(13),invar(15),invar(16),invar(17),invar(18).
+ :- invar(19),invar(15),invar(16),invar(17),invar(18),invar(20),invar(21).
+ :- invar(19),invar(15),invar(16),invar(17),invar(18),invar(20),invar(21).
+ :- invar(9),invar(14),invar(10),invar(15),invar(16),invar(17),invar(18).
+ :- invar(9),invar(14),invar(10),invar(15),invar(16),invar(17),invar(18).
+ :- invar(1),invar(9),invar(14),invar(15),invar(16),invar(17),invar(18).
+ :- invar(1),invar(9),invar(14),invar(15),invar(16),invar(17),invar(18).
+ :- invar(1),invar(19),invar(9),invar(15),invar(16),invar(17),invar(18).
+ :- invar(1),invar(19),invar(9),invar(15),invar(16),invar(17),invar(18).
+ :- invar(1),invar(19),invar(2),invar(15),invar(16),invar(17),invar(18).
+ :- invar(1),invar(19),invar(2),invar(15),invar(16),invar(17),invar(18).
+ :- invar(19),invar(9),invar(14),invar(13),invar(15),invar(20),invar(21).
+ :- invar(19),invar(9),invar(14),invar(13),invar(15),invar(20),invar(21).
+ :- invar(1),invar(19),invar(14),invar(12),invar(13),invar(15),invar(20).
+ :- invar(1),invar(19),invar(14),invar(12),invar(13),invar(15),invar(20).
+
+ :- invar(19),invar(9),invar(14),invar(13),invar(15),invar(16),invar(20).
+ :- invar(19),invar(9),invar(14),invar(13),invar(15),invar(16),invar(20).
+ :- invar(19),invar(9),invar(14),invar(13),invar(15),invar(16),invar(17).
+ :- invar(19),invar(9),invar(14),invar(13),invar(15),invar(16),invar(18).
+ :- invar(19),invar(9),invar(14),invar(13),invar(15),invar(16),invar(17).
+ :- invar(19),invar(9),invar(14),invar(13),invar(15),invar(16),invar(18).
+ :- invar(19),invar(14),invar(13),invar(15),invar(16),invar(17),invar(18).
+ :- invar(19),invar(14),invar(13),invar(15),invar(16),invar(17),invar(18).
+ :- invar(19),invar(9),invar(14),invar(15),invar(16),invar(17),invar(18).
+ :- invar(19),invar(9),invar(14),invar(15),invar(16),invar(17),invar(18).
+ :- invar(19),invar(14),invar(15),invar(16),invar(17),invar(18),invar(20).
+ :- invar(19),invar(14),invar(15),invar(16),invar(17),invar(18),invar(20).
+ :- invar(1),invar(19),invar(14),invar(15),invar(16),invar(17),invar(18).
+ :- invar(1),invar(19),invar(14),invar(15),invar(16),invar(17),invar(18).
+ :- invar(1),invar(19),invar(14),invar(13),invar(15),invar(16),invar(20).
+ :- invar(1),invar(19),invar(14),invar(13),invar(15),invar(16),invar(20).
+ :- invar(1),invar(19),invar(14),invar(15),invar(16),invar(17),invar(20).
+ :- invar(1),invar(19),invar(14),invar(15),invar(16),invar(18),invar(20).
+ :- invar(1),invar(19),invar(14),invar(15),invar(16),invar(17),invar(20).
+ :- invar(1),invar(19),invar(14),invar(15),invar(16),invar(18),invar(20).
+
+ :- invar(1),invar(19),invar(2),invar(3),invar(4),invar(5),invar(15).
+ :- invar(1),invar(19),invar(2),invar(7),invar(5),invar(6),invar(15).
+ :- invar(19),invar(15),invar(20),invar(21),invar(22),invar(23),invar(24).
+ :- invar(1),invar(19),invar(9),invar(10),invar(11),invar(12),invar(15).
+ :- invar(1),invar(2),invar(9),invar(3),invar(4),invar(14),invar(15).
+ :- invar(1),invar(2),invar(9),invar(7),invar(6),invar(14),invar(15).
+
+ :- invar(1),invar(19),invar(2),invar(14),invar(13),invar(15),invar(16).
+ :- invar(1),invar(19),invar(2),invar(14),invar(15),invar(16),invar(18).
+ :- invar(1),invar(19),invar(2),invar(14),invar(15),invar(16),invar(17).
+ :- invar(19),invar(14),invar(15),invar(16),invar(17),invar(20),invar(21).
+ :- invar(19),invar(14),invar(15),invar(16),invar(18),invar(20),invar(21).
+ :- invar(19),invar(14),invar(13),invar(15),invar(16),invar(20),invar(21).
+ :- invar(19),invar(9),invar(14),invar(15),invar(16),invar(20),invar(21).
+ :- invar(19),invar(9),invar(14),invar(10),invar(15),invar(16),invar(20).
+ :- invar(19),invar(9),invar(14),invar(10),invar(15),invar(16),invar(18).
+ :- invar(19),invar(9),invar(14),invar(10),invar(15),invar(16),invar(17).
+ :- invar(19),invar(14),invar(12),invar(13),invar(15),invar(16),invar(20).
+ :- invar(1),invar(19),invar(14),invar(12),invar(13),invar(15),invar(16).
+ :- invar(19),invar(14),invar(12),invar(13),invar(15),invar(16),invar(17).
+ :- invar(19),invar(14),invar(12),invar(13),invar(15),invar(16),invar(18).
+
+ :- invar(19),invar(14),invar(11),invar(12),invar(13),invar(15),invar(16).
+ :- invar(19),invar(14),invar(11),invar(12),invar(13),invar(15),invar(16).
+ :- invar(19),invar(9),invar(14),invar(10),invar(11),invar(15),invar(16).
+ :- invar(19),invar(9),invar(14),invar(10),invar(11),invar(15),invar(16).
+ :- invar(1),invar(19),invar(2),invar(7),invar(14),invar(15),invar(16).
+ :- invar(1),invar(19),invar(2),invar(7),invar(14),invar(15),invar(16).
+ :- invar(1),invar(19),invar(2),invar(3),invar(14),invar(15),invar(16).
+ :- invar(1),invar(19),invar(2),invar(3),invar(14),invar(15),invar(16).
+ :- invar(19),invar(14),invar(15),invar(16),invar(20),invar(21),invar(22).
+ :- invar(19),invar(14),invar(15),invar(16),invar(20),invar(21),invar(22).
+
+ :- invar(1),invar(2),invar(9),invar(14),invar(13),invar(15),invar(16).
+ :- invar(9),invar(14),invar(10),invar(11),invar(13),invar(15),invar(16).
+ :- invar(19),invar(9),invar(14),invar(10),invar(11),invar(13),invar(15).
+ :- invar(19),invar(9),invar(14),invar(11),invar(12),invar(13),invar(15).
+ :- invar(9),invar(14),invar(11),invar(12),invar(13),invar(15),invar(16).
+ :- invar(1),invar(19),invar(9),invar(10),invar(15),invar(16),invar(20).
+ :- invar(1),invar(19),invar(2),invar(3),invar(15),invar(16),invar(20).
+ :- invar(1),invar(19),invar(2),invar(3),invar(14),invar(15),invar(20).
+ :- invar(1),invar(19),invar(2),invar(7),invar(14),invar(15),invar(20).
+ :- invar(1),invar(19),invar(2),invar(7),invar(15),invar(16),invar(20).
+ :- invar(1),invar(19),invar(14),invar(15),invar(20),invar(21),invar(22).
+ :- invar(1),invar(19),invar(15),invar(16),invar(20),invar(21),invar(22).
 % NOGOODS_END
 
 
 % pattern len constraint
 pattern_len(N) :- N = #count{X:invar(X)}.
-good_model :- pattern_len(4).
+good_model :- pattern_len(7).
 :- not good_model.
 
 
@@ -139,6 +392,79 @@ t_node(X)   :- t_edge(X,_).
 #show positive_match/1.
 #show positive_count/1.
 #show used_map/3.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
