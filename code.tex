@@ -68,12 +68,10 @@ positive_count(N) :- N = #count{G:homowith(G)}.
 :- positive_count(N), N < 2.
 \end{lstlisting}
 
-\begin{lstlisting}[caption=ASP negative matching, style=model]
+\begin{lstlisting}[caption=ASP negative matching, label={lst:aspsaturation}, style=model, numbers=left]
 %Saturated Representation
-
 %negative constraints to check not matching negative graphs
-
-map(G,X,v1) | map(G,X,v2) | map(G,X,v3) | map(G,X,v4) :- invar(X), negative(G).
+map(G,X,v1) | map(G,X,v2) | map(G,X,v3) | map(G,X,v4) :- invar(X), negative(G). @\label{lstline:probspec}@
 
 map(G,X,V) :- saturated(G), t_node(X), node(G,V).
 

@@ -175,7 +175,6 @@ Concretely, we introduce a general function \verb|f| that represents all homomor
 %As it is impossible
 %We introduce a general function \verb|f| that represents the homomorphisms, and make its dependency on a specific goal graph explicit using an additional argument:
 In Second Order Logic, this dependency would follow directly from the order of the separate quantifications.
-\matthias{Ik zou de partial hier er nog niet bij vermelden? En pas op het einde toevoegen}
 
 \begin{center}
 \begin{minipage}{0.54\linewidth}
@@ -406,7 +405,8 @@ The same technique can be applied to the isomorphism restriction, as well as oth
 
 
 While this technique succesfully prevents the need of a procedural loop and the rewriting of the negative homomorphic property and the isomorphism restriction, it is clear that this technique is not derived from a natural KR translation of the Graph Mining definition.
-\matthias{Also, it forces to look for homomorphisms for every negative example graph, whereas $N_{-}$ + 1 example graphs are enough. Quite possible that there is a workaround for this however.}
+Furthermore, as line~\ref{lstline:probspec} of Listing~\ref{lst:aspsaturation} shows, it is necessary to encode instance specific knowledge into the modelling.
+\todo{Also, it forces to look for homomorphisms for every negative example graph, whereas $N_{-}$ + 1 example graphs are enough. Quite possible that there is a workaround for this however.}
 \todo{Mention the fact that we need to encode problem instance specific knowledge i.e. the number of vertices}
 
 
