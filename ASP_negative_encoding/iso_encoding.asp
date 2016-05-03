@@ -8,4 +8,6 @@ node(X)     :- t_edge(X,_).
 :-     t_edge(X,Y), map(X,V), map(Y,W), not t_edge(V,W).
 :- not t_edge(X,Y), map(X,V), map(Y,W),     t_edge(V,W).
 
+:-  map(X,V), t_label(X,L), not t_label(V,L).
+
 #show map/2.

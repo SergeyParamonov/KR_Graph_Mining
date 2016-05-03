@@ -25,7 +25,7 @@ if "UNSATISFIABLE" in output:
   begin_key = "% NOGOODS_BEGIN"
   begin = program.index(begin_key) + len(begin_key)
   end   = program.index("% NOGOODS_END")
-  new_program = new_program[:begin] + new_program[end:]
+  new_program = new_program[:begin] + "\n\n" + new_program[end:]
   with open(program_filename,"w") as programfile:
     print(new_program,file=programfile)
   with open(flags_filename,"w") as flag:

@@ -6,8 +6,8 @@ def extract_graph_id(graph_str):
   return graph_id
 
 def filter_edges_with_id(data, graph_id):
-  edges = [atom for atom in data if ("edge("+graph_id+",") in atom]
-  return edges
+  edges_labels = [atom for atom in data if ("edge("+graph_id+",") in atom or ("label("+graph_id+",") in atom]
+  return edges_labels
 
 def remove_id(atom_str):
   prefix, suffix = atom_str.split('(')

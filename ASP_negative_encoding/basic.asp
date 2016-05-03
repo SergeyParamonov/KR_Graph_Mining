@@ -18,9 +18,10 @@ good_model :- pattern_len(2).
 
 1 { map(G,X,V) : node(G,V) } 1 :- graph(G), invar(X).
 
-:- map(G,X,V), map(G,Y,V), X != Y.
+:- used_map(G,X,V), used_map(G,Y,V), X != Y.
 
-:- positive_match(G), map(G,X,V1), map(G,Y,V2), t_edge(X,Y), not edge(G,V1,V2), invar(X), invar(Y).
+:- used_map(G,X,V1), used_map(G,Y,V2), t_edge(X,Y), not edge(G,V1,V2), invar(X), invar(Y).
+:- used_map(G,X,V),  t_label(X,L), not label(G,V,L), invar(X).
 
 positive_count(N) :- N = #count{G:positive_match(G)}.
 
