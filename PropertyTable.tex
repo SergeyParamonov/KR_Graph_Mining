@@ -9,15 +9,15 @@
 \begin{document}
 \pagenumbering{gobble}
 \rowcolors{2}{gray!25}{white}
-\begin{tabular}{>{\centering\arraybackslash}p{0.2\linewidth}| >{\centering\arraybackslash}p{0.2\linewidth} >{\centering\arraybackslash}p{0.2\linewidth} >{\centering\arraybackslash}p{0.2\linewidth}}
+\begin{tabular}{>{\centering\arraybackslash}p{0.3\linewidth}| >{\centering\arraybackslash}p{0.25\linewidth} >{\centering\arraybackslash}p{0.25\linewidth} >{\centering\arraybackslash}p{0.25\linewidth}}
 Property & IDP & ASP & ProB\\
 \hline
-Graph as a single object & Global Disjoint Union technique & See IDP & \checkmark\\
-Independence of homomorphisms & Global Disj. Union + partiality & See IDP & \checkmark\\
-Similarity of $\geq$ and $\leq$ constraint & $\pm$: requires theory splitting & No: Saturation technique & \checkmark \\
-Multiple patterns (isomorphism) & $\pm$: requires theory splitting & No: Saturation technique & \checkmark \\
-Connectedness & \checkmark & \checkmark & $\pm$: using the transitive closure primitive\\
-Multiple inferences & Model checking, expansion, minimization & See IDP & Model checking, expansion. Minimization must be encoded in the model [?]\\
-Single solver call & No, multiple split theories & $\pm$: One for each pattern & \checkmark
+1. Graph as a single object & Global disjoint union technique & See IDP & \checkmark\\
+2. Independence of homomorphisms & Global disj. union \& partial function & See IDP & \checkmark\\
+3. Similarity of $\geq$ and $\leq$ constraint & Requires theory splitting & No: Saturation technique & \checkmark \\
+4. Multiple patterns (isomorphism) & Requires theory splitting & No: Saturation technique & \checkmark \\
+5. Connectedness & \checkmark & \checkmark & Transitive closure primitive\\
+6. Multiple inferences & Model checking, expansion, minimization & See IDP & Model checking, expansion. Minimization must be encoded in the model.\\
+7. Single solver call & No & One for each pattern & \checkmark
 \end{tabular}
 \end{document}

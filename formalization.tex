@@ -19,7 +19,7 @@ A graph homomorphism $f$ from a labeled graph $\graph{G} = (V,E,l)$ to a labeled
 \item $\forall u,v \in V, \pair{u,v} \in E \implies \pair{f(u),f(v)} \in E'$ (the mapping preserves edges), and 
 \item $\forall v \in V : l(v) = l(f(v))$ (the mapping respects labelings).
 \end{itemize}
-If there exists such a graph homomorphism from graph $\graph{G}$ to $\graph{G'}$ we say $\graph{G}$ is \emph{homomorphic} with $\graph{G'}$.
+If there exists a graph homomorphism from graph $\graph{G}$ to $\graph{G'}$ we say $\graph{G}$ is \emph{homomorphic} with $\graph{G'}$.
 \end{definition}
 
 \begin{definition}
@@ -152,7 +152,7 @@ For example, it stands to reason that one wants only \emph{canonical} solutions,
 A graph isomorphism $f$ between two labeled graphs $\graph{G} = \triple{V,E,l}$ and $\graph{G'} = \triple{V',E',l'}$ is a \emph{one-to-one} mapping $V \rightarrow V'$ 
 such that $f$ represents a homomorphism from $\graph{G}$ to $\graph{G'}$,
 and its inverse $f^{-1}$ represents a homomorphism from $\graph{G'}$ to $\graph{G}$.
-If there exist such graph isomorphisms between $\graph{G}$ and $\graph{G'}$ we say $\graph{G}$ and $\graph{G'}$ are \emph{isomorphic}.
+If there exist graph isomorphisms between $\graph{G}$ and $\graph{G'}$ we say $\graph{G}$ and $\graph{G'}$ are \emph{isomorphic}.
 \end{definition}
 
 We now can define the concept of a canonization and the related concept of a canonical graph. 
@@ -245,15 +245,20 @@ graph \graph{P} represented by tuple $\triple{E_{\graph{P}}, l_{\graph{P}}}$ suc
 A set of \emph{canonical patterns} is a set $\graphset{P}$ of graphs $\graph{P}_{1},...,\graph{P}_{n}$, such that for each pair of different elements (of \graphset{P}) $\graph{P}_{i}, \graph{P}_{j}$ holds that there does not exist an isomorphism between $\graph{P}_{i}$ and $\graph{P}_{j}$.
 \end{definition}
 
-As evidenced from the definitions above, graphs are the main concept in the graph mining problem, and, when represented using a triple $\triple{E,l,c}$, graphs are inherent \emph{higher order objects}.
-A set of graphs, such as the argument of the cardinality operator above or the set of example graphs $\graphset{G}$, is equivalent to a set of triples.
-The most straightforward representation of such a set would therefore be a ternary predicate.
-As the domains of this predicate range over predicates and functions, this predicate is a higher order predicate.
+%As evidenced from the definitions above, graphs are the main concept in the graph mining problem, and, when represented using a triple $\triple{E,l,c}$, graphs are inherent \emph{higher order objects}.
+Graphs are the main concept in the graph mining problem, and, when represented using a triple $\triple{E,l,c}$, graphs are inherent \emph{higher order objects}.
+A set of graphs
+%, such as the argument of the cardinality operator above or the set of example graphs $\graphset{G}$,
+is equivalent to a set of triples.
+The most straightforward representation of such a set would 
+%therefore 
+be a ternary predicate.
+As the domains of this predicate range over predicates and functions, it is a higher order predicate.
 
 It is very natural to consider and represent each graph as a \emph{coherent} ensemble of its own components: all characteristics (edges, labeling \ldots) of a graph are represented by separate entities or concepts, which are grouped together for each graph $\graph{G}$ in the triple that describes it. We refer to this as the \emph{local coherence} of the graph representation.
 Not only is this a very natural representation, this representation also makes it very explicit that all example graphs are \emph{independent}, and that the searches for homomorphisms between a pattern and example graphs are independent as well.
 This motivates us to reason about graphs as locally coherent objects in our logical models as well.
-However, the higher order representations needed to reason about graphs and sets of graphs as \emph{coherent} objects in our models are not yet fully supported by the logics of IDP and ProB.
+However, the higher order representations needed to reason about graphs and sets of graphs as \emph{coherent} objects in our models are not yet fully supported by the logics of IDP and ASP.
 In the following section we discuss how we can deal with this.
 
 %When reasoning about graphs, we see \emph{each graph} as a \emph{coherent} ensemble of its own components: 

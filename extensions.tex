@@ -25,17 +25,12 @@ Quantification over second order objects uses annotated quantifiers ($\exists_{S
 
 \begin{lstlisting}[mathescape,style=model,caption={Faithful encoding},label=lst:faithful, numbers=left]
 Vocabulary V @\textbraceleft@
-    type node
-    type label
+    type node, type label
     so-type graph(node, label) of (vertex(node), edge(node,node), label(node):label)
     
-    homomorphism(graph, graph)
-    reachable(node,node, graph)
-    isPattern(graph)
-    canonical_pattern(graph)
-    positive(graph)
-    negative(graph)
-    template:graph
+    homomorphism(graph, graph), reachable(node,node, graph)
+    isPattern(graph), canonical_pattern(graph)
+    positive(graph), negative(graph), template:graph 
 @\textbraceright@ 
 
 Theory T @\textbraceleft@ 
@@ -73,13 +68,13 @@ To allow inferences on this theory, extended solver support is necessary.
 We now propose a way in which a solver can provide this additional support, and potentially even improve performance.
 
 \subsubsection{Second order types}
-We represent objects of any \lstinline|so-type| using the disjoint union technique, declaring a new first order type $id$ containing identifiers for the higher objects, e.g. \lstinline|graphId|.
+The solver can represent objects of any \lstinline|so-type| using the disjoint union technique, declaring a new first order type $id$ containing identifiers for the higher objects, e.g. \lstinline|graphId|.
 \matthias{Using theory analysis, we determine whether the size of the second order type is bounded and if so, impose the same bound on the size of the type $id$.
 If no such bound can be detected, we treat $id$ as an infinite type, relying on lazy grounding to create new $id$ objects when necessary and subsequently instantiate the required rules for the new $id$ object.}\todo{Matthias: Is it necessary to impose that different id's differ in some of their properties. (I don't think so). Would it help search (it might). It also makes comparing P=P2 easy.}
 
-Next, as explained earlier, every occurrence of an object of type \lstinline|graph| is replaced by the correct identifier, and quantifications over this type are replaced by quantifications over the set of identifiers.
+Next, every occurrence of an object of type \lstinline|graph| is replaced by the correct identifier, and quantifications over this type are replaced by quantifications over the set of identifiers.
 
-Lastly, every time a component of an object is accessed (e.g. \lstinline|Edge(x, y)|) it is replaced by a global function representing this component (i.e. \lstinline|Edge(gid, x, y)|).
+Lastly, every time a component of an object is accessed (e.g. \lstinline|Edge(x, y)|) it is replaced by a global predicate or function representing this component (i.e. \lstinline|Edge(gid, x, y)|).
 %\matthias{In the graph mining example of Listing~\ref{lst:faithful}, the second order type \lstinline|graph| is }
 
 
@@ -98,16 +93,17 @@ Essentially, the \NP-solver becomes a \QBF-solver.
 To set up a nested solver for a formula $\exists_{SO} X : \phi$, we must set up a vocabulary $V$ and a theory $T$ over $V$ for this solver. 
 To this end, we first identify the variables $\Sigma$ used in $\phi$.
 These variables $\Sigma$, together with the variable X from the quantification itself, are collected in the new vocabulary $V$. 
-We call the free variables $\mathit{free}(\phi)$ the shared variables $\Sigma_s$.
+We call the free variables of $\phi$ the shared variables $\Sigma_s$.
 By using the formula $\phi$ as the theory $T$, we conclude the setup of the nested subsolver.
 
-Whenever we now need to evaluate the truth of a second order quantification, we simply call this oracle on vocabulary $V$ and theory $T$, providing it with a set of assumptions consisting of the values that the top solver assigns to the shared symbols $\Sigma_s$.
+Whenever the solver needs to evaluate the truth of a second order quantification, the solver simply calls this oracle on vocabulary $V$ and theory $T$, providing it with a set of assumptions consisting of the values that the top solver assigns to the shared symbols $\Sigma_s$.
 Depending on whether the subsolver succeeds or fails to find a model, we update the current interpretation of the top solver with the model or learn a new clause, as detailed by~\cite{AAAIW1612603}.
 \todo{Benders decomposition~\citep{Benders}}
 
 \todo{Toevoegen van een voorbeeld}
 
 \subsection{Conclusion}
+\todo{naar achter schuiven}
 Higher order logic is sometimes criticized as being to expressive.
 Sometimes however, the additional structure HO exhibits allows solvers to perform better.
 For example, in the case of graph mining, higher order logic preserves the local coherence of graphs, and the independence of homomorphisms for the different examples, a property that a higher order solver can leverage in order to raise efficiency. 
