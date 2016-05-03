@@ -1,0 +1,21 @@
+clingo version 4.5.4
+Reading from iso_encoding.asp ...
+Solving...
+Answer: 1
+map(22,22) map(23,23) map(30,30) map(24,24)
+Answer: 2
+map(24,20) map(23,21) map(22,22) map(30,30)
+Answer: 3
+map(22,24) map(23,25) map(30,29) map(24,26)
+Answer: 4
+map(24,22) map(23,23) map(22,24) map(30,29)
+Answer: 5
+map(24,24) map(23,25) map(22,26) map(30,27)
+Answer: 6
+map(24,24) map(23,25) map(22,26) map(30,28)
+SATISFIABLE
+
+Models       : 6     
+Calls        : 1
+Time         : 0.010s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s

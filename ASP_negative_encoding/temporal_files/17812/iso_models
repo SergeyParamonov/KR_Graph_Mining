@@ -1,0 +1,13 @@
+clingo version 4.5.4
+Reading from iso_encoding.asp ...
+Solving...
+Answer: 1
+map(9,13) map(12,10) map(11,11) map(10,12) map(15,15)
+Answer: 2
+map(9,9) map(10,10) map(11,11) map(12,12) map(15,15)
+SATISFIABLE
+
+Models       : 2     
+Calls        : 1
+Time         : 0.005s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.000s
