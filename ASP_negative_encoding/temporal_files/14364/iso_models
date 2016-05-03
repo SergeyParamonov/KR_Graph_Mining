@@ -2,32 +2,12 @@ clingo version 4.5.4
 Reading from iso_encoding.asp ...
 Solving...
 Answer: 1
-map(12,1) map(11,2) map(13,9) map(14,14) map(9,13) map(15,15) map(19,16)
+map(1,1) map(19,19) map(2,2) map(3,7) map(7,3) map(6,4) map(15,15)
 Answer: 2
-map(13,9) map(14,14) map(12,10) map(11,11) map(9,13) map(15,15) map(19,16)
-Answer: 3
-map(19,19) map(13,9) map(14,14) map(12,10) map(11,11) map(9,13) map(15,15)
-Answer: 4
-map(19,19) map(9,9) map(14,14) map(11,11) map(12,12) map(13,13) map(15,15)
-Answer: 5
-map(9,9) map(14,14) map(11,11) map(12,12) map(13,13) map(15,15) map(19,16)
-Answer: 6
-map(13,1) map(14,19) map(12,9) map(11,10) map(15,15) map(19,16) map(9,20)
-Answer: 7
-map(13,1) map(14,19) map(12,2) map(11,3) map(15,15) map(19,16) map(9,20)
-Answer: 8
-map(13,1) map(14,19) map(12,2) map(11,3) map(19,14) map(15,15) map(9,20)
-Answer: 9
-map(13,1) map(14,19) map(12,2) map(11,7) map(19,14) map(15,15) map(9,20)
-Answer: 10
-map(13,1) map(14,19) map(12,2) map(11,7) map(15,15) map(19,16) map(9,20)
-Answer: 11
-map(9,1) map(14,19) map(19,14) map(15,15) map(13,20) map(12,21) map(11,22)
-Answer: 12
-map(9,1) map(14,19) map(15,15) map(19,16) map(13,20) map(12,21) map(11,22)
+map(1,1) map(19,19) map(2,2) map(7,7) map(3,3) map(6,6) map(15,15)
 SATISFIABLE
 
-Models       : 12    
+Models       : 2     
 Calls        : 1
-Time         : 0.032s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
-CPU Time     : 0.030s
+Time         : 0.019s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s

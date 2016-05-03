@@ -5265,3 +5265,643 @@ CPU Time     : 0.030s
 ++ (( i++ ))
 ++ (( i < runs ))
 ++ ./clingo temporal_files/14364/executable_program.asp yoshida temporal_files/14364/template
+++ cat temporal_files/14364/clingo_output
+clingo version 4.5.4
+Reading from ...ral_files/14364/executable_program.asp ...
+Solving...
+Answer: 1
+invar(19) invar(16) invar(15) invar(1) invar(14) invar(13) invar(18) positive_match(27) used_map(27,1,17) used_map(27,19,16) used_map(27,14,12) used_map(27,13,25) used_map(27,15,1) used_map(27,16,2) used_map(27,18,3) positive_match(39) used_map(39,1,15) used_map(39,19,16) used_map(39,14,1) used_map(39,13,6) used_map(39,15,17) used_map(39,16,18) used_map(39,18,19) positive_match(41) used_map(41,1,3) used_map(41,19,2) used_map(41,14,8) used_map(41,13,9) used_map(41,15,1) used_map(41,16,12) used_map(41,18,11) positive_match(55) used_map(55,1,3) used_map(55,19,2) used_map(55,14,13) used_map(55,13,14) used_map(55,15,1) used_map(55,16,8) used_map(55,18,9) positive_match(65) used_map(65,1,16) used_map(65,19,17) used_map(65,14,1) used_map(65,13,6) used_map(65,15,21) used_map(65,16,20) used_map(65,18,22) positive_match(75) used_map(75,1,4) used_map(75,19,5) used_map(75,14,17) used_map(75,13,18) used_map(75,15,6) used_map(75,16,7) used_map(75,18,8) positive_match(89) used_map(89,1,16) used_map(89,19,15) used_map(89,14,11) used_map(89,13,25) used_map(89,15,1) used_map(89,16,2) used_map(89,18,3) positive_match(126) used_map(126,1,14) used_map(126,19,13) used_map(126,14,9) used_map(126,13,23) used_map(126,15,1) used_map(126,16,2) used_map(126,18,3) positive_match(129) used_map(129,1,19) used_map(129,19,18) used_map(129,14,16) used_map(129,13,17) used_map(129,15,15) used_map(129,16,14) used_map(129,18,13) positive_match(145) used_map(145,1,7) used_map(145,19,6) used_map(145,14,9) used_map(145,13,8) used_map(145,15,5) used_map(145,16,4) used_map(145,18,3) positive_match(148) used_map(148,1,18) used_map(148,19,17) used_map(148,14,1) used_map(148,13,2) used_map(148,15,16) used_map(148,16,21) used_map(148,18,20) positive_match(166) used_map(166,1,6) used_map(166,19,1) used_map(166,14,11) used_map(166,13,10) used_map(166,15,12) used_map(166,16,13) used_map(166,18,18) positive_match(261) used_map(261,1,6) used_map(261,19,5) used_map(261,14,10) used_map(261,13,9) used_map(261,15,1) used_map(261,16,2) used_map(261,18,4) positive_match(262) used_map(262,1,4) used_map(262,19,5) used_map(262,14,7) used_map(262,13,9) used_map(262,15,6) used_map(262,16,12) used_map(262,18,13) positive_count(14)
+SATISFIABLE
+
+Models       : 1+    
+Calls        : 1
+Time         : 45.362s (Solving: 5.20s 1st Model: 5.19s Unsat: 0.00s)
+CPU Time     : 45.360s
+++ python3 scripts/check_solution.py temporal_files/14364/clingo_output temporal_files/14364/executable_program.asp temporal_files/14364/flags temporal_files/14364/number_of_patterns temporal_files/14364/runtime
++++ cat temporal_files/14364/flags
+++ [[ SAT == \U\N\S\A\T ]]
+++ cat temporal_files/14364/number_of_patterns
+85
+++ python3 scripts/parse_clingo_invar.py temporal_files/14364/clingo_output
+++ cat temporal_files/14364/current_solution
+solution(19). solution(16). solution(15). solution(1). solution(14). solution(13). solution(18). 
+++ ./clingo iso_encoding.asp temporal_files/14364/current_solution temporal_files/14364/template 0
+++ cat temporal_files/14364/iso_models
+clingo version 4.5.4
+Reading from iso_encoding.asp ...
+Solving...
+Answer: 1
+map(14,19) map(19,14) map(1,13) map(15,15) map(16,16) map(18,17) map(13,20)
+Answer: 2
+map(14,19) map(19,14) map(1,13) map(15,15) map(16,16) map(18,18) map(13,20)
+Answer: 3
+map(14,19) map(1,9) map(19,14) map(15,15) map(16,16) map(18,18) map(13,20)
+Answer: 4
+map(14,19) map(1,9) map(19,14) map(15,15) map(16,16) map(18,17) map(13,20)
+Answer: 5
+map(13,1) map(14,19) map(19,14) map(1,13) map(15,15) map(16,16) map(18,17)
+Answer: 6
+map(13,1) map(14,19) map(19,14) map(1,13) map(15,15) map(16,16) map(18,18)
+Answer: 7
+map(14,19) map(16,14) map(18,13) map(15,15) map(19,16) map(1,17) map(13,20)
+Answer: 8
+map(14,19) map(16,14) map(18,13) map(15,15) map(19,16) map(1,18) map(13,20)
+Answer: 9
+map(13,1) map(14,19) map(16,14) map(18,13) map(15,15) map(19,16) map(1,18)
+Answer: 10
+map(13,1) map(14,19) map(16,14) map(18,13) map(15,15) map(19,16) map(1,17)
+Answer: 11
+map(14,19) map(18,9) map(16,14) map(15,15) map(19,16) map(1,17) map(13,20)
+Answer: 12
+map(14,19) map(18,9) map(16,14) map(15,15) map(19,16) map(1,18) map(13,20)
+Answer: 13
+map(16,19) map(19,14) map(1,13) map(15,15) map(14,16) map(13,18) map(18,20)
+Answer: 14
+map(16,19) map(19,14) map(1,13) map(15,15) map(14,16) map(13,17) map(18,20)
+Answer: 15
+map(16,19) map(1,9) map(19,14) map(15,15) map(14,16) map(13,17) map(18,20)
+Answer: 16
+map(16,19) map(1,9) map(19,14) map(15,15) map(14,16) map(13,18) map(18,20)
+Answer: 17
+map(18,1) map(16,19) map(19,14) map(1,13) map(15,15) map(14,16) map(13,18)
+Answer: 18
+map(18,1) map(16,19) map(19,14) map(1,13) map(15,15) map(14,16) map(13,17)
+Answer: 19
+map(16,19) map(14,14) map(13,13) map(15,15) map(19,16) map(1,18) map(18,20)
+Answer: 20
+map(16,19) map(14,14) map(13,13) map(15,15) map(19,16) map(1,17) map(18,20)
+Answer: 21
+map(18,1) map(16,19) map(14,14) map(13,13) map(15,15) map(19,16) map(1,17)
+Answer: 22
+map(18,1) map(16,19) map(14,14) map(13,13) map(15,15) map(19,16) map(1,18)
+Answer: 23
+map(16,19) map(13,9) map(14,14) map(15,15) map(19,16) map(1,17) map(18,20)
+Answer: 24
+map(16,19) map(13,9) map(14,14) map(15,15) map(19,16) map(1,18) map(18,20)
+Answer: 25
+map(19,19) map(14,14) map(13,13) map(15,15) map(16,16) map(18,17) map(1,20)
+Answer: 26
+map(19,19) map(14,14) map(13,13) map(15,15) map(16,16) map(18,18) map(1,20)
+Answer: 27
+map(19,19) map(13,9) map(14,14) map(15,15) map(16,16) map(18,18) map(1,20)
+Answer: 28
+map(19,19) map(13,9) map(14,14) map(15,15) map(16,16) map(18,17) map(1,20)
+Answer: 29
+map(1,1) map(19,19) map(14,14) map(13,13) map(15,15) map(16,16) map(18,17)
+Answer: 30
+map(1,1) map(19,19) map(14,14) map(13,13) map(15,15) map(16,16) map(18,18)
+Answer: 31
+map(19,19) map(16,14) map(18,13) map(15,15) map(14,16) map(13,18) map(1,20)
+Answer: 32
+map(19,19) map(16,14) map(18,13) map(15,15) map(14,16) map(13,17) map(1,20)
+Answer: 33
+map(1,1) map(19,19) map(16,14) map(18,13) map(15,15) map(14,16) map(13,18)
+Answer: 34
+map(1,1) map(19,19) map(16,14) map(18,13) map(15,15) map(14,16) map(13,17)
+Answer: 35
+map(19,19) map(18,9) map(16,14) map(15,15) map(14,16) map(13,17) map(1,20)
+Answer: 36
+map(19,19) map(18,9) map(16,14) map(15,15) map(14,16) map(13,18) map(1,20)
+SATISFIABLE
+
+Models       : 36    
+Calls        : 1
+Time         : 0.032s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.020s
+++ python3 scripts/parse_iso_models.py temporal_files/14364/iso_models temporal_files/14364/executable_program.asp
+++ (( i++ ))
+++ (( i < runs ))
+++ ./clingo temporal_files/14364/executable_program.asp yoshida temporal_files/14364/template
+++ cat temporal_files/14364/clingo_output
+clingo version 4.5.4
+Reading from ...ral_files/14364/executable_program.asp ...
+Solving...
+Answer: 1
+invar(20) invar(19) invar(15) invar(14) invar(9) invar(12) invar(13) positive_match(31) used_map(31,19,8) used_map(31,9,1) used_map(31,14,6) used_map(31,12,4) used_map(31,13,5) used_map(31,15,7) used_map(31,20,9) positive_match(41) used_map(41,19,12) used_map(41,9,21) used_map(41,14,8) used_map(41,12,18) used_map(41,13,9) used_map(41,15,1) used_map(41,20,13) positive_match(55) used_map(55,19,8) used_map(55,9,14) used_map(55,14,13) used_map(55,12,17) used_map(55,13,12) used_map(55,15,1) used_map(55,20,9) positive_match(67) used_map(67,19,4) used_map(67,9,7) used_map(67,14,6) used_map(67,12,17) used_map(67,13,18) used_map(67,15,5) used_map(67,20,3) positive_match(84) used_map(84,19,12) used_map(84,9,10) used_map(84,14,9) used_map(84,12,1) used_map(84,13,8) used_map(84,15,11) used_map(84,20,13) positive_match(113) used_map(113,19,1) used_map(113,9,17) used_map(113,14,12) used_map(113,12,14) used_map(113,13,13) used_map(113,15,11) used_map(113,20,6) positive_match(141) used_map(141,19,3) used_map(141,9,6) used_map(141,14,5) used_map(141,12,9) used_map(141,13,1) used_map(141,15,4) used_map(141,20,2) positive_match(160) used_map(160,19,4) used_map(160,9,7) used_map(160,14,6) used_map(160,12,2) used_map(160,13,1) used_map(160,15,5) used_map(160,20,3) positive_match(166) used_map(166,19,1) used_map(166,9,14) used_map(166,14,13) used_map(166,12,17) used_map(166,13,18) used_map(166,15,12) used_map(166,20,2) positive_match(202) used_map(202,19,9) used_map(202,9,1) used_map(202,14,11) used_map(202,12,13) used_map(202,13,12) used_map(202,15,10) used_map(202,20,8) positive_match(218) used_map(218,19,9) used_map(218,9,1) used_map(218,14,6) used_map(218,12,4) used_map(218,13,5) used_map(218,15,7) used_map(218,20,10) positive_match(223) used_map(223,19,1) used_map(223,9,3) used_map(223,14,4) used_map(223,12,8) used_map(223,13,7) used_map(223,15,5) used_map(223,20,11) positive_match(234) used_map(234,19,14) used_map(234,9,9) used_map(234,14,10) used_map(234,12,12) used_map(234,13,11) used_map(234,15,15) used_map(234,20,13) positive_match(261) used_map(261,19,7) used_map(261,9,10) used_map(261,14,9) used_map(261,12,13) used_map(261,13,14) used_map(261,15,8) used_map(261,20,6) positive_count(14)
+SATISFIABLE
+
+Models       : 1+    
+Calls        : 1
+Time         : 44.149s (Solving: 3.59s 1st Model: 3.58s Unsat: 0.00s)
+CPU Time     : 44.150s
+++ python3 scripts/check_solution.py temporal_files/14364/clingo_output temporal_files/14364/executable_program.asp temporal_files/14364/flags temporal_files/14364/number_of_patterns temporal_files/14364/runtime
++++ cat temporal_files/14364/flags
+++ [[ SAT == \U\N\S\A\T ]]
+++ cat temporal_files/14364/number_of_patterns
+86
+++ python3 scripts/parse_clingo_invar.py temporal_files/14364/clingo_output
+++ cat temporal_files/14364/current_solution
+solution(20). solution(19). solution(15). solution(14). solution(9). solution(12). solution(13). 
+++ ./clingo iso_encoding.asp temporal_files/14364/current_solution temporal_files/14364/template 0
+++ cat temporal_files/14364/iso_models
+clingo version 4.5.4
+Reading from iso_encoding.asp ...
+Solving...
+Answer: 1
+map(9,9) map(14,14) map(12,12) map(13,13) map(15,15) map(19,16) map(20,18)
+Answer: 2
+map(9,9) map(14,14) map(12,12) map(13,13) map(15,15) map(19,16) map(20,17)
+Answer: 3
+map(19,19) map(9,9) map(14,14) map(12,12) map(13,13) map(15,15) map(20,20)
+Answer: 4
+map(12,1) map(13,9) map(14,14) map(9,13) map(15,15) map(19,16) map(20,17)
+Answer: 5
+map(12,1) map(13,9) map(14,14) map(9,13) map(15,15) map(19,16) map(20,18)
+Answer: 6
+map(19,19) map(13,9) map(14,14) map(12,10) map(9,13) map(15,15) map(20,20)
+Answer: 7
+map(13,9) map(14,14) map(12,10) map(9,13) map(15,15) map(19,16) map(20,18)
+Answer: 8
+map(13,9) map(14,14) map(12,10) map(9,13) map(15,15) map(19,16) map(20,17)
+Answer: 9
+map(13,1) map(14,19) map(12,9) map(15,15) map(19,16) map(20,17) map(9,20)
+Answer: 10
+map(13,1) map(14,19) map(12,9) map(15,15) map(19,16) map(20,18) map(9,20)
+Answer: 11
+map(13,1) map(14,19) map(12,2) map(19,14) map(20,13) map(15,15) map(9,20)
+Answer: 12
+map(13,1) map(14,19) map(12,2) map(15,15) map(19,16) map(20,17) map(9,20)
+Answer: 13
+map(13,1) map(14,19) map(12,2) map(15,15) map(19,16) map(20,18) map(9,20)
+Answer: 14
+map(9,1) map(14,19) map(15,15) map(19,16) map(20,18) map(13,20) map(12,21)
+Answer: 15
+map(9,1) map(14,19) map(15,15) map(19,16) map(20,17) map(13,20) map(12,21)
+Answer: 16
+map(9,1) map(14,19) map(19,14) map(20,13) map(15,15) map(13,20) map(12,21)
+SATISFIABLE
+
+Models       : 16    
+Calls        : 1
+Time         : 0.019s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.020s
+++ python3 scripts/parse_iso_models.py temporal_files/14364/iso_models temporal_files/14364/executable_program.asp
+++ (( i++ ))
+++ (( i < runs ))
+++ ./clingo temporal_files/14364/executable_program.asp yoshida temporal_files/14364/template
+++ cat temporal_files/14364/clingo_output
+clingo version 4.5.4
+Reading from ...ral_files/14364/executable_program.asp ...
+Solving...
+Answer: 1
+invar(20) invar(19) invar(16) invar(15) invar(1) invar(18) invar(17) positive_match(5) used_map(5,1,10) used_map(5,19,9) used_map(5,15,5) used_map(5,16,6) used_map(5,17,8) used_map(5,18,7) used_map(5,20,11) positive_match(41) used_map(41,1,21) used_map(41,19,8) used_map(41,15,1) used_map(41,16,12) used_map(41,17,11) used_map(41,18,13) used_map(41,20,9) positive_match(65) used_map(65,1,16) used_map(65,19,17) used_map(65,15,21) used_map(65,16,1) used_map(65,17,2) used_map(65,18,6) used_map(65,20,18) positive_match(86) used_map(86,1,6) used_map(86,19,5) used_map(86,15,4) used_map(86,16,3) used_map(86,17,2) used_map(86,18,9) used_map(86,20,7) positive_match(89) used_map(89,1,25) used_map(89,19,11) used_map(89,15,1) used_map(89,16,15) used_map(89,17,14) used_map(89,18,16) used_map(89,20,12) positive_match(109) used_map(109,1,12) used_map(109,19,13) used_map(109,15,1) used_map(109,16,8) used_map(109,17,9) used_map(109,18,22) used_map(109,20,14) positive_match(111) used_map(111,1,6) used_map(111,19,5) used_map(111,15,4) used_map(111,16,3) used_map(111,17,13) used_map(111,18,2) used_map(111,20,11) positive_match(113) used_map(113,1,2) used_map(113,19,1) used_map(113,15,11) used_map(113,16,12) used_map(113,17,17) used_map(113,18,13) used_map(113,20,6) positive_match(126) used_map(126,1,14) used_map(126,19,13) used_map(126,15,1) used_map(126,16,9) used_map(126,17,23) used_map(126,18,10) used_map(126,20,12) positive_match(131) used_map(131,1,15) used_map(131,19,14) used_map(131,15,13) used_map(131,16,12) used_map(131,17,21) used_map(131,18,11) used_map(131,20,20) used_map(137,1,1) positive_match(137) used_map(137,19,10) used_map(137,15,8) used_map(137,16,7) used_map(137,17,6) used_map(137,18,2) used_map(137,20,11) positive_match(187) used_map(187,1,7) used_map(187,19,12) used_map(187,15,14) used_map(187,16,1) used_map(187,17,6) used_map(187,18,2) used_map(187,20,13) positive_match(223) used_map(223,1,3) used_map(223,19,4) used_map(223,15,5) used_map(223,16,1) used_map(223,17,2) used_map(223,18,11) used_map(223,20,7) positive_match(238) used_map(238,1,7) used_map(238,19,5) used_map(238,15,4) used_map(238,16,3) used_map(238,17,8) used_map(238,18,2) used_map(238,20,6) positive_count(14)
+SATISFIABLE
+
+Models       : 1+    
+Calls        : 1
+Time         : 45.262s (Solving: 5.24s 1st Model: 5.23s Unsat: 0.00s)
+CPU Time     : 45.260s
+++ python3 scripts/check_solution.py temporal_files/14364/clingo_output temporal_files/14364/executable_program.asp temporal_files/14364/flags temporal_files/14364/number_of_patterns temporal_files/14364/runtime
++++ cat temporal_files/14364/flags
+++ [[ SAT == \U\N\S\A\T ]]
+++ cat temporal_files/14364/number_of_patterns
+87
+++ python3 scripts/parse_clingo_invar.py temporal_files/14364/clingo_output
+++ cat temporal_files/14364/current_solution
+solution(20). solution(19). solution(16). solution(15). solution(1). solution(18). solution(17). 
+++ ./clingo iso_encoding.asp temporal_files/14364/current_solution temporal_files/14364/template 0
+++ cat temporal_files/14364/iso_models
+clingo version 4.5.4
+Reading from iso_encoding.asp ...
+Solving...
+Answer: 1
+map(18,1) map(16,19) map(15,15) map(19,16) map(1,17) map(20,18) map(17,20)
+Answer: 2
+map(18,1) map(16,19) map(15,15) map(19,16) map(20,17) map(1,18) map(17,20)
+Answer: 3
+map(17,1) map(16,19) map(15,15) map(19,16) map(20,17) map(1,18) map(18,20)
+Answer: 4
+map(17,1) map(16,19) map(15,15) map(19,16) map(1,17) map(20,18) map(18,20)
+Answer: 5
+map(17,9) map(16,14) map(18,13) map(15,15) map(19,16) map(1,17) map(20,18)
+Answer: 6
+map(17,9) map(16,14) map(18,13) map(15,15) map(19,16) map(20,17) map(1,18)
+Answer: 7
+map(18,9) map(16,14) map(17,13) map(15,15) map(19,16) map(1,17) map(20,18)
+Answer: 8
+map(18,9) map(16,14) map(17,13) map(15,15) map(19,16) map(20,17) map(1,18)
+Answer: 9
+map(20,9) map(19,14) map(1,13) map(15,15) map(16,16) map(18,17) map(17,18)
+Answer: 10
+map(20,9) map(19,14) map(1,13) map(15,15) map(16,16) map(17,17) map(18,18)
+Answer: 11
+map(1,9) map(19,14) map(20,13) map(15,15) map(16,16) map(18,17) map(17,18)
+Answer: 12
+map(1,9) map(19,14) map(20,13) map(15,15) map(16,16) map(17,17) map(18,18)
+Answer: 13
+map(1,1) map(19,19) map(15,15) map(16,16) map(18,17) map(17,18) map(20,20)
+Answer: 14
+map(1,1) map(19,19) map(15,15) map(16,16) map(17,17) map(18,18) map(20,20)
+Answer: 15
+map(20,1) map(19,19) map(15,15) map(16,16) map(17,17) map(18,18) map(1,20)
+Answer: 16
+map(20,1) map(19,19) map(15,15) map(16,16) map(18,17) map(17,18) map(1,20)
+SATISFIABLE
+
+Models       : 16    
+Calls        : 1
+Time         : 0.019s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+++ python3 scripts/parse_iso_models.py temporal_files/14364/iso_models temporal_files/14364/executable_program.asp
+++ (( i++ ))
+++ (( i < runs ))
+++ ./clingo temporal_files/14364/executable_program.asp yoshida temporal_files/14364/template
+++ cat temporal_files/14364/clingo_output
+clingo version 4.5.4
+Reading from ...ral_files/14364/executable_program.asp ...
+Solving...
+Answer: 1
+invar(21) invar(20) invar(19) invar(16) invar(15) invar(1) invar(14) positive_match(39) used_map(39,1,6) used_map(39,19,1) used_map(39,14,18) used_map(39,15,17) used_map(39,16,16) used_map(39,20,2) used_map(39,21,3) positive_match(41) used_map(41,1,13) used_map(41,19,12) used_map(41,14,2) used_map(41,15,1) used_map(41,16,8) used_map(41,20,11) used_map(41,21,16) positive_match(55) used_map(55,1,12) used_map(55,19,13) used_map(55,14,2) used_map(55,15,1) used_map(55,16,8) used_map(55,20,14) used_map(55,21,15) positive_match(67) used_map(67,1,18) used_map(67,19,6) used_map(67,14,4) used_map(67,15,5) used_map(67,16,21) used_map(67,20,7) used_map(67,21,8) positive_match(86) used_map(86,1,2) used_map(86,19,3) used_map(86,14,5) used_map(86,15,4) used_map(86,16,22) used_map(86,20,9) used_map(86,21,8) positive_match(109) used_map(109,1,14) used_map(109,19,13) used_map(109,14,2) used_map(109,15,1) used_map(109,16,8) used_map(109,20,12) used_map(109,21,17) positive_match(112) used_map(112,1,7) used_map(112,19,6) used_map(112,14,22) used_map(112,15,5) used_map(112,16,4) used_map(112,20,18) used_map(112,21,2) used_map(137,1,1) positive_match(137) used_map(137,19,10) used_map(137,14,7) used_map(137,15,8) used_map(137,16,9) used_map(137,20,11) used_map(137,21,12) positive_match(166) used_map(166,1,5) used_map(166,19,6) used_map(166,14,9) used_map(166,15,7) used_map(166,16,8) used_map(166,20,1) used_map(166,21,2) positive_match(181) used_map(181,1,5) used_map(181,19,6) used_map(181,14,8) used_map(181,15,7) used_map(181,16,9) used_map(181,20,1) used_map(181,21,12) positive_match(194) used_map(194,1,4) used_map(194,19,3) used_map(194,14,6) used_map(194,15,5) used_map(194,16,7) used_map(194,20,2) used_map(194,21,1) used_map(218,1,1) positive_match(218) used_map(218,19,6) used_map(218,14,9) used_map(218,15,7) used_map(218,16,8) used_map(218,20,5) used_map(218,21,4) positive_match(223) used_map(223,1,2) used_map(223,19,1) used_map(223,14,6) used_map(223,15,5) used_map(223,16,4) used_map(223,20,11) used_map(223,21,12) positive_match(231) used_map(231,1,6) used_map(231,19,7) used_map(231,14,2) used_map(231,15,1) used_map(231,16,15) used_map(231,20,8) used_map(231,21,9) positive_count(14)
+SATISFIABLE
+
+Models       : 1+    
+Calls        : 1
+Time         : 45.147s (Solving: 4.81s 1st Model: 4.80s Unsat: 0.00s)
+CPU Time     : 45.150s
+++ python3 scripts/check_solution.py temporal_files/14364/clingo_output temporal_files/14364/executable_program.asp temporal_files/14364/flags temporal_files/14364/number_of_patterns temporal_files/14364/runtime
++++ cat temporal_files/14364/flags
+++ [[ SAT == \U\N\S\A\T ]]
+++ cat temporal_files/14364/number_of_patterns
+88
+++ python3 scripts/parse_clingo_invar.py temporal_files/14364/clingo_output
+++ cat temporal_files/14364/current_solution
+solution(21). solution(20). solution(19). solution(16). solution(15). solution(1). solution(14). 
+++ ./clingo iso_encoding.asp temporal_files/14364/current_solution temporal_files/14364/template 0
+++ cat temporal_files/14364/iso_models
+clingo version 4.5.4
+Reading from iso_encoding.asp ...
+Solving...
+Answer: 1
+map(14,19) map(1,9) map(19,14) map(21,12) map(20,13) map(15,15) map(16,16)
+Answer: 2
+map(16,19) map(1,9) map(19,14) map(21,12) map(20,13) map(15,15) map(14,16)
+Answer: 3
+map(16,19) map(20,9) map(19,14) map(21,10) map(1,13) map(15,15) map(14,16)
+Answer: 4
+map(14,19) map(20,9) map(19,14) map(21,10) map(1,13) map(15,15) map(16,16)
+Answer: 5
+map(20,1) map(19,19) map(21,2) map(14,14) map(15,15) map(16,16) map(1,20)
+Answer: 6
+map(20,1) map(19,19) map(21,2) map(16,14) map(15,15) map(14,16) map(1,20)
+Answer: 7
+map(1,1) map(19,19) map(14,14) map(15,15) map(16,16) map(20,20) map(21,21)
+Answer: 8
+map(1,1) map(19,19) map(16,14) map(15,15) map(14,16) map(20,20) map(21,21)
+SATISFIABLE
+
+Models       : 8     
+Calls        : 1
+Time         : 0.019s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+++ python3 scripts/parse_iso_models.py temporal_files/14364/iso_models temporal_files/14364/executable_program.asp
+++ (( i++ ))
+++ (( i < runs ))
+++ ./clingo temporal_files/14364/executable_program.asp yoshida temporal_files/14364/template
+++ cat temporal_files/14364/clingo_output
+clingo version 4.5.4
+Reading from ...ral_files/14364/executable_program.asp ...
+Solving...
+Answer: 1
+invar(19) invar(15) invar(14) invar(10) invar(9) invar(12) invar(13) positive_match(31) used_map(31,19,8) used_map(31,9,5) used_map(31,14,6) used_map(31,10,4) used_map(31,12,2) used_map(31,13,1) used_map(31,15,7) positive_match(67) used_map(67,19,4) used_map(67,9,18) used_map(67,14,6) used_map(67,10,17) used_map(67,12,8) used_map(67,13,7) used_map(67,15,5) positive_match(75) used_map(75,19,17) used_map(75,9,8) used_map(75,14,7) used_map(75,10,9) used_map(75,12,16) used_map(75,13,15) used_map(75,15,6) positive_match(113) used_map(113,19,1) used_map(113,9,17) used_map(113,14,12) used_map(113,10,16) used_map(113,12,14) used_map(113,13,13) used_map(113,15,11) positive_match(133) used_map(133,19,8) used_map(133,9,5) used_map(133,14,6) used_map(133,10,4) used_map(133,12,2) used_map(133,13,1) used_map(133,15,7) positive_match(141) used_map(141,19,3) used_map(141,9,6) used_map(141,14,5) used_map(141,10,7) used_map(141,12,2) used_map(141,13,1) used_map(141,15,4) positive_match(160) used_map(160,19,4) used_map(160,9,7) used_map(160,14,6) used_map(160,10,8) used_map(160,12,2) used_map(160,13,1) used_map(160,15,5) positive_match(166) used_map(166,19,11) used_map(166,9,14) used_map(166,14,13) used_map(166,10,15) used_map(166,12,17) used_map(166,13,18) used_map(166,15,12) positive_match(202) used_map(202,19,8) used_map(202,9,5) used_map(202,14,6) used_map(202,10,4) used_map(202,12,2) used_map(202,13,1) used_map(202,15,7) positive_match(206) used_map(206,19,16) used_map(206,9,2) used_map(206,14,1) used_map(206,10,3) used_map(206,12,13) used_map(206,13,8) used_map(206,15,17) positive_match(218) used_map(218,19,10) used_map(218,9,13) used_map(218,14,12) used_map(218,10,14) used_map(218,12,6) used_map(218,13,1) used_map(218,15,11) positive_match(223) used_map(223,19,1) used_map(223,9,3) used_map(223,14,4) used_map(223,10,2) used_map(223,12,8) used_map(223,13,7) used_map(223,15,5) positive_match(234) used_map(234,19,14) used_map(234,9,9) used_map(234,14,10) used_map(234,10,1) used_map(234,12,12) used_map(234,13,11) used_map(234,15,15) positive_match(238) used_map(238,19,9) used_map(238,9,8) used_map(238,14,3) used_map(238,10,7) used_map(238,12,1) used_map(238,13,2) used_map(238,15,4) positive_count(14)
+SATISFIABLE
+
+Models       : 1+    
+Calls        : 1
+Time         : 43.617s (Solving: 3.57s 1st Model: 3.55s Unsat: 0.00s)
+CPU Time     : 43.610s
+++ python3 scripts/check_solution.py temporal_files/14364/clingo_output temporal_files/14364/executable_program.asp temporal_files/14364/flags temporal_files/14364/number_of_patterns temporal_files/14364/runtime
++++ cat temporal_files/14364/flags
+++ [[ SAT == \U\N\S\A\T ]]
+++ cat temporal_files/14364/number_of_patterns
+89
+++ python3 scripts/parse_clingo_invar.py temporal_files/14364/clingo_output
+++ cat temporal_files/14364/current_solution
+solution(19). solution(15). solution(14). solution(10). solution(9). solution(12). solution(13). 
+++ ./clingo iso_encoding.asp temporal_files/14364/current_solution temporal_files/14364/template 0
+++ cat temporal_files/14364/iso_models
+clingo version 4.5.4
+Reading from iso_encoding.asp ...
+Solving...
+Answer: 1
+map(19,19) map(9,9) map(14,14) map(10,10) map(12,12) map(13,13) map(15,15)
+Answer: 2
+map(9,9) map(14,14) map(10,10) map(12,12) map(13,13) map(15,15) map(19,16)
+Answer: 3
+map(10,1) map(9,9) map(14,14) map(12,12) map(13,13) map(15,15) map(19,16)
+Answer: 4
+map(12,1) map(13,9) map(14,14) map(10,12) map(9,13) map(15,15) map(19,16)
+Answer: 5
+map(19,19) map(13,9) map(14,14) map(12,10) map(10,12) map(9,13) map(15,15)
+Answer: 6
+map(13,9) map(14,14) map(12,10) map(10,12) map(9,13) map(15,15) map(19,16)
+Answer: 7
+map(13,1) map(14,19) map(12,9) map(15,15) map(19,16) map(9,20) map(10,21)
+Answer: 8
+map(13,1) map(14,19) map(12,2) map(19,14) map(15,15) map(9,20) map(10,21)
+Answer: 9
+map(13,1) map(14,19) map(12,2) map(15,15) map(19,16) map(9,20) map(10,21)
+Answer: 10
+map(9,1) map(14,19) map(10,9) map(15,15) map(19,16) map(13,20) map(12,21)
+Answer: 11
+map(9,1) map(14,19) map(10,2) map(19,14) map(15,15) map(13,20) map(12,21)
+Answer: 12
+map(9,1) map(14,19) map(10,2) map(15,15) map(19,16) map(13,20) map(12,21)
+SATISFIABLE
+
+Models       : 12    
+Calls        : 1
+Time         : 0.032s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.030s
+++ python3 scripts/parse_iso_models.py temporal_files/14364/iso_models temporal_files/14364/executable_program.asp
+++ (( i++ ))
+++ (( i < runs ))
+++ ./clingo temporal_files/14364/executable_program.asp yoshida temporal_files/14364/template
+++ cat temporal_files/14364/clingo_output
+clingo version 4.5.4
+Reading from ...ral_files/14364/executable_program.asp ...
+Solving...
+Answer: 1
+invar(23) invar(22) invar(21) invar(20) invar(19) invar(15) invar(1) positive_match(31) used_map(31,1,5) used_map(31,19,6) used_map(31,15,7) used_map(31,20,1) used_map(31,21,2) used_map(31,22,3) used_map(31,23,15) positive_match(41) used_map(41,1,9) used_map(41,19,8) used_map(41,15,1) used_map(41,20,21) used_map(41,21,20) used_map(41,22,19) used_map(41,23,18) positive_match(113) used_map(113,1,2) used_map(113,19,1) used_map(113,15,11) used_map(113,20,6) used_map(113,21,5) used_map(113,22,4) used_map(113,23,3) positive_match(129) used_map(129,1,5) used_map(129,19,4) used_map(129,15,9) used_map(129,20,3) used_map(129,21,2) used_map(129,22,1) used_map(129,23,6) positive_match(141) used_map(141,1,6) used_map(141,19,5) used_map(141,15,4) used_map(141,20,1) used_map(141,21,9) used_map(141,22,8) used_map(141,23,7) positive_match(162) used_map(162,1,5) used_map(162,19,6) used_map(162,15,7) used_map(162,20,1) used_map(162,21,2) used_map(162,22,3) used_map(162,23,4) positive_match(192) used_map(192,1,10) used_map(192,19,3) used_map(192,15,4) used_map(192,20,2) used_map(192,21,1) used_map(192,22,15) used_map(192,23,16) used_map(193,1,1) positive_match(193) used_map(193,19,6) used_map(193,15,7) used_map(193,20,5) used_map(193,21,4) used_map(193,22,3) used_map(193,23,9) positive_match(202) used_map(202,1,5) used_map(202,19,6) used_map(202,15,7) used_map(202,20,1) used_map(202,21,11) used_map(202,22,12) used_map(202,23,13) positive_match(206) used_map(206,1,2) used_map(206,19,1) used_map(206,15,17) used_map(206,20,8) used_map(206,21,13) used_map(206,22,12) used_map(206,23,11) positive_match(214) used_map(214,1,5) used_map(214,19,4) used_map(214,15,7) used_map(214,20,3) used_map(214,21,2) used_map(214,22,1) used_map(214,23,6) positive_match(217) used_map(217,1,5) used_map(217,19,4) used_map(217,15,7) used_map(217,20,3) used_map(217,21,2) used_map(217,22,1) used_map(217,23,6) positive_match(223) used_map(223,1,11) used_map(223,19,1) used_map(223,15,5) used_map(223,20,2) used_map(223,21,3) used_map(223,22,4) used_map(223,23,7) positive_match(234) used_map(234,1,11) used_map(234,19,10) used_map(234,15,15) used_map(234,20,9) used_map(234,21,1) used_map(234,22,6) used_map(234,23,5) positive_count(14)
+SATISFIABLE
+
+Models       : 1+    
+Calls        : 1
+Time         : 43.991s (Solving: 3.66s 1st Model: 3.64s Unsat: 0.00s)
+CPU Time     : 43.990s
+++ python3 scripts/check_solution.py temporal_files/14364/clingo_output temporal_files/14364/executable_program.asp temporal_files/14364/flags temporal_files/14364/number_of_patterns temporal_files/14364/runtime
++++ cat temporal_files/14364/flags
+++ [[ SAT == \U\N\S\A\T ]]
+++ cat temporal_files/14364/number_of_patterns
+90
+++ python3 scripts/parse_clingo_invar.py temporal_files/14364/clingo_output
+++ cat temporal_files/14364/current_solution
+solution(23). solution(22). solution(21). solution(20). solution(19). solution(15). solution(1). 
+++ ./clingo iso_encoding.asp temporal_files/14364/current_solution temporal_files/14364/template 0
+++ cat temporal_files/14364/iso_models
+clingo version 4.5.4
+Reading from iso_encoding.asp ...
+Solving...
+Answer: 1
+map(20,1) map(19,19) map(21,2) map(22,7) map(23,6) map(15,15) map(1,20)
+Answer: 2
+map(20,1) map(19,19) map(21,2) map(22,3) map(23,4) map(15,15) map(1,20)
+Answer: 3
+map(20,1) map(19,19) map(21,9) map(22,10) map(23,11) map(15,15) map(1,20)
+Answer: 4
+map(1,1) map(19,19) map(15,15) map(20,20) map(21,21) map(22,22) map(23,23)
+Answer: 5
+map(21,1) map(22,2) map(20,9) map(23,3) map(19,14) map(1,13) map(15,15)
+Answer: 6
+map(21,1) map(22,2) map(20,9) map(23,7) map(19,14) map(1,13) map(15,15)
+SATISFIABLE
+
+Models       : 6     
+Calls        : 1
+Time         : 0.019s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+++ python3 scripts/parse_iso_models.py temporal_files/14364/iso_models temporal_files/14364/executable_program.asp
+++ (( i++ ))
+++ (( i < runs ))
+++ ./clingo temporal_files/14364/executable_program.asp yoshida temporal_files/14364/template
+++ cat temporal_files/14364/clingo_output
+clingo version 4.5.4
+Reading from ...ral_files/14364/executable_program.asp ...
+Solving...
+Answer: 1
+invar(21) invar(20) invar(19) invar(15) invar(14) invar(12) invar(13) positive_match(31) used_map(31,19,8) used_map(31,14,6) used_map(31,12,2) used_map(31,13,1) used_map(31,15,7) used_map(31,20,9) used_map(31,21,10) positive_match(41) used_map(41,19,8) used_map(41,14,2) used_map(41,12,4) used_map(41,13,3) used_map(41,15,1) used_map(41,20,21) used_map(41,21,20) positive_match(67) used_map(67,19,4) used_map(67,14,6) used_map(67,12,17) used_map(67,13,18) used_map(67,15,5) used_map(67,20,3) used_map(67,21,2) positive_match(75) used_map(75,19,5) used_map(75,14,17) used_map(75,12,19) used_map(75,13,18) used_map(75,15,6) used_map(75,20,4) used_map(75,21,2) positive_match(84) used_map(84,19,9) used_map(84,14,12) used_map(84,12,14) used_map(84,13,13) used_map(84,15,11) used_map(84,20,8) used_map(84,21,1) positive_match(113) used_map(113,19,1) used_map(113,14,12) used_map(113,12,16) used_map(113,13,17) used_map(113,15,11) used_map(113,20,6) used_map(113,21,7) positive_match(122) used_map(122,19,8) used_map(122,14,6) used_map(122,12,19) used_map(122,13,1) used_map(122,15,7) used_map(122,20,9) used_map(122,21,10) positive_match(141) used_map(141,19,3) used_map(141,14,5) used_map(141,12,7) used_map(141,13,6) used_map(141,15,4) used_map(141,20,2) used_map(141,21,1) positive_match(145) used_map(145,19,4) used_map(145,14,9) used_map(145,12,7) used_map(145,13,8) used_map(145,15,5) used_map(145,20,3) used_map(145,21,2) positive_match(160) used_map(160,19,4) used_map(160,14,6) used_map(160,12,10) used_map(160,13,1) used_map(160,15,5) used_map(160,20,3) used_map(160,21,2) positive_match(223) used_map(223,19,4) used_map(223,14,1) used_map(223,12,12) used_map(223,13,11) used_map(223,15,5) used_map(223,20,3) used_map(223,21,2) positive_match(234) used_map(234,19,10) used_map(234,14,14) used_map(234,12,12) used_map(234,13,13) used_map(234,15,15) used_map(234,20,9) used_map(234,21,1) positive_match(238) used_map(238,19,3) used_map(238,14,5) used_map(238,12,1) used_map(238,13,6) used_map(238,15,4) used_map(238,20,8) used_map(238,21,7) positive_match(261) used_map(261,19,2) used_map(261,14,10) used_map(261,12,14) used_map(261,13,9) used_map(261,15,1) used_map(261,20,4) used_map(261,21,3) positive_count(14)
+SATISFIABLE
+
+Models       : 1+    
+Calls        : 1
+Time         : 43.538s (Solving: 3.46s 1st Model: 3.45s Unsat: 0.00s)
+CPU Time     : 43.540s
+++ python3 scripts/check_solution.py temporal_files/14364/clingo_output temporal_files/14364/executable_program.asp temporal_files/14364/flags temporal_files/14364/number_of_patterns temporal_files/14364/runtime
++++ cat temporal_files/14364/flags
+++ [[ SAT == \U\N\S\A\T ]]
+++ cat temporal_files/14364/number_of_patterns
+91
+++ python3 scripts/parse_clingo_invar.py temporal_files/14364/clingo_output
+++ cat temporal_files/14364/current_solution
+solution(21). solution(20). solution(19). solution(15). solution(14). solution(12). solution(13). 
+++ ./clingo iso_encoding.asp temporal_files/14364/current_solution temporal_files/14364/template 0
+++ cat temporal_files/14364/iso_models
+clingo version 4.5.4
+Reading from iso_encoding.asp ...
+Solving...
+Answer: 1
+map(13,1) map(14,19) map(12,2) map(19,14) map(21,12) map(20,13) map(15,15)
+Answer: 2
+map(19,19) map(13,9) map(14,14) map(12,10) map(15,15) map(20,20) map(21,21)
+Answer: 3
+map(20,1) map(19,19) map(21,2) map(14,14) map(12,12) map(13,13) map(15,15)
+Answer: 4
+map(19,19) map(14,14) map(12,12) map(13,13) map(15,15) map(20,20) map(21,21)
+Answer: 5
+map(14,19) map(20,9) map(19,14) map(21,10) map(15,15) map(13,20) map(12,21)
+Answer: 6
+map(14,19) map(19,14) map(21,12) map(20,13) map(15,15) map(13,20) map(12,21)
+SATISFIABLE
+
+Models       : 6     
+Calls        : 1
+Time         : 0.019s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.020s
+++ python3 scripts/parse_iso_models.py temporal_files/14364/iso_models temporal_files/14364/executable_program.asp
+++ (( i++ ))
+++ (( i < runs ))
+++ ./clingo temporal_files/14364/executable_program.asp yoshida temporal_files/14364/template
+++ cat temporal_files/14364/clingo_output
+clingo version 4.5.4
+Reading from ...ral_files/14364/executable_program.asp ...
+Solving...
+Answer: 1
+invar(15) invar(14) invar(11) invar(10) invar(9) invar(12) invar(13) positive_match(39) used_map(39,9,2) used_map(39,14,1) used_map(39,10,3) used_map(39,11,4) used_map(39,12,5) used_map(39,13,6) used_map(39,15,17) positive_match(41) used_map(41,9,13) used_map(41,14,12) used_map(41,10,14) used_map(41,11,15) used_map(41,12,16) used_map(41,13,11) used_map(41,15,1) positive_match(55) used_map(55,9,9) used_map(55,14,8) used_map(55,10,18) used_map(55,11,19) used_map(55,12,20) used_map(55,13,21) used_map(55,15,1) positive_match(67) used_map(67,9,7) used_map(67,14,6) used_map(67,10,8) used_map(67,11,1) used_map(67,12,2) used_map(67,13,18) used_map(67,15,5) positive_match(112) used_map(112,9,18) used_map(112,14,6) used_map(112,10,2) used_map(112,11,1) used_map(112,12,8) used_map(112,13,7) used_map(112,15,5) positive_match(122) used_map(122,9,5) used_map(122,14,6) used_map(122,10,4) used_map(122,11,3) used_map(122,12,2) used_map(122,13,1) used_map(122,15,7) positive_match(133) used_map(133,9,4) used_map(133,14,3) used_map(133,10,5) used_map(133,11,6) used_map(133,12,1) used_map(133,13,2) used_map(133,15,19) positive_match(141) used_map(141,9,6) used_map(141,14,5) used_map(141,10,7) used_map(141,11,8) used_map(141,12,9) used_map(141,13,1) used_map(141,15,4) positive_match(160) used_map(160,9,1) used_map(160,14,6) used_map(160,10,10) used_map(160,11,9) used_map(160,12,8) used_map(160,13,7) used_map(160,15,5) positive_match(163) used_map(163,9,1) used_map(163,14,6) used_map(163,10,2) used_map(163,11,3) used_map(163,12,4) used_map(163,13,5) used_map(163,15,7) positive_match(167) used_map(167,9,1) used_map(167,14,6) used_map(167,10,2) used_map(167,11,3) used_map(167,12,4) used_map(167,13,5) used_map(167,15,7) positive_match(192) used_map(192,9,2) used_map(192,14,3) used_map(192,10,13) used_map(192,11,12) used_map(192,12,11) used_map(192,13,10) used_map(192,15,4) positive_match(231) used_map(231,9,21) used_map(231,14,2) used_map(231,10,20) used_map(231,11,19) used_map(231,12,18) used_map(231,13,3) used_map(231,15,1) positive_match(249) used_map(249,9,11) used_map(249,14,5) used_map(249,10,10) used_map(249,11,9) used_map(249,12,8) used_map(249,13,6) used_map(249,15,4) positive_count(14)
+SATISFIABLE
+
+Models       : 1+    
+Calls        : 1
+Time         : 45.467s (Solving: 4.96s 1st Model: 4.95s Unsat: 0.00s)
+CPU Time     : 45.460s
+++ python3 scripts/check_solution.py temporal_files/14364/clingo_output temporal_files/14364/executable_program.asp temporal_files/14364/flags temporal_files/14364/number_of_patterns temporal_files/14364/runtime
++++ cat temporal_files/14364/flags
+++ [[ SAT == \U\N\S\A\T ]]
+++ cat temporal_files/14364/number_of_patterns
+92
+++ python3 scripts/parse_clingo_invar.py temporal_files/14364/clingo_output
+++ cat temporal_files/14364/current_solution
+solution(15). solution(14). solution(11). solution(10). solution(9). solution(12). solution(13). 
+++ ./clingo iso_encoding.asp temporal_files/14364/current_solution temporal_files/14364/template 0
+++ cat temporal_files/14364/iso_models
+clingo version 4.5.4
+Reading from iso_encoding.asp ...
+Solving...
+Answer: 1
+map(9,9) map(14,14) map(10,10) map(11,11) map(12,12) map(13,13) map(15,15)
+Answer: 2
+map(13,9) map(14,14) map(12,10) map(11,11) map(10,12) map(9,13) map(15,15)
+SATISFIABLE
+
+Models       : 2     
+Calls        : 1
+Time         : 0.021s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.020s
+++ python3 scripts/parse_iso_models.py temporal_files/14364/iso_models temporal_files/14364/executable_program.asp
+++ (( i++ ))
+++ (( i < runs ))
+++ ./clingo temporal_files/14364/executable_program.asp yoshida temporal_files/14364/template
+++ cat temporal_files/14364/clingo_output
+clingo version 4.5.4
+Reading from ...ral_files/14364/executable_program.asp ...
+Solving...
+Answer: 1
+invar(19) invar(7) invar(2) invar(1) invar(14) invar(3) invar(9) positive_match(22) used_map(22,1,3) used_map(22,19,16) used_map(22,2,2) used_map(22,9,4) used_map(22,7,1) used_map(22,3,9) used_map(22,14,5) used_map(25,1,1) positive_match(25) used_map(25,19,16) used_map(25,2,2) used_map(25,9,9) used_map(25,7,3) used_map(25,3,7) used_map(25,14,10) positive_match(35) used_map(35,1,3) used_map(35,19,4) used_map(35,2,2) used_map(35,9,19) used_map(35,7,22) used_map(35,3,1) used_map(35,14,20) positive_match(36) used_map(36,1,8) used_map(36,19,9) used_map(36,2,7) used_map(36,9,13) used_map(36,7,1) used_map(36,3,16) used_map(36,14,12) used_map(47,1,1) positive_match(47) used_map(47,19,2) used_map(47,2,9) used_map(47,9,6) used_map(47,7,10) used_map(47,3,14) used_map(47,14,5) positive_match(49) used_map(49,1,6) used_map(49,19,7) used_map(49,2,1) used_map(49,9,5) used_map(49,7,15) used_map(49,3,2) used_map(49,14,4) used_map(58,1,1) positive_match(58) used_map(58,19,2) used_map(58,2,15) used_map(58,9,20) used_map(58,7,16) used_map(58,3,17) used_map(58,14,22) positive_match(70) used_map(70,1,7) used_map(70,19,8) used_map(70,2,2) used_map(70,9,6) used_map(70,7,1) used_map(70,3,3) used_map(70,14,5) used_map(95,1,1) positive_match(95) used_map(95,19,9) used_map(95,2,2) used_map(95,9,14) used_map(95,7,7) used_map(95,3,3) used_map(95,14,15) positive_match(178) used_map(178,1,4) used_map(178,19,5) used_map(178,2,8) used_map(178,9,3) used_map(178,7,9) used_map(178,3,10) used_map(178,14,2) positive_match(187) used_map(187,1,7) used_map(187,19,12) used_map(187,2,6) used_map(187,9,8) used_map(187,7,5) used_map(187,3,1) used_map(187,14,9) positive_match(232) used_map(232,1,2) used_map(232,19,1) used_map(232,2,3) used_map(232,9,7) used_map(232,7,4) used_map(232,3,8) used_map(232,14,6) positive_match(239) used_map(239,1,2) used_map(239,19,7) used_map(239,2,1) used_map(239,9,3) used_map(239,7,13) used_map(239,3,9) used_map(239,14,4) used_map(242,1,1) positive_match(242) used_map(242,19,19) used_map(242,2,2) used_map(242,9,9) used_map(242,7,3) used_map(242,3,7) used_map(242,14,14) positive_count(14)
+SATISFIABLE
+
+Models       : 1+    
+Calls        : 1
+Time         : 49.161s (Solving: 9.18s 1st Model: 9.17s Unsat: 0.00s)
+CPU Time     : 49.160s
+++ python3 scripts/check_solution.py temporal_files/14364/clingo_output temporal_files/14364/executable_program.asp temporal_files/14364/flags temporal_files/14364/number_of_patterns temporal_files/14364/runtime
++++ cat temporal_files/14364/flags
+++ [[ SAT == \U\N\S\A\T ]]
+++ cat temporal_files/14364/number_of_patterns
+93
+++ python3 scripts/parse_clingo_invar.py temporal_files/14364/clingo_output
+++ cat temporal_files/14364/current_solution
+solution(19). solution(7). solution(2). solution(1). solution(14). solution(3). solution(9). 
+++ ./clingo iso_encoding.asp temporal_files/14364/current_solution temporal_files/14364/template 0
+++ cat temporal_files/14364/iso_models
+clingo version 4.5.4
+Reading from iso_encoding.asp ...
+Solving...
+Answer: 1
+map(1,1) map(19,19) map(2,2) map(9,9) map(3,7) map(7,3) map(14,14)
+Answer: 2
+map(1,1) map(19,19) map(2,2) map(9,9) map(3,7) map(7,3) map(14,10)
+Answer: 3
+map(1,1) map(9,19) map(2,2) map(19,9) map(3,7) map(7,3) map(14,20)
+Answer: 4
+map(1,1) map(19,19) map(2,2) map(9,9) map(7,7) map(3,3) map(14,10)
+Answer: 5
+map(1,1) map(19,19) map(2,2) map(9,9) map(7,7) map(3,3) map(14,14)
+Answer: 6
+map(1,1) map(9,19) map(2,2) map(19,9) map(7,7) map(3,3) map(14,20)
+Answer: 7
+map(1,1) map(19,19) map(9,2) map(2,9) map(14,3) map(3,14) map(7,10)
+Answer: 8
+map(1,1) map(19,19) map(9,2) map(2,9) map(14,7) map(3,14) map(7,10)
+Answer: 9
+map(1,1) map(9,19) map(19,2) map(2,9) map(3,14) map(7,10) map(14,20)
+Answer: 10
+map(1,1) map(19,19) map(9,2) map(2,9) map(14,3) map(7,14) map(3,10)
+Answer: 11
+map(1,1) map(19,19) map(9,2) map(2,9) map(14,7) map(7,14) map(3,10)
+Answer: 12
+map(1,1) map(9,19) map(19,2) map(2,9) map(7,14) map(3,10) map(14,20)
+Answer: 13
+map(2,1) map(3,19) map(1,2) map(7,9) map(19,7) map(9,3) map(14,4)
+Answer: 14
+map(2,1) map(7,19) map(1,2) map(3,9) map(19,7) map(9,3) map(14,4)
+Answer: 15
+map(2,1) map(3,19) map(1,2) map(7,9) map(9,7) map(19,3) map(14,6)
+Answer: 16
+map(2,1) map(7,19) map(1,2) map(3,9) map(9,7) map(19,3) map(14,6)
+Answer: 17
+map(2,1) map(3,19) map(7,2) map(1,9) map(19,14) map(9,10) map(14,11)
+Answer: 18
+map(2,1) map(7,19) map(3,2) map(1,9) map(19,14) map(9,10) map(14,11)
+Answer: 19
+map(2,1) map(3,19) map(7,2) map(1,9) map(9,14) map(19,10) map(14,13)
+Answer: 20
+map(2,1) map(7,19) map(3,2) map(1,9) map(9,14) map(19,10) map(14,13)
+SATISFIABLE
+
+Models       : 20    
+Calls        : 1
+Time         : 0.034s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.030s
+++ python3 scripts/parse_iso_models.py temporal_files/14364/iso_models temporal_files/14364/executable_program.asp
+++ (( i++ ))
+++ (( i < runs ))
+++ ./clingo temporal_files/14364/executable_program.asp yoshida temporal_files/14364/template
+++ cat temporal_files/14364/clingo_output
+clingo version 4.5.4
+Reading from ...ral_files/14364/executable_program.asp ...
+Solving...
+Answer: 1
+invar(19) invar(6) invar(7) invar(2) invar(1) invar(5) invar(8) positive_match(47) used_map(47,1,6) used_map(47,19,1) used_map(47,2,5) used_map(47,7,4) used_map(47,5,2) used_map(47,6,3) used_map(47,8,8) used_map(65,1,1) positive_match(65) used_map(65,19,2) used_map(65,2,6) used_map(65,7,7) used_map(65,5,13) used_map(65,6,8) used_map(65,8,14) positive_match(100) used_map(100,1,11) used_map(100,19,10) used_map(100,2,12) used_map(100,7,13) used_map(100,5,5) used_map(100,6,6) used_map(100,8,18) positive_match(119) used_map(119,1,8) used_map(119,19,13) used_map(119,2,9) used_map(119,7,10) used_map(119,5,14) used_map(119,6,11) used_map(119,8,15) used_map(121,1,1) positive_match(121) used_map(121,19,11) used_map(121,2,6) used_map(121,7,5) used_map(121,5,7) used_map(121,6,4) used_map(121,8,8) positive_match(123) used_map(123,1,17) used_map(123,19,18) used_map(123,2,16) used_map(123,7,21) used_map(123,5,19) used_map(123,6,20) used_map(123,8,22) positive_match(138) used_map(138,1,13) used_map(138,19,12) used_map(138,2,8) used_map(138,7,9) used_map(138,5,11) used_map(138,6,10) used_map(138,8,14) positive_match(178) used_map(178,1,2) used_map(178,19,1) used_map(178,2,3) used_map(178,7,4) used_map(178,5,6) used_map(178,6,5) used_map(178,8,7) positive_match(179) used_map(179,1,6) used_map(179,19,5) used_map(179,2,1) used_map(179,7,2) used_map(179,5,4) used_map(179,6,3) used_map(179,8,8) positive_match(181) used_map(181,1,16) used_map(181,19,17) used_map(181,2,15) used_map(181,7,14) used_map(181,5,18) used_map(181,6,13) used_map(181,8,19) positive_match(193) used_map(193,1,4) used_map(193,19,3) used_map(193,2,5) used_map(193,7,6) used_map(193,5,17) used_map(193,6,1) used_map(193,8,20) positive_match(231) used_map(231,1,21) used_map(231,19,20) used_map(231,2,2) used_map(231,7,3) used_map(231,5,19) used_map(231,6,18) used_map(231,8,22) positive_match(251) used_map(251,1,27) used_map(251,19,26) used_map(251,2,22) used_map(251,7,23) used_map(251,5,25) used_map(251,6,24) used_map(251,8,30) positive_match(253) used_map(253,1,2) used_map(253,19,3) used_map(253,2,9) used_map(253,7,10) used_map(253,5,12) used_map(253,6,11) used_map(253,8,15) positive_count(14)
+SATISFIABLE
+
+Models       : 1+    
+Calls        : 1
+Time         : 42.699s (Solving: 2.52s 1st Model: 2.51s Unsat: 0.00s)
+CPU Time     : 42.700s
+++ python3 scripts/check_solution.py temporal_files/14364/clingo_output temporal_files/14364/executable_program.asp temporal_files/14364/flags temporal_files/14364/number_of_patterns temporal_files/14364/runtime
++++ cat temporal_files/14364/flags
+++ [[ SAT == \U\N\S\A\T ]]
+++ cat temporal_files/14364/number_of_patterns
+94
+++ python3 scripts/parse_clingo_invar.py temporal_files/14364/clingo_output
+++ cat temporal_files/14364/current_solution
+solution(19). solution(6). solution(7). solution(2). solution(1). solution(5). solution(8). 
+++ ./clingo iso_encoding.asp temporal_files/14364/current_solution temporal_files/14364/template 0
+++ cat temporal_files/14364/iso_models
+clingo version 4.5.4
+Reading from iso_encoding.asp ...
+Solving...
+Answer: 1
+map(1,1) map(19,19) map(2,2) map(7,7) map(5,5) map(6,6) map(8,8)
+Answer: 2
+map(1,1) map(2,2) map(19,9) map(7,7) map(5,5) map(6,6) map(8,8)
+Answer: 3
+map(1,1) map(19,19) map(2,2) map(7,3) map(6,4) map(5,5) map(8,8)
+Answer: 4
+map(1,1) map(2,2) map(19,9) map(7,3) map(6,4) map(5,5) map(8,8)
+SATISFIABLE
+
+Models       : 4     
+Calls        : 1
+Time         : 0.020s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+++ python3 scripts/parse_iso_models.py temporal_files/14364/iso_models temporal_files/14364/executable_program.asp
+++ (( i++ ))
+++ (( i < runs ))
+++ ./clingo temporal_files/14364/executable_program.asp yoshida temporal_files/14364/template
+++ cat temporal_files/14364/clingo_output
+clingo version 4.5.4
+Reading from ...ral_files/14364/executable_program.asp ...
+Solving...
+Answer: 1
+invar(19) invar(15) invar(6) invar(7) invar(2) invar(1) invar(3) positive_match(5) used_map(5,1,3) used_map(5,19,4) used_map(5,2,2) used_map(5,7,1) used_map(5,3,18) used_map(5,6,21) used_map(5,15,5) positive_match(16) used_map(16,1,2) used_map(16,19,1) used_map(16,2,3) used_map(16,7,4) used_map(16,3,15) used_map(16,6,5) used_map(16,15,14) positive_match(21) used_map(21,1,7) used_map(21,19,6) used_map(21,2,8) used_map(21,7,9) used_map(21,3,1) used_map(21,6,10) used_map(21,15,5) positive_match(38) used_map(38,1,5) used_map(38,19,4) used_map(38,2,6) used_map(38,7,7) used_map(38,3,1) used_map(38,6,8) used_map(38,15,10) positive_match(67) used_map(67,1,7) used_map(67,19,6) used_map(67,2,8) used_map(67,7,9) used_map(67,3,1) used_map(67,6,10) used_map(67,15,5) positive_match(101) used_map(101,1,9) used_map(101,19,10) used_map(101,2,4) used_map(101,7,5) used_map(101,3,3) used_map(101,6,6) used_map(101,15,11) positive_match(107) used_map(107,1,15) used_map(107,19,16) used_map(107,2,14) used_map(107,7,21) used_map(107,3,2) used_map(107,6,20) used_map(107,15,1) positive_match(112) used_map(112,1,7) used_map(112,19,6) used_map(112,2,8) used_map(112,7,9) used_map(112,3,1) used_map(112,6,10) used_map(112,15,5) positive_match(137) used_map(137,1,2) used_map(137,19,7) used_map(137,2,1) used_map(137,7,10) used_map(137,3,21) used_map(137,6,11) used_map(137,15,8) positive_match(194) used_map(194,1,2) used_map(194,19,3) used_map(194,2,1) used_map(194,7,8) used_map(194,3,20) used_map(194,6,13) used_map(194,15,5) positive_match(212) used_map(212,1,9) used_map(212,19,8) used_map(212,2,10) used_map(212,7,1) used_map(212,3,11) used_map(212,6,6) used_map(212,15,7) positive_match(235) used_map(235,1,13) used_map(235,19,14) used_map(235,2,12) used_map(235,7,11) used_map(235,3,2) used_map(235,6,10) used_map(235,15,18) positive_match(237) used_map(237,1,2) used_map(237,19,6) used_map(237,2,3) used_map(237,7,24) used_map(237,3,4) used_map(237,6,23) used_map(237,15,5) positive_match(262) used_map(262,1,2) used_map(262,19,14) used_map(262,2,1) used_map(262,7,21) used_map(262,3,25) used_map(262,6,22) used_map(262,15,19) positive_count(14)
+SATISFIABLE
+
+Models       : 1+    
+Calls        : 1
+Time         : 45.364s (Solving: 5.02s 1st Model: 5.01s Unsat: 0.00s)
+CPU Time     : 45.370s
+++ python3 scripts/check_solution.py temporal_files/14364/clingo_output temporal_files/14364/executable_program.asp temporal_files/14364/flags temporal_files/14364/number_of_patterns temporal_files/14364/runtime
++++ cat temporal_files/14364/flags
+++ [[ SAT == \U\N\S\A\T ]]
+++ cat temporal_files/14364/number_of_patterns
+95
+++ python3 scripts/parse_clingo_invar.py temporal_files/14364/clingo_output
+++ cat temporal_files/14364/current_solution
+solution(19). solution(15). solution(6). solution(7). solution(2). solution(1). solution(3). 
+++ ./clingo iso_encoding.asp temporal_files/14364/current_solution temporal_files/14364/template 0
+++ cat temporal_files/14364/iso_models
+clingo version 4.5.4
+Reading from iso_encoding.asp ...
+Solving...
+Answer: 1
+map(1,1) map(19,19) map(2,2) map(3,7) map(7,3) map(6,4) map(15,15)
+Answer: 2
+map(1,1) map(19,19) map(2,2) map(7,7) map(3,3) map(6,6) map(15,15)
+SATISFIABLE
+
+Models       : 2     
+Calls        : 1
+Time         : 0.019s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.010s
+++ python3 scripts/parse_iso_models.py temporal_files/14364/iso_models temporal_files/14364/executable_program.asp
+++ (( i++ ))
+++ (( i < runs ))
