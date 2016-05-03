@@ -15,8 +15,8 @@ DEFINITIONS
 
   /* The (most general, i.e. ternary) definition of homomorphism. Note ' is the property accessor for records*/
   homomorph_with(FromGraph, iso, ToGraph) == (
-    iso : Vertices >-> dom(ToGraph'LABEL) &
-    !x.( x:Vertices => FromGraph'LABEL(x) = ToGraph'LABEL(iso(x))) &
+    iso : vertices(FromGraph'EDGES) >-> vertices(ToGraph'EDGES) &
+    !x.( x:vertices(FromGraph'EDGES) => FromGraph'LABEL(x) = ToGraph'LABEL(iso(x))) &
     // derived constraint for efficiency:
     // !l.(l:ran(ToGraph'LABEL) => card({x|x:Vertices & x|->l : FromGraph'LABEL}) = card({y|y|->l:ToGraph'LABEL})) &
     
