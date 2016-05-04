@@ -14,11 +14,11 @@ def main():
             for time in times:
                 pattern, sat, seconds = time.split(",")
                 runtimes[(i,int(pattern))] += float(seconds)
-    with open("averaged_median_run.csv","w") as output:
-        print("avg_runtime_i_th_pattern",file=output)
+    with open("averaged_runtime.csv","w") as output:
+        print("pattern_index,runtime,model",file=output)
         for pattern in range(1,51):
             time = np.median([runtimes[(run,pattern)] for run in range(10)])
-            print(time,file=output)
+            print(pattern,time,"fol",sep=",",file=output)
     
 
 if __name__ == "__main__":
