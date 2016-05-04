@@ -3,7 +3,8 @@ MACHINE GraphMiner
 // you can use different datasets by changing the INCLUDES section
 // This version requires ProB 1.6.0 maybe even 1.6.1-beta to parse LET and IF-THEN-ELSE predicates
 INCLUDES
-  Dataset_Enum // we find 6 graphs in under a second
+  Dataset_Fig1 // we find 8 graphs quickly, then it takes long
+  // Dataset_Enum // we find 6 graphs in under a second
   //MutaDataset // currently finds 6 graphs; cannot yet deal with negative examples : TO DO : investigate why
 
 
@@ -70,18 +71,18 @@ DEFINITIONS
 VARIABLES
   Patterns
 INVARIANT
-  Patterns <: (struct(LABEL:Vertices-->Labels, EDGES:Vertices<->Vertices))
+  Patterns : seq(struct(LABEL:Vertices-->Labels, EDGES:Vertices<->Vertices))
 INITIALISATION
   //Patterns := {rec(LABEL:{(x1,a),(x2,b),(x3,a),(x4,a),(x5,a),(x6,a),(x7,a),(x8,a)}, EDGES:{(x1,x2),(x2,x3)})}
   Patterns := {}
 OPERATIONS
-   AddNewPattern(n,pat) = SELECT n=1+card(Patterns) & n<=6 & 
+   AddNewPattern(n,pat) = SELECT n=1+card(Patterns) & n<=MaxPatternsToFind & 
                                  ValidPattern(pat) &
-                                !(p1).(p1:Patterns =>
+                                !(p1).(p1:ran(Patterns) =>
                                       (p1 /= pat
                                          & not (#iso.(isomorphic1(p1, iso, pat)))
                                       ))
                         THEN
-        Patterns := Patterns \/ {pat}
+        Patterns := Patterns \/ {n|->pat}
    END
 END

@@ -3,7 +3,7 @@ SETS
   Labels = {a,b,c,d,e,f,g,k};
   Vertices = {x1,x2,x3,x4,x5,x6,x7,x8}
 CONSTANTS
-	graphs, Template, MinMatchPOS, MaxMatchNEG
+	graphs, Template, MinMatchPOS, MaxMatchNEG, MaxPatternsToFind
 PROPERTIES
   /*graphs : {struct(LABEL:node+->Labels, EDGES:node<->node),SIGN:sign} &*/ /*DOM:{node}*/
   graphs = [
@@ -19,6 +19,7 @@ PROPERTIES
     &
     
     MinMatchPOS = 1 &
-    MaxMatchNEG = 0
+    MaxMatchNEG = 0 &
+    MaxPatternsToFind = 6
 
 END
