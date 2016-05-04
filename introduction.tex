@@ -15,10 +15,17 @@ As in Prolog, predicate symbols can be either constants (first-order case) or va
 In the case of predicate variable symbols, these variables range over predicate names, and not the predicate space itself, essentially combining second-order syntax with first-order semantics. 
 This is not enough to model the graph mining problem.
 
-On the other hand, specification languages such as Alloy~\citep{tosem/Jackson02}, Event-B~\citep{} and TLA~\citep{books/aw/Lamport2002}, that support state-based and machine-based formal methods typically extend predicate logic with sets and operators from relational algebra, offering higher order semantics.
-ProB~\citep{journals/sttt/LeuschelB08} is such a well-know system for Event-B.
+On the other hand, formal specification languages such as Z \citep{Bowen:Z}, B \citep{Abrial:BBook}, Event-B~\citep{Abrial10} and TLA~\citep{books/aw/Lamport2002}
+ extend predicate logic with set theory and offer
+ higher order datastructures (sets, relations and functions).
+ProB~\citep{journals/sttt/LeuschelB08} is a constraint solver, animator and model checker for these languages,
+ which is implemented in SICStus Prolog.%
+\footnote{
+Alloy~\citep{tosem/Jackson02} is a widely used language and tool,
+  restricted to first-oder structures, with the goal of enabling an effective translation to SAT problems.}
 %This level of support for higher-order logic is enough to model the graph mining problem.
-We can express the graph mining problem in these languages directly using higher order, but in general these systems miss the flexibility to perform multiple different inferences such as model expansion and optimization without modifying the specification.
+We can express the graph mining problem in these languages directly using higher order, 
+but in general these systems miss the flexibility to perform multiple different inferences such as model expansion and optimization without modifying the specification.
 Furthermore, while some of these systems can express inductive definitions using either its completion or using a built-in transitive closure operator, this comes with a significant loss of readability.
 Lastly, many of these systems are built directly on CP techniques and finite domain solvers, and consequently do not implement the recent revolutions in solving techniques such as CDCL.
 

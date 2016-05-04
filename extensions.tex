@@ -70,7 +70,8 @@ We now propose a way in which a solver can provide this additional support, and 
 \subsubsection{Second order types}
 The solver can represent objects of any \lstinline|so-type| using the disjoint union technique, declaring a new first order type $id$ containing identifiers for the higher objects, e.g. \lstinline|graphId|.
 \matthias{Using theory analysis, we determine whether the size of the second order type is bounded and if so, impose the same bound on the size of the type $id$.
-If no such bound can be detected, we treat $id$ as an infinite type, relying on lazy grounding to create new $id$ objects when necessary and subsequently instantiate the required rules for the new $id$ object.}\todo{Matthias: Is it necessary to impose that different id's differ in some of their properties. (I don't think so). Would it help search (it might). It also makes comparing P=P2 easy.}
+If no such bound can be detected, we treat $id$ as an infinite type, relying on lazy grounding to create new $id$ objects when necessary and subsequently instantiate the required rules for the new $id$ object.}
+%\todo{Matthias: Is it necessary to impose that different id's differ in some of their properties. (I don't think so). Would it help search (it might). It also makes comparing P=P2 easy.}
 
 Next, every occurrence of an object of type \lstinline|graph| is replaced by the correct identifier, and quantifications over this type are replaced by quantifications over the set of identifiers.
 
@@ -98,20 +99,17 @@ By using the formula $\phi$ as the theory $T$, we conclude the setup of the nest
 
 Whenever the solver needs to evaluate the truth of a second order quantification, the solver simply calls this oracle on vocabulary $V$ and theory $T$, providing it with a set of assumptions consisting of the values that the top solver assigns to the shared symbols $\Sigma_s$.
 Depending on whether the subsolver succeeds or fails to find a model, we update the current interpretation of the top solver with the model or learn a new clause, as detailed by~\cite{AAAIW1612603}.
-\todo{Benders decomposition~\citep{Benders}}
+%\todo{Benders decomposition~\citep{Benders}}
 
-\todo{Toevoegen van een voorbeeld}
+%\todo{Toevoegen van een voorbeeld}
 
-\subsection{Conclusion}
-\todo{naar achter schuiven}
-Higher order logic is sometimes criticized as being to expressive.
-Sometimes however, the additional structure HO exhibits allows solvers to perform better.
-For example, in the case of graph mining, higher order logic preserves the local coherence of graphs, and the independence of homomorphisms for the different examples, a property that a higher order solver can leverage in order to raise efficiency. 
-Concretely, we predict that our subsolver technique will perform like the decomposed model from Section~\ref{sec:performance}, and expect a comparable performance gain over the first order model that uses only the disjoint union technique.
-
-%Because these formulas are now written in existential second order, these can be solved by an \NP-solver.
-
-\todo{oracles maken disjoint union terug efficient.}
+%\subsection{Conclusion}
+%\todo{naar achter schuiven}
+%
+%
+%%Because these formulas are now written in existential second order, these can be solved by an \NP-solver.
+%
+%\todo{oracles maken disjoint union terug efficient.}
 
 
 %\subsubsection{Data representation}
