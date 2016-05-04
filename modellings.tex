@@ -146,7 +146,7 @@ $\forall$ gid[GraphId] : $\forall$ n[Node] : $\exists$ n1,n2[Node] : E(gid, n, n
 
 \paragraph{Issue 2}
 %Having solved\matthias{circumvented?} our first issue, 
-The homomorphic property can be expressed using a count aggregate, as shown in Listing~\ref{}. 
+The homomorphic property can be expressed using a count aggregate, as shown in Listing~\ref{lst:QuantifyOutsideVocabulary}. 
 First we quantify over all example graphs $g$, or per \textbf{issue 1}, their identifiers, and subsequently express that there must exist a function $f$ that represents a homomorphism from our pattern graph $\graph{P}$ to $g$.
 %Next, we would like to express the homomorphic property.
 %This can be done using a count aggregate, as shown in Listing~\ref{lst:QuantifyOutsideVocabulary}.
@@ -182,8 +182,9 @@ In Second Order Logic, this dependency would follow directly from the order of t
 \end{center}
 
 We can now use this \verb|f| anywhere we would use the regular homomorphic function for a specific graph by fixing the chosen example graph.
+We denote by $f(g)$ the function $f$ partially applied on argument $g$.
 %However, for some example graphs $\graph{G}$, there will not exist a homomorphic function from our pattern $\graph{P}$ to $\graph{G}$, i.e. for these graphs $\graph{G}$, no valid function $f$ exists.
-Because the disjoint union technique introduces a single function $f$ which is the union of all these smaller functions, we have to make this function $f$ partial: it is not defined for tuples where the first the argument is an identifier for a graph $\graph{G}$ for which no homomorphic function exists.
+Because the disjoint union technique introduces a single function $f$ which is the union of all these smaller functions, function $f$ becomes partial: it is not defined for tuples where the first the argument is an identifier for a graph $\graph{G}$ for which no homomorphic function exists.
 
 
 %\todo{Of course, other (even uglier) schemes exist to encode this. Should we mention this?}

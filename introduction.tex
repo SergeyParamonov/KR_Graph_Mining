@@ -15,7 +15,7 @@ As in Prolog, predicate symbols can be either constants (first-order case) or va
 In the case of predicate variable symbols, these variables range over predicate names, and not the predicate space itself, essentially combining second-order syntax with first-order semantics. 
 This is not enough to model the graph mining problem.
 
-On the other hand, specification languages such as Alloy~\citep{tosem/Jackson02}, B, TLA~\citep{books/aw/Lamport2002}, VDM and Z, that support state-based and machine-based formal methods typically extend predicate logic with sets and operators from relational algebra, offering higher order semantics.
+On the other hand, specification languages such as Alloy~\citep{tosem/Jackson02}, Event-B~\citep{} and TLA~\citep{books/aw/Lamport2002}, that support state-based and machine-based formal methods typically extend predicate logic with sets and operators from relational algebra, offering higher order semantics.
 ProB~\citep{journals/sttt/LeuschelB08} is such a well-know system for Event-B.
 %This level of support for higher-order logic is enough to model the graph mining problem.
 We can express the graph mining problem in these languages directly using higher order, but in general these systems miss the flexibility to perform multiple different inferences such as model expansion and optimization without modifying the specification.
