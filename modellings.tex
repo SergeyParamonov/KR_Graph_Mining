@@ -427,9 +427,10 @@ As a result, ProB can model the negative homomorphism property directly, without
 
 The same reasoning allows ProB to model the isomorphism restriction when looking for multiple patterns.
 \subsubsection{Inductive definitions}
-ProB cannot natively handle inductive definitions.
-This makes it difficult to model the connectedness requirement of patterns.
-Recently, efforts have been made to integrate Kodkod, which provides a high-level interface to SAT-solvers~\citep{DBLP:conf/tacas/TorlakJ07}, into ProB~\citep{DBLP:conf/fm/PlaggeL12}.
+ProB does not support inductive definitions, but allows to express these constraints using either the B transitive closure primitive or by expressing the completion of the definition.
+However, these techniques tend to reduce the readability of the constraint, making it difficult to reason about the connectedness constraint and its derivatives.
+Furthermore, these constraints incur a high performance loss.
+Recently, efforts have been made to integrate Kodkod, which provides a high-level interface to SAT-solvers~\citep{DBLP:conf/tacas/TorlakJ07}, into ProB~\citep{DBLP:conf/fm/PlaggeL12}, which allows offloading these constraints to a SAT-solver that is capable of solving this fast.
 
 
 \subsection{Conclusion}

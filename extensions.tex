@@ -69,8 +69,8 @@ We now propose a way in which a solver can provide this additional support, and 
 
 \subsubsection{Second order types}
 The solver can represent objects of any \lstinline|so-type| using the disjoint union technique, declaring a new first order type $id$ containing identifiers for the higher objects, e.g. \lstinline|graphId|.
-\matthias{Using theory analysis, we determine whether the size of the second order type is bounded and if so, impose the same bound on the size of the type $id$.
-If no such bound can be detected, we treat $id$ as an infinite type, relying on lazy grounding to create new $id$ objects when necessary and subsequently instantiate the required rules for the new $id$ object.}
+Using theory analysis, we determine whether the size of the second order type is bounded and if so, impose the same bound on the size of the type $id$.
+If no such bound can be detected, we treat $id$ as an infinite type, relying on lazy grounding to create new $id$ objects when necessary and subsequently instantiate the required rules for the new $id$ object.
 %\todo{Matthias: Is it necessary to impose that different id's differ in some of their properties. (I don't think so). Would it help search (it might). It also makes comparing P=P2 easy.}
 
 Next, every occurrence of an object of type \lstinline|graph| is replaced by the correct identifier, and quantifications over this type are replaced by quantifications over the set of identifiers.
