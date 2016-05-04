@@ -134,6 +134,7 @@ This pattern $\graph{P}$ must be \emph{homomorphic} with at least $N_{+}$ positi
 %    \end{tikzpicture}, ...
 
 Take, for example, the problem set shown in Figure~\ref{fig:ex1}. We assume all nodes have the same label.
+The template graph guides the search.
 There is one positive example (Fig~\ref{fig:pos}), and one negative example (Fig~\ref{fig:neg}). 
 Figure \ref{fig:templ} shows the template graph.
 Figure \ref{fig:candidates} shows a valid and an invalid pattern. 
@@ -155,17 +156,17 @@ and its inverse $f^{-1}$ represents a homomorphism from $\graph{G'}$ to $\graph{
 If there exist graph isomorphisms between $\graph{G}$ and $\graph{G'}$ we say $\graph{G}$ and $\graph{G'}$ are \emph{isomorphic}.
 \end{definition}
 
-We now can define the concept of a canonization and the related concept of a canonical graph. 
-%Having defined the concept of a homomorphism, we want to define the concept of a \emph{canonical} graph.
-To define this concept, we need to consider a multitude of graphs $\graph{G}$, each of which consists of a set of vertices $V$, an edge relation $E$ and a labeling function $l$. 
-As the vertices themselves have no distinctive property, it is possible, and even beneficial to reuse the same, sufficiently large set of vertices $V$ for all example graphs as well as the mined patterns.
+%We now can define the concept of a canonization and the related concept of a canonical graph. 
+%%Having defined the concept of a homomorphism, we want to define the concept of a \emph{canonical} graph.
+%To define this concept, we need to consider a multitude of graphs $\graph{G}$, each of which consists of a set of vertices $V$, an edge relation $E$ and a labeling function $l$. 
+%As the vertices themselves have no distinctive property, it is possible, and even beneficial to reuse the same, sufficiently large set of vertices $V$ for all example graphs as well as the mined patterns.
 
-\begin{definition}
-\label{def:canonicalForm}
-Let $\graphset{G}$ be a set of graphs over a sufficiently large set of vertices $V$, closed under isomorphism.
-A function $c$ for which $\forall \graph{G,H} \in \graphset{G} : \graph{G} \simeq \graph{H} \iff c(\graph{G}) = c(\graph{H})$ and $\forall \graph{G} \in \graphset{G} : \graph{G} \simeq c(\graph{G})$ hold, is called a \emph{canonization}.
-The graph $c(\graph{G})$ is called the \emph{canonical form} of $\graph{G}$ w.r.t $c$, and is denoted by $\mathit{canon}(\graph{G})$.
-\end{definition}
+%\begin{definition}
+%\label{def:canonicalForm}
+%Let $\graphset{G}$ be a set of graphs over a sufficiently large set of vertices $V$, closed under isomorphism.
+%A function $c$ for which $\forall \graph{G,H} \in \graphset{G} : \graph{G} \simeq \graph{H} \iff c(\graph{G}) = c(\graph{H})$ and $\forall \graph{G} \in \graphset{G} : \graph{G} \simeq c(\graph{G})$ hold, is called a \emph{canonization}.
+%The graph $c(\graph{G})$ is called the \emph{canonical form} of $\graph{G}$ w.r.t $c$, and is denoted by $\mathit{canon}(\graph{G})$.
+%\end{definition}
 
 \begin{figure}[h]
   \centering
@@ -206,8 +207,9 @@ The graph $c(\graph{G})$ is called the \emph{canonical form} of $\graph{G}$ w.r.
 Given the graph mining problem as specified in Figure~\ref{fig:ex1}, we have already established that Figure~\ref{fig:iso1} is a valid pattern.
 When we try to mine a second pattern, we might suggest a pattern as shown in Figure~\ref{fig:iso2}.
 A quick check, however, will show that there is a one-to-one mapping $f$ such that both $f$ as well as its inverse $f^{-1}$ preserve edges.
-As a result, the first candidate pattern and the second are isomorphic.
-By Definition~\ref{def:canonicalForm} only one of these two patterns can be the canonical form, and therefore only one of these two candidate patterns should be accepted as a valid pattern.
+As a result, both candidate patterns are isomorphic, and thus only one should be accepted as a valid pattern.
+%By Definition~\ref{def:canonicalForm} only one of these two patterns can be the canonical form, and therefore 
+%Therefore, only one of these two candidate patterns should be accepted as a valid pattern.
 
 \subsection{Rewording}
 %Given the mathematical definition of the graph mining problem above, w
@@ -220,7 +222,8 @@ In doing this, it becomes evident that the graph mining problem has fundamental 
 %We now try to link the shortcomings of each language to the expressiveness of the underlying logic on which they are built.
 
 %First we introduce a new definition of the graph mining problem, equivalent to \textbf{Def.}~\ref{def:GM1}.
-As mentioned above, the vertices in the graph mining problem have no distinctive property, and can be reused between different example graphs and patterns.
+%As mentioned above, 
+The vertices in the graph mining problem have no distinctive property, and can be reused between different example graphs and patterns.
 Therefore, we will assume one shared, sufficiently large set of vertices $V$ and represent example graphs over these vertices $V$ directly as a triple $\triple{Edge, Label, Class}$, consisting of an (binary) edge relation on $V$ and a labeling function over $V$, as well as a classification (positive/negative).
 
 \begin{definition} \textbf{Graph Mining (redefined)}
