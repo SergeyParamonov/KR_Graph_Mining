@@ -14,7 +14,7 @@ PROPERTIES
                 EDGES:BD({(g1,g2),(g2,g3),(g3,g4),(g4,g5),(g5,g6),(g6,g1),
                         (g1,g4), (g3,g6)}),SIGN:"POS"),
             rec(LABEL:GVertices*{a}, 
-                EDGES:{(g1,g2),(g2,g3),(g3,g4)},SIGN:"NEG")
+                EDGES:BD({(g1,g2),(g2,g3),(g3,g4)}),SIGN:"NEG")
            ] &
     
 
