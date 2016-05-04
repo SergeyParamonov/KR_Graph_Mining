@@ -42,8 +42,8 @@ t_path(X,Y) :- t_edge(X,Z), t_path(Z,Y), invar(X).
 %auxilary constraints
 
 edge(G,Y,X) :- edge(G,X,Y).
-t_edge(Y,X) :- t_edge(X,Y).
 node(G,Y)   :- edge(G,Y,_).
+t_edge(Y,X) :- t_edge(X,Y).
 t_node(X)   :- t_edge(X,_).
 
 #show invar/1.
