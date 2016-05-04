@@ -15,21 +15,26 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-Many problems are inherently higher order due to their complex nature and composite structure. 
-From a KR perspective modeling these problems in an intu\"itive way is a challenging task. 
-In this paper we study the graph mining problem as an example of a higher order problem. 
-We start from its mathematical definition which is clearly higher order. 
-Having identified the higher order aspects, we discuss how we model the graph mining model 
-in state-of-the art KR systems (IDP and ASP) that have no support for higher order can model these problems using encoding techniques such as the disjoint union technique and the saturation technique. 
+Many problems are inherently higher order due to their complex nature and composite structure.
+From a KR perspective modeling these problems in an intu\"itive way is a challenging task.
+In this paper we study the graph mining problem as an example of a higher order problem.
+We start from its mathematical definition which is clearly higher
+order to solve the graph mining problem in 3 state-of-the-art specification
+systems, IDP, ASP and ProB.
+For IDP and ASP, which have no
+native support for higher order, we propose the use of encoding
+techniques such as the disjoint union technique and the saturation technique.
+The model in ProB, a formal specification language, benefits
+from the higher order support for sets.
+We compare the performance of the three approaches to get an idea of
+the overhead of the higher order support.
 
-From a KR perspective, these techniques come with a considerable loss of declarativeness and clarity of the specification. 
-We identify the desirable properties that from a KR perspective should hold for a good modeling of the graph mining problem. 
-We evaluate how a modeling in ProB (a higher order KR language with support for sets) satisfies these properties. 
-Next, we make a comparison of the performance of the three approaches.
-
-We also propose a faithful encoding for IDP-like specification languages, which follows closely the mathematical definition of the graph mining problem and satisfies all different desired properties.
-Based on this faithful encoding,  we propose solver extensions that would shift the burden of rewriting the specification using the identified encoding techniques from the user to the solver itself, or would eliminate the need entirely.
-
+From a KR modeling perspective, we identify a number of desirable
+properties and discuss how the three approaches deal with them.
+We propose higher-order language extensions for IDP-like
+specification languages
+and  discuss what kind of solver support is needed.
+Native higher order shifts the burden of rewriting specifications using encoding techniques from the user to the solver itself.
 %Many problems are inherently higher order due to their complex nature and composite structure.
 %Modeling these problems in an intu\"itive way becomes a challenging task.
 %This paper analyses, from a KR perspective, what difficulties arise when modeling such a problem, using the graph mining problem as an application-based example.

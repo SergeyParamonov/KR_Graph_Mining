@@ -1,31 +1,56 @@
 import re
+import sys
 from os      import system, listdir
-from os.path import join
+from os.path import join, exists
 from random  import randint
 import numpy as np
+import time
 
 def main():
   run_folder  = init_program_and_template()
   graph_files = get_graph_files() # loop should start here
-  candidate   = get_candidate(run_folder)
-  candidate_file = generate_candidate_file(run_folder,candidate)
   threshold_absolute = compute_treshold(graph_files, 5)
-  satisfied = 0
-  SAT = False
   solutions = []
-  for graph_file in graph_files.values():
-     result = check_matching(candidate_file, graph_file, run_folder)
-     if result:
-         satisfied += 1
-     if satisfied > threshold_absolute:
-         SAT = True
-         break
-  if SAT:
-    solutions.append(candidate)
-  
-  set_iso_nogoods(candidate_file,run_folder)
-  
-  print("SAT:",SAT)
+  runs = get_runs()
+  runtimes = []
+  for i in range(runs):
+    start_time = time.time()
+    candidate   = get_candidate(run_folder)
+    print("candidate... ", candidate) 
+    candidate_file = generate_candidate_file(run_folder,candidate)
+    satisfied = 0
+    SAT = False
+    for graph_file in graph_files.values():
+       result = check_matching(candidate_file, graph_file, run_folder)
+       if result:
+           satisfied += 1
+       if satisfied > threshold_absolute:
+           SAT = True
+           break
+    if SAT:
+      end_time = time.time()
+      i_th_time = end_time - start_time
+      runtimes.append(str(i_th_time))
+      print('time to mine i-th pattern', i_th_time)
+      solutions.append(candidate)
+    
+    set_iso_nogoods(candidate_file,run_folder)
+   
+  write_runtime(runtimes, run_folder)
+
+def get_runs():
+  if len(sys.argv) > 1:
+    runs = int(sys.argv[1])
+  else:
+    runs = 5
+  return runs
+
+def write_runtime(runtimes, run_folder):
+  log_file = "{tmp}/runtime".format(tmp=run_folder)
+  system("touch {}".format(log_file))
+  with open(log_file, "w") as log:
+    print("\n".join(runtimes), file=log)
+
 
 def generate_candidate_file(run_folder,candidate):
    candidate_content = " ".join(["invar({}).".format(x) for x in candidate])
@@ -63,6 +88,21 @@ def get_graph_files():
   return graphs
 
 def remove_iso_increase_pattern_len(run_folder):
+  programfile = "{tmp}/generate_candidate_pattern.asp".format(tmp=run_folder)
+  with open(programfile,"r") as program_input:
+    program = program_input.read()
+  current_len = re.search(r'good_model :- pattern_len\((?P<num>\d+)\).',program).group("num")
+  old = "good_model :- pattern_len({}).".format(current_len)
+  new = "good_model :- pattern_len({}).".format(int(current_len)+1)
+  new_program = program.replace(old, new)
+  begin_key = "% NOGOODS_BEGIN"
+  begin = program.index(begin_key) + len(begin_key)
+  end   = program.index("% NOGOODS_END")
+  new_program = new_program[:begin] + "\n\n" + new_program[end:]
+  with open(programfile,"w") as program_output:
+    print(new_program,file=program_output)
+
+
 
 
 def get_candidate(run_folder):
@@ -75,7 +115,12 @@ def get_candidate(run_folder):
      data = candidate_file.read()
    if "UNSATISFIABLE" in data:
      remove_iso_increase_pattern_len(run_folder)
-     return get_candidate(run_folder)
+     try:
+       return get_candidate(run_folder)
+     except:
+       print("bad template, not enough patterns, deleting {tmp}".format(tmp=run_folder))
+       if exists(run_folder):
+         system("rm -r {tmp}".format(tmp=run_folder))
    else:
      candidate = re.findall(r'invar\((\w+)\)',data)      
    return candidate
