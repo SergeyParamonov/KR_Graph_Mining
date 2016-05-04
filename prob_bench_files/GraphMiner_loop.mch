@@ -11,7 +11,7 @@ INCLUDES
 DEFINITIONS
 
   SET_PREF_TIME_OUT == 70000; SET_PREF_MAX_INITIALISATIONS == 2; SET_PREF_MAX_OPERATIONS == 1; 
-  CUSTOM_GRAPH_EDGES == UNION(p).(p:Patterns|p'EDGES);
+  CUSTOM_GRAPH_EDGES == last(Patterns)'EDGES;
   CUSTOM_GRAPH_NODES == Vertices; // dom(pattern'EDGES) \/ ran(pattern'EDGES);
 
   /* The (most general, i.e. ternary) definition of homomorphism. Note ' is the property accessor for records*/
