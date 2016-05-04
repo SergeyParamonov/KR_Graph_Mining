@@ -99,6 +99,7 @@ By using the formula $\phi$ as the theory $T$, we conclude the setup of the nest
 
 Whenever the solver needs to evaluate the truth of a second order quantification, the solver simply calls this oracle on vocabulary $V$ and theory $T$, providing it with a set of assumptions consisting of the values that the top solver assigns to the shared symbols $\Sigma_s$.
 Depending on whether the subsolver succeeds or fails to find a model, we update the current interpretation of the top solver with the model or learn a new clause, as detailed by~\cite{AAAIW1612603}.
+We expect this subsolver technique to allow detection of the independence of subproblems, thanks to the expressivity of higher order, and expect the performance of such a solver to close the gap with the performance of the decomposed technique detailed in section~\ref{sec:performance}.
 %\todo{Benders decomposition~\citep{Benders}}
 
 %\todo{Toevoegen van een voorbeeld}
