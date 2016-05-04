@@ -3,8 +3,8 @@ MACHINE GraphMiner
 // you can use different datasets by changing the INCLUDES section
 // This version requires ProB 1.6.0 maybe even 1.6.1-beta to parse LET and IF-THEN-ELSE predicates
 INCLUDES
-  Dataset // we find 6 graphs in under a second
-  //MutaDataset // currently finds 4 graphs; cannot yet deal with negative examples : TO DO : investigate why
+  Dataset_Enum // we find 6 graphs in under a second
+  //MutaDataset // currently finds 6 graphs; cannot yet deal with negative examples : TO DO : investigate why
 
 
 DEFINITIONS
