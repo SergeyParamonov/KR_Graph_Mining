@@ -50,12 +50,15 @@ theory Positive:V_Pos{
 
 \lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
 \begin{lstlisting}[caption=ASP positive matching, style=model]
-homowith(G) | not_homowith(G) :- positive(G).
+0 { homowith(G) } 1 :- positive(G).
 
 1 { f(G,X,V) : node(G,V) } 1 :- positive(G), inpattern(X).
 
 :- homo_with(G), f(G,X,V1), f(G,Y,V2), template_edge(X,Y), 
 not edge(G,V1,V2), inpattern(X), inpattern(Y).
+
+used_f(G,X,V) :- homo_with(G), f(G,X,V).
+:- used_f(G,X,V), used_f(G,Y,V), X != Y.
 
 positive_count(N) :- N = #count{G:homowith(G)}.
 
