@@ -14,7 +14,7 @@ These last two types of symbols make the vocabulary, in general, a \emph{second 
 For example, vocabulary V in Listing \ref{lst:vocabularyExample} is a second order vocabulary as it contains the first order symbol \lstinline{Edge/2}.
 
 The theory $T$ is restricted to a \emph{first order} theory, extended with types, arithmetic, aggregates, and inductive definitions.
-An example of such a theory is given in Listing \ref{lst:vocabularyExample}.
+An example of such a theory is given in \textbf{Listing} \ref{lst:vocabularyExample}.
 It contains an inductive definition for \lstinline{Path/2}, and one constraint.
 
 Our inference of choice in the graph mining problem is model expansion; we search for an interpretation $I$ of symbols in the vocabulary $V$, called a \emph{model}, such that this interpretation $I$ satisfies the theory $T$.
@@ -52,7 +52,7 @@ structure Result : V{
 \paragraph{Issue 1}
 First, we must represent the set of example graphs, as specified in \textbf{Def.}~\ref{def:gm2}. 
 This definition uses a higher order predicate(See \textbf{Listing}~\ref{lst:HOPred}) \lstinline{GraphInst/3} with as first argument the edge predicate and as second argument the label function. For the first graph, \lstinline|{1,2; 2,1}| and \lstinline[mathescape]|{1$\mapsto$ a; 2$\mapsto$ b}| respectively.
-It represents a single graph as a tuple of predicates and functions, visualized in \textbf{fig.}~\ref{fig:LocalCoherence} as the solid shape.
+It represents a single graph as a tuple of predicates and functions, visualized in \textbf{Fig.}~\ref{fig:LocalCoherence} as the solid shape.
 It is clear that this representation is highly locally coherent, and preserves the independence of graph characteristics.
 However, as we are restricted to \emph{Existential} Second Order, we cannot express this higher order predicate in IDP.
 
