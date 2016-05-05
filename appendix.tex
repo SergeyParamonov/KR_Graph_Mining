@@ -3,7 +3,7 @@
 \section{Code}
 \label{app:Code}
 This appendix provides the relevant code for the IDP, ASP and ProB systems.
-The full IDP code is available at \url{}, while the ASP code is available at \url{} and the ProB code at \url{}. \todo{Sergey: Provide these urls!} 
+The full IDP code is available at\\ \url{https://github.com/SergeyParamonov/KR_Graph_Mining/tree/master/IDPencoding} and at \\\url{https://github.com/SergeyParamonov/LGM},\\ while the ASP code is available at\\ \url{https://github.com/SergeyParamonov/KR_Graph_Mining/tree/master/ASP_experiments}\\ and the ProB code at \\\url{https://github.com/SergeyParamonov/KR_Graph_Mining/tree/master/prob_bench_files}. 
 \begin{lstlisting}[caption=IDP positive constraint, style=model, label=lst:IDPPos]
 vocabulary V{
   type node isa nat
@@ -54,15 +54,15 @@ theory Positive:V_Pos{
 
 1 { f(G,X,V) : node(G,V) } 1 :- positive(G), inpattern(X).
 
-:- homo_with(G), f(G,X,V1), f(G,Y,V2), template_edge(X,Y), 
-not edge(G,V1,V2), inpattern(X), inpattern(Y).
+:- used_f(G,X,V1), used_f(G,Y,V2), template_edge(X,Y), not edge(G,V1,V2), inpattern(X), inpattern(Y).
+:- used_f(G,X,V),  t_label(X,L), not label(G,V,L), inpattern(X).
 
 used_f(G,X,V) :- homo_with(G), f(G,X,V).
 :- used_f(G,X,V), used_f(G,Y,V), X != Y.
 
 positive_count(N) :- N = #count{G:homowith(G)}.
 
-:- positive_count(N), N < 2.
+:- positive_count(N), N < 13.
 \end{lstlisting}
 
 \begin{lstlisting}[caption=ASP negative matching using saturation technique, label={lst:aspsaturation}, style=model, numbers=left]
