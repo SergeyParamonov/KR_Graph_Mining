@@ -104,7 +104,7 @@ min_d2(N) :- N = #min{ X: d2(X) }, not iso_saturated.
 iso_saturated :- min_d1(N1), min_d2(N2), N1 > N2.
 \end{lstlisting}
 
-\begin{lstlisting}[caption=Auxilary predicates -- probably should be moved to appendix, style=model]
+\begin{lstlisting}[caption=Auxilary predicates, style=model]
 %selects subpattern
 
 t_path(X,Y) :- t_edge(X,Y), invar(X), invar(Y).
