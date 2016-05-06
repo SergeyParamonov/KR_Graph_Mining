@@ -148,4 +148,19 @@ equal(G) :- not not_equal(G), iso(G,_,_).
 
 \section{Higher Order Simulation Description}
 \label{sec:hol_description}
-\sergey{to be finished}
+Key dataset characteristics for the experiments, visualized in Figures \ref{fig:decomposition_fol} and \ref{fig:ProBIDPComp}, can be found in Table \ref{table:yoshida}.
+\begin{table}[thb]
+  \caption{Yoshida datasets parameters}
+  \label{table:yoshida}
+  \begin{tabular}{l c c c c c}
+    Name & Number of Graphs & Avg Vertices & Avg Edges & Labels & Possible classes\\
+    \hline
+    Yoshida & 265 & 20 &  23 &  9 & 2
+  \end{tabular}
+\end{table}
+
+The experimental setup visualized in Figure \ref{fig:decomposition_fol} is the following: in both disjoint union and higher order models we mined the patterns from smaller to larger in an iterative fashion. First, we set the pattern length, equal to the number of nodes, to 2, then computed graph coverage for the pattern. Based on the coverage we add the pattern as frequent and then compute isomorphic patterns in the template. For each isomorphic graph in the template we add a no-good clause. Once all frequent patterns of the length $n$ are mined, i.e., the solver cannot find any other non-isomorphic patterns of the length $n$, we increase the pattern length to $n+1$, remove all no-goods and repeat the process.
+
+The key difference between disjoint union and disjoint union models are in the coverage computation. In case of disjoint union model we make a single call to get a pattern such that it is frequent (i.e., matches at least the threshold amount of graphs) and in higher order model we make a single call to get a non-isomorphic candidate graph and then a separate call per graph to find if it is covered or not. If we found that a pattern covers more than a threshold amount of graphs, we stop computing the coverage and add the pattern as frequent.
+
+Both models in the described computations follow the general schema used in the specialized algorithms such as gSpan \cite{gspan}. We have also obtained similar runtime patterns on other standard graph datasets described in \cite{ilp_graph_mining}.
