@@ -14,7 +14,7 @@ These last two types of symbols make the vocabulary, in general, a \emph{second 
 For example, vocabulary V in Listing \ref{lst:vocabularyExample} is a second order vocabulary as it contains the first order symbol \lstinline{Edge/2}.
 
 The theory $T$ is restricted to a \emph{first order} theory, extended with types, arithmetic, aggregates, and inductive definitions.
-An example of such a theory is given in Listing \ref{lst:vocabularyExample}.
+An example of such a theory is given in \textbf{Listing} \ref{lst:vocabularyExample}.
 It contains an inductive definition for \lstinline{Path/2}, and one constraint.
 
 Our inference of choice in the graph mining problem is model expansion; we search for an interpretation $I$ of symbols in the vocabulary $V$, called a \emph{model}, such that this interpretation $I$ satisfies the theory $T$.
@@ -52,7 +52,7 @@ structure Result : V{
 \paragraph{Issue 1}
 First, we must represent the set of example graphs, as specified in \textbf{Def.}~\ref{def:gm2}. 
 This definition uses a higher order predicate(See \textbf{Listing}~\ref{lst:HOPred}) \lstinline{GraphInst/3} with as first argument the edge predicate and as second argument the label function. For the first graph, \lstinline|{1,2; 2,1}| and \lstinline[mathescape]|{1$\mapsto$ a; 2$\mapsto$ b}| respectively.
-It represents a single graph as a tuple of predicates and functions, visualized in \textbf{fig.}~\ref{fig:LocalCoherence} as the solid shape.
+It represents a single graph as a tuple of predicates and functions, visualized in \textbf{Fig.}~\ref{fig:LocalCoherence} as the solid shape.
 It is clear that this representation is highly locally coherent, and preserves the independence of graph characteristics.
 However, as we are restricted to \emph{Existential} Second Order, we cannot express this higher order predicate in IDP.
 
@@ -126,24 +126,13 @@ $\forall$ gid[GraphId] : $\forall$ n[Node] : $\exists$ n1,n2[Node] : E(gid, n, n
 \end{lstlisting}
 \end{minipage}
 \end{center}
-
-%But can we now express the abstraction (generalization) of knowledge about these properties, such as the positive homomorphic property?
-%to separate the constraint describing the positive homomorphic property, and the coint on its number of occurrences.
-%This, from a KR point of view, 
-%Furthermore, the restriction to ESO requires us 
-%As an example, we illustrate this trick by showing on the expression of the positive homomorphic property, where it greatly resembles Skolemization.
-%As evidenced in \textbf{Def.}~\ref{def:gm2}, normally one would express the positive homomorphic property by quantifying (counting) over all graphs, requiring the existence of a function with the correct properties.
-%Using the disjoint union representation, we can quantify over the set $G$ of graph identifiers instead of over the actual graphs.
-%Therefore, this representation allows us to express this property.
-
+\vspace{-1em}
 \begin{figure}[h]
 \centering
 \includegraphics{CoherenceTable-crop.pdf}
 \caption{Local coherence\label{fig:LocalCoherence}}
 \end{figure}
-
-%These three different ways of representing graphs are summarized in Fig~\ref{fig:LocalCoherence}.
-
+\vspace{-2em}
 \paragraph{Issue 2}
 %Having solved\matthias{circumvented?} our first issue, 
 The homomorphic property can be expressed using a count aggregate, as shown in Listing~\ref{lst:QuantifyOutsideVocabulary}. 
@@ -211,7 +200,7 @@ Thus, even if there is a negative example $\graph{G}_{-}$ for which a homomorphi
 %Now, even though it is possible to find a homomorphism between the pattern candidate and the negative example (by mapping $3$ to $f$ instead)
 As our constraints are satisfied, we are led to believe that our pattern candidate is a valid pattern.
 
-\citep{} have shown that this is inherently linked to IDPs limit to Existential Second Order.
+\citep{conf/fsttcs/Immerman98} has shown that this is inherently linked to IDPs limit to Existential Second Order.
 Indeed, in order to check that our pattern \graph{P} is homomorphic with no more than $N_{-}$ negative graphs, we have to check that there are enough negative graphs for which no homomorphism exists, for example using a count aggregate as in Listing~\ref{lst:universalquant}.
 By asserting a property for all candidate homomorphic functions $f$ of a certain graph $g$, the negative homomorphic constraint leads to universal quantification over a function variable.
 
@@ -229,7 +218,7 @@ A way to solve a \coNP\ problem such as the negative homomorphism constraint usi
 This can be checked using an \NP\ solver.
 However, this technique can only be implemented in IDP by writing two theories: 
 \begin{compactitem}
-\item one (positive) theory $\theory^{+}$, which expresses the positive homomorphic property and generates pattern candidates, and
+\item one (positive) theory $\theory^{+}$ (see \ref{app:Code}), which expresses the positive homomorphic property and generates pattern candidates, and
 \item one negative theory $\theory^{-}$, which expresses the (dual of) negative homomorphic property and rejects pattern candidates that do not satisfy this constraint.
 \end{compactitem}
 In IDP, one must provide procedural (lua) code that ties these two theories and their inferences together by allowing the communication of pattern candidates between these two theories.
@@ -376,8 +365,8 @@ Note that it is possible to combine the negative theories $\theory^{-}$ and $\th
 \subsubsection{Inductive Definitions}
 One of the main features of the IDP language is the fact that it extends first order logic with \emph{inductive definitions}. These definitions, evaluated under the well-founded semantics, allow the derivation of negative knowledge that otherwise would be underivable.
 Take the path predicate defined in Listing~\ref{lst:vocabularyExample}.
-Models of this theory contain the transitive closure \lstinline|Path|/2 of the \lstinline|Edge|/2 relation.
-When the edge relation would be chosen such that it represents the graph of \textbf{Fig.}~\ref{fig:trans}, there is no model in which nodes $a$ and $b$ are connected. Note that when the transitivity property is expressed as an FO constraint instead, there do exist models in which \lstinline|Path(a,b)| is true.
+Models of this theory contain the transitive closure \lstinline|Path|/2 of \lstinline|Edge|/2.
+When the edge relation would be chosen such that two nodes $a$ and $b$ are part of two disconnected graphs, there is no model in which \lstinline|Path(a,b)| holds. Note that when the transitivity property is expressed as an FO constraint instead, there do exist models in which \lstinline|Path(a,b)| is true.
 
 %\reversemarginpar
 %\todo{A section about inductive definitions, and their use. (Being able to derive negative knowledge)}
@@ -405,10 +394,7 @@ The same technique can be applied to the isomorphism restriction, as well as oth
 
 
 While this technique succesfully prevents the need of a procedural loop and the rewriting of the negative homomorphic property and the isomorphism restriction, it is clear that this technique is not derived from a natural KR translation of the Graph Mining definition.
-Furthermore, as line~\ref{lstline:probspec} of Listing~\ref{lst:aspsaturation} shows, it is necessary to encode instance specific knowledge into the modelling.
-\todo{Also, it forces to look for homomorphisms for every negative example graph, whereas $N_{-}$ + 1 example graphs are enough. Quite possible that there is a workaround for this however.}
-\todo{Mention the fact that we need to encode problem instance specific knowledge i.e. the number of vertices}
-
+Furthermore, as line~\ref{lstline:probspec} of Listing~\ref{lst:aspsaturation} (See \ref{app:Code}) shows, it is necessary to encode instance specific knowledge into the modeling.
 
 \subsection{ProB}
 The ProB System can handle mathematical specifications using higher order logic and set theory.
@@ -427,9 +413,10 @@ As a result, ProB can model the negative homomorphism property directly, without
 
 The same reasoning allows ProB to model the isomorphism restriction when looking for multiple patterns.
 \subsubsection{Inductive definitions}
-ProB cannot natively handle inductive definitions.
-This makes it difficult to model the connectedness requirement of patterns.
-Recently, efforts have been made to integrate Kodkod, which provides a high-level interface to SAT-solvers~\citep{DBLP:conf/tacas/TorlakJ07}, into ProB~\citep{DBLP:conf/fm/PlaggeL12}.
+ProB does not support inductive definitions, but allows to express these constraints using either the B transitive closure primitive or by expressing the completion of the definition.
+However, these techniques tend to reduce the readability of the constraint, making it difficult to reason about the connectedness constraint and its derivatives.
+Furthermore, these constraints incur a high performance loss.
+Recently, efforts have been made to integrate Kodkod, which provides a high-level interface to SAT-solvers~\citep{DBLP:conf/tacas/TorlakJ07}, into ProB~\citep{DBLP:conf/fm/PlaggeL12}, which allows offloading these constraints to a SAT-solver that is capable of solving this fast.
 
 
 \subsection{Conclusion}
@@ -458,5 +445,5 @@ Table~\ref{tbl:conclusion} provides an overview of how the three systems (IDP, A
 \begin{center}
 \includegraphics[scale=0.75]{PropertyTable-crop.pdf}
 \end{center}
-\caption{Evaluation of the desirable properties in IDP / ASP / ProB\label{tbl:conclusion}}
+\caption{Evaluation of the desirable properties in IDP / ASP / ProB\label{tbl:conclusion} for modeling the general graph mining problem based on its key components (matching, pattern enumeration, etc)}
 \end{table}

@@ -1,9 +1,21 @@
 % !TEX root = notes.tex
-\section{Conclusion and future work}\label{sec:conclusion}
-\matthias{A conclusion}
+\section{Conclusion and future work}
+\label{sec:conclusion}
 Higher order logic is sometimes criticized as being to expressive.
-Some problems however, are inherently higher order, oftentimes due to a large modular structure.
+Some problems however, are inherently higher order, oftentimes due to
+a large modular structure.
+In this paper we used graph mining as an example of an higher order
+problem and made a thorough analysis of the problem from a knowledge
+representation point of view.
 While techniques exist to express these higher order problems in first order logic,
-sometimes, explicitly specifying the additional structure HO exhibits allows solvers to perform better.
-For example, in the case of graph mining, higher order logic preserves the local coherence of graphs, and the independence of homomorphisms for the different examples, a property that a higher order solver can leverage in order to raise efficiency. 
-Concretely, we predict that our subsolver technique will perform like the decomposed model from Section~\ref{sec:performance}, and expect a comparable performance gain over the first order model that uses only the disjoint union technique.
+sometimes, explicitly specifying the additional structure HO exhibits
+allows systems to perform better.
+For example, in the case of graph mining, higher order logic preserves
+the local coherence of graphs, and the independence of homomorphisms
+for the different examples, a property that a higher order solver can
+leverage in order to raise efficiency.
+Inspired by this case study, we propose higher-order language
+extensions for IDP and propose alternative ways to implement them in the
+solver. In particular as shown in Section~\ref{sec:performance}, the use of subsolvers seems promising and will be further explored together with the idea of Benders decomposition~\citep{Benders}.
+The performance of the encodings in IDP or ASP can be considered as
+the ultimate target.
