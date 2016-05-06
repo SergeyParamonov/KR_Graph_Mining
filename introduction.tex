@@ -2,16 +2,16 @@
 \section{Introduction}
 Many real world problems exhibit a composite structure consisting of multiple smaller problems which can be combined in many different configurations.
 These types of problems lend themselves for a declarative approach as knowledge representations offers a transparent, natural and extendable model satisfying `The Principle of Elaboration Tolerance'~\citep{elaboration_tolerance}.
-Delarative programming distinguishes itself by the ease with which declarative specifications can be adapted to variations in which subproblems are used, and in the way they are combined.
+Declarative programming distinguishes itself by the ease with which declarative specifications can be adapted to variations in which subproblems are used, and in the way they are combined.
 
 Conversely, the smaller problems in these composite structures are often already NP or coNP complete.
 Combining these already complex problems often raises the computational complexity of the composite problem, up to a level where it cannot be expressed using first order logic.
 These problems become inherently higher order logic: We study the \emph{Graph Mining} problem as an example problem featuring such a raise in complexity.
 
-Specification languages with support for higher oder logic exist, with different levels of support.
+Specification languages with support for higher order logic exist, with different levels of support.
 On the one hand, meta-programming, as known from Logic Programming~\citep{abramson1989meta}, has inspired the introduction of higher-order atoms in DLVHex~\citep{conf/ijcai/EiterIST05}  and the higher-order syntax in HiLog~\citep{chen1993hilog}.
-As in Prolog, predicate symbols can be either constants (first-order case) or variables (second-oder case).
-In the case of predicate variable symbols, these variables range over predicate names, and not the predicate space itself, essentially combining second-order syntax with first-order semantics. 
+As in Prolog, predicate symbols can be either constants (first order case) or variables (second order case).
+In the case of predicate variable symbols, these variables range over predicate names, and not the predicate space itself, essentially combining second order syntax with first order semantics. 
 This is not enough to model the graph mining problem.
 
 On the other hand, formal specification languages such as Z \citep{Bowen:Z}, B \citep{Abrial:BBook}, Event-B~\citep{Abrial10} and TLA~\citep{books/aw/Lamport2002}
@@ -21,7 +21,7 @@ ProB~\citep{journals/sttt/LeuschelB08} is a constraint solver, animator and mode
  which is implemented in SICStus Prolog.%
 \footnote{
 Alloy~\citep{tosem/Jackson02} is a widely used language and tool,
-  restricted to first-oder structures, with the goal of enabling an effective translation to SAT problems.}
+  restricted to first order structures, with the goal of enabling an effective translation to SAT problems.}
 %This level of support for higher-order logic is enough to model the graph mining problem.
 We can express the graph mining problem in these languages directly using higher order, 
 but in general these systems miss the flexibility to perform multiple different inferences such as model expansion and optimization without modifying the specification.

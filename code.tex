@@ -8,22 +8,18 @@ To this end, we used the positive examples of the Yoshida~\citep{yoshida_dataset
 First, we randomly picked an example to use as the template graph.
 Next, we mined a pattern from this template, using the threshold value $N_{+} = 13$ (5\% of the size of the example set).
 During the mining process, we tracked the time it takes to mine the $i=1..n$'th pattern.
-The results shown in \textbf{Fig.}~\ref{fig:ProBIDPComp} are the times needed to mine the $i$'th pattern, averaged over 10 repeats of the described process.
+%The results shown in \textbf{Fig.}~\ref{fig:ProBIDPComp} are the times needed to mine the $i$'th pattern, averaged over 10 repeats of the described process.
 
-\begin{figure}[thb]
-\includegraphics[scale=0.14]{extra/idp_prob_comparison.pdf}
-\caption{\footnotesize{Comparison between ProB (blue) and IDP (red) for the general graph mining problem on the Yoshida dataset} }
-\label{fig:ProBIDPComp}
-\end{figure}
-\sergey{to complete}
+% \begin{figure}[thb]
+% \includegraphics[scale=0.14]{extra/idp_prob_comparison.pdf}
+% \caption{\footnotesize{Comparison between ProB (blue) and IDP (red) for the general graph mining problem on the Yoshida dataset} }
+% \label{fig:ProBIDPComp}
+% \end{figure}
+% \sergey{to complete}
 
-
-\todo{Sergey: Provide some comments. I will try to have a look at Michaels results and provide some basis for these comments to you.}
-
-To specifically analyze the effect of the disjoint union technique, we compared the performance of IDP and ASP on the Yoshida dataset using different encodings of the graph mining problem.
+To analyze the effect of the disjoint union technique, we compared the performance of IDP and ASP on the Yoshida dataset using different encodings of the graph mining problem.
 In \textbf{Fig.}~\ref{fig:decomposition_fol}, we see the performance of IDP (\textbf{Fig.}~\ref{fig:decomposition_idp}) and ASP (\textbf{Fig.}~\ref{fig:decomposition_asp}) on finding the $i$-th pattern.
-Two different encodings are used: one that uses the disjoint union technique, and one that performs a new ASP/IDP call for every different example graph, and aggregates this data using procedural code (i.e. in a decomposed fashion).
-
+Two different encodings are used: one that uses the disjoint union technique, and one that performs a new IDP/ASP call for every different example graph, and aggregates this data using procedural code (i.e. in a decomposed fashion).
 
 It is clear from \textbf{Fig.}~\ref{fig:decomposition_fol} and the order of magnitude difference between the decomposition and disjoint union technique that these systems can highly benefit from detecting the independence of these different subproblems and solving them separately.
 We expect that expressing the problems in a higher order fashion will allow detection of this subproblem independence and allow for more performant and expressive systems.
@@ -32,16 +28,18 @@ We expect that expressing the problems in a higher order fashion will allow dete
 \begin{subfigure}{.44\textwidth}
   \centering
 \includegraphics[scale=0.14]{extra/figure_comparison_yoshida.pdf}
-\caption{\footnotesize{IDP: the disjoint model has a growing trend while the higher order stays flat. The gap is two orders of magnitude. (Due to \cite{ilp_graph_mining})}}
+\caption{\footnotesize{IDP: the disjoint model has a growing trend while the simulation stays flat. The gap is one order of magnitude. (\cite{ilp_graph_mining})}}
   \label{fig:decomposition_idp}
 \end{subfigure}%
 \hfill
 \begin{subfigure}{0.46\textwidth}
   \centering
  \includegraphics[scale=0.14]{extra/asp_fol_vs_decomposed_yoshida.pdf}
- \caption{\footnotesize{ASP: the disjoint model exhibits fluctuation around 30s with a slow runtime growth, while the higher order stays flat. The gap is two orders of magnitude.}}
+ \caption{\footnotesize{ASP: the disjoint model exhibits fluctuation around 30s with a slow runtime growth, while the simulation stays flat. The gap is two orders of magnitude.}}
   \label{fig:decomposition_asp}
 \end{subfigure}
 \caption{\footnotesize{Frequent graph enumeration problem (5\% threshold) on Yoshida dataset for IDP (a) and ASP (b), comparing disjoint union (in red) and higher order simulations (in blue). Further details can be found in \ref{sec:hol_description}.}}
 \label{fig:decomposition_fol}
 \end{figure}
+
+The ProB model from Subsection \ref{subsection:prob} comes closest to the higher order formulation (as demonstrated in Table \ref{tbl:conclusion}), however, the solver support is not yet sufficient to execute the higher order graph mining model, i.e., currently we have not found an effective way to mine patterns using a higher order B model. The key issue is in reifying the higher order existential quantifier inside the set comprehension. A possible future solution would be to provide a Prolog implementation for the homomorphism predicate (e.g., as a ProB external function).

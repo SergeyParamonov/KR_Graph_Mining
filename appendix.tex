@@ -79,7 +79,7 @@ negative_count(N) :- N = #count{G:neg_homowith(G)}.
 
 \end{lstlisting}
 
-\begin{lstlisting}[caption=Canonicity template-based check, style=model]
+\begin{lstlisting}[caption=ASP Canonicity template-based check, style=model]
 iso(X,x1) | iso(X,x2) | iso(X,x3) | iso(X,x4) :- invar(X).
 
 candidate_var(X) :- iso(_,X).
@@ -104,7 +104,7 @@ min_d2(N) :- N = #min{ X: d2(X) }, not iso_saturated.
 iso_saturated :- min_d1(N1), min_d2(N2), N1 > N2.
 \end{lstlisting}
 
-\begin{lstlisting}[caption=Auxilary predicates, style=model]
+\begin{lstlisting}[caption=ASP auxilary predicates, style=model]
 %selects subpattern
 
 t_path(X,Y) :- t_edge(X,Y), invar(X), invar(Y).
@@ -122,7 +122,7 @@ node(G,Y)   :- edge(G,Y,_).
 t_node(X)   :- t_edge(X,_).
 \end{lstlisting}
 
-\begin{lstlisting}[caption=Canonicity previous solution isomorphism check, style=model]
+\begin{lstlisting}[caption=ASP canonicity previous solution isomorphism check, style=model]
 iso(s1,X,x1) | iso(s1,X,x2) :- invar(X).
 iso(s2,X,x2) | iso(s2,X,x3) :- invar(X).
 
@@ -161,6 +161,6 @@ Key dataset characteristics for the experiments, visualized in Figures \ref{fig:
 
 The experimental setup visualized in Figure \ref{fig:decomposition_fol} is the following: in both disjoint union and higher order models we mined the patterns from smaller to larger in an iterative fashion. First, we set the pattern length, equal to the number of nodes, to 2, then computed graph coverage for the pattern. Based on the coverage we add the pattern as frequent and then compute isomorphic patterns in the template. For each isomorphic graph in the template we add a no-good clause. Once all frequent patterns of the length $n$ are mined, i.e., the solver cannot find any other non-isomorphic patterns of the length $n$, we increase the pattern length to $n+1$, remove all no-goods and repeat the process.
 
-The key difference between disjoint union and disjoint union models are in the coverage computation. In case of disjoint union model we make a single call to get a pattern such that it is frequent (i.e., matches at least the threshold amount of graphs) and in higher order model we make a single call to get a non-isomorphic candidate graph and then a separate call per graph to find if it is covered or not. If we found that a pattern covers more than a threshold amount of graphs, we stop computing the coverage and add the pattern as frequent.
+The key difference between the disjoint union model and the higher order simulation model are in the coverage computation. In case of disjoint union model we make a single call to get a pattern such that it is frequent (i.e., matches at least the threshold amount of graphs) and in higher order model we make a single call to get a non-isomorphic candidate graph and then a separate call per graph to find if it is covered or not. If we found that a pattern covers more than a threshold amount of graphs, we stop computing the coverage and add the pattern as frequent.
 
 Both models in the described computations follow the general schema used in the specialized algorithms such as gSpan \cite{gspan}. We have also obtained similar runtime patterns on other standard graph datasets described in \cite{ilp_graph_mining}.
