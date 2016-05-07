@@ -133,15 +133,15 @@ This pattern $\graph{P}$ must be \emph{homomorphic} with at least $N_{+}$ positi
 %              (4);
 %    \end{tikzpicture}, ...
 
-Take, for example, the problem set shown in Figure~\ref{fig:ex1}. We assume all nodes have the same label, and that all edges are bidirectional.
+Take, for example, the problem set shown in \textbf{Fig.}~\ref{fig:ex1}. We assume all nodes have the same label, and that all edges are bidirectional.
 The template graph guides the search.
-There is one positive example (Fig~\ref{fig:pos}), and one negative example (Fig~\ref{fig:neg}). 
-Figure \ref{fig:templ} shows the template graph.
-Figure \ref{fig:candidates} shows a valid and an invalid pattern. 
+There is one positive example (\textbf{Fig.}~\ref{fig:pos}), and one negative example (\textbf{Fig.}~\ref{fig:neg}). 
+\textbf{Fig.} \ref{fig:templ} shows the template graph.
+\textbf{Fig.} \ref{fig:candidates} shows a valid and an invalid pattern. 
 They are both connected subgraphs of the template.
-Requiring at least one homomorphism with a positive example, and allowing no homomorphisms with negative examples (i.e. problem parameters $N_{+}=1$ and $N_{-}=0$), Figure \ref{fig:correctcandidate} represents a valid pattern.
+Requiring at least one homomorphism with a positive example, and allowing no homomorphisms with negative examples (i.e. problem parameters $N_{+}=1$ and $N_{-}=0$), \textbf{Fig.} \ref{fig:correctcandidate} represents a valid pattern.
 It is clear that there exists a mapping from each node from the valid pattern to a node of the positive example, while no such mapping exists for the negative example.
-Looking at Figure \ref{fig:incorrectcandidate}, this graph is clearly homomorphic with both the positive as well as the negative example. Therefore, it is not a pattern.
+Looking at \textbf{Fig.} \ref{fig:incorrectcandidate}, this graph is clearly homomorphic with both the positive as well as the negative example. Therefore, it is not a pattern.
 
 \subsection{Canonical patterns}
 To extend on the graph mining task described above, we can look for multiple patterns, instead of just one.
@@ -204,8 +204,8 @@ If there exist graph isomorphisms between $\graph{G}$ and $\graph{G'}$ we say $\
   \caption{Possible patterns\label{fig:isomorphism}}
 \end{figure}
 
-Given the graph mining problem as specified in Figure~\ref{fig:ex1}, we have already established that Figure~\ref{fig:iso1} is a valid pattern.
-When we try to mine a second pattern, we might suggest a pattern as shown in Figure~\ref{fig:iso2}.
+Given the graph mining problem as specified in \textbf{Fig.} ~\ref{fig:ex1}, we have already established that \textbf{Fig.}~\ref{fig:iso1} is a valid pattern.
+When we try to mine a second pattern, we might suggest a pattern as shown in \textbf{Fig.}~\ref{fig:iso2}.
 A quick check, however, will show that there is a one-to-one mapping $f$ such that both $f$ as well as its inverse $f^{-1}$ preserve edges.
 As a result, both candidate patterns are isomorphic, and thus only one should be accepted as a valid pattern.
 %By Definition~\ref{def:canonicalForm} only one of these two patterns can be the canonical form, and therefore 

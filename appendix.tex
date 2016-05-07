@@ -2,7 +2,7 @@
 \appendix
 \section{Higher Order Simulation Description}
 \label{sec:hol_description}
-Key dataset characteristics for the experiments, visualized in Figures \ref{fig:decomposition_fol}, can be found in Table \ref{table:yoshida}.
+Key dataset characteristics for the experiments, visualized in \textbf{Fig.} \ref{fig:decomposition_fol}, can be found in \textbf{Table} \ref{table:yoshida}.
 \begin{table}[thb]
   \caption{Yoshida datasets parameters}
   \label{table:yoshida}
@@ -13,11 +13,25 @@ Key dataset characteristics for the experiments, visualized in Figures \ref{fig:
   \end{tabular}
 \end{table}
 
-The experimental setup visualized in Figure \ref{fig:decomposition_fol} is the following: in both disjoint union and higher order models we mined the patterns from smaller to larger in an iterative fashion. First, we set the pattern length, equal to the number of nodes, to 2, then computed graph coverage for the pattern. Based on the coverage we add the pattern as frequent and then compute isomorphic patterns in the template. For each isomorphic graph in the template we add a no-good clause. Once all frequent patterns of the length $n$ are mined, i.e., the solver cannot find any other non-isomorphic patterns of the length $n$, we increase the pattern length to $n+1$, remove all no-goods and repeat the process.
+The experimental setup visualized in \textbf{Fig.} \ref{fig:decomposition_fol} is the following: in both disjoint union and higher order models we mined the patterns from smaller to larger in an iterative fashion. First, we set the pattern length, equal to the number of nodes, to 2, then computed graph coverage for the pattern. Based on the coverage we add the pattern as frequent and then compute isomorphic patterns in the template. For each isomorphic graph in the template we add a no-good clause. Once all frequent patterns of the length $n$ are mined, i.e., the solver cannot find any other non-isomorphic patterns of the length $n$, we increase the pattern length to $n+1$, remove all no-goods and repeat the process.
 
 The key difference between the disjoint union model and the higher order simulation model are in the coverage computation. In case of disjoint union model we make a single call to get a pattern such that it is frequent (i.e., matches at least the threshold amount of graphs) and in higher order model we make a single call to get a non-isomorphic candidate graph and then a separate call per graph to find if it is covered or not. If we found that a pattern covers more than a threshold amount of graphs, we stop computing the coverage and add the pattern as frequent.
 
 Both models in the described computations follow the general schema used in the specialized algorithms such as gSpan \cite{gspan}. We have also obtained similar runtime patterns on other standard graph datasets described in \cite{ilp_graph_mining}.
+
+
+\section{IDP enumeration results}
+In this section, we present the experimental results on the general graph mining IDP encoding using theory splitting (that allows incorporating positive, negative examples and other higher order checks in a uniform fashion). We have applied this encoding to Yoshida dataset on positive examples and used the isomorphism check as a negative theory. The results summarized in \textbf{Table} \ref{table:idp:averaged_results}. The results are consistent with the results in \textbf{Fig.} \ref{fig:decomposition_fol} of the more specialized encoding (that uses imperative code around the IDP/ASP calls) based on gSpan schema \cite{gspan}.
+
+\begin{table}[h]
+  \centering
+  \setlength{\tabcolsep}{2pt}  
+  \begin{tabular}{lccccccccccccccc}  Index  &   1 &   2 & 3 &   4 &   5    & 6   & 7   & 8   & 9   & 10  & 11  & 12  & 13 & 14 & 15\\ \hline 
+ Runtime  & 148 & 164 & 173 & 199 &   285  & 364 & 401 & 445 & 490 & 533 & 548 & 585 & 591 & 687 & 802
+  \end{tabular}
+  \caption{Averaged runtimes in seconds for IDP general graph mining encoding with the theory splitting on the Yoshida dataset.} 
+  \label{table:idp:averaged_results}
+\end{table}
 
 \section{Code}
 \label{app:Code}

@@ -11,7 +11,7 @@ We identify the desirable properties that from a KR perspective should hold for 
 The IDP language can express problems that consist of a set of symbols, called the vocabulary $V$, and a theory, called $T$, that uses symbols from this vocabulary.
 The symbols in the vocabulary can be propositions, but they can also represent predicates and functions.
 These last two types of symbols make the vocabulary, in general, a \emph{second order} object: it is an object that itself \emph{contains} not only propositional symbols, but also first order symbols.
-For example, vocabulary V in Listing \ref{lst:vocabularyExample} is a second order vocabulary as it contains the first order symbol \lstinline{Edge/2}.
+For example, vocabulary V in \textbf{Listing} \ref{lst:vocabularyExample} is a second order vocabulary as it contains the first order symbol \lstinline{Edge/2}.
 
 The theory $T$ is restricted to a \emph{first order} theory, extended with types, arithmetic, aggregates, and inductive definitions.
 An example of such a theory is given in \textbf{Listing} \ref{lst:vocabularyExample}.
@@ -19,7 +19,7 @@ It contains an inductive definition for \lstinline{Path/2}, and one constraint.
 
 Our inference of choice in the graph mining problem is model expansion; we search for an interpretation $I$ of symbols in the vocabulary $V$, called a \emph{model}, such that this interpretation $I$ satisfies the theory $T$.
 This corresponds to the implicit \emph{existential quantification} of all symbols in the vocabulary, both the propositional as well as the first order symbols.
-In the example of Listing~\ref{lst:vocabularyExample}, we expand the $S$ to the model $Result$ with 3 edges: One from the first node to itself, one from the first node to the second, and one from the second to the third.
+In the example of \textbf{Listing}~\ref{lst:vocabularyExample}, we expand the $S$ to the model $Result$ with 3 edges: One from the first node to itself, one from the first node to the second, and one from the second to the third.
 Path contains all corresponding paths between these three nodes.
 
 In conclusion, we say IDP can express model expansion for \emph{Existential Second Order} problems.
@@ -78,7 +78,7 @@ It retains the local coherence and independence of graph characteristics when it
 %GraphInst(E:Node$\times$Node,Lb
 \begin{center}
 \begin{minipage}{0.68\linewidth}
-\begin{lstlisting}[mathescape,caption=Higher order predicate modeling the set $\graphset{G}$ of Def~\ref{def:gm2}.,label=lst:HOPred]
+  \begin{lstlisting}[mathescape,caption=Higher order predicate modeling the set $\graphset{G}$ of \textbf{Def.}~\ref{def:gm2}.,label=lst:HOPred]
 GraphInst({1,2; 2,1},{1$\mapsto$a; 2$\mapsto$b},pos).
 GraphInst({1,3; 2,1},{1$\mapsto$c; 2$\mapsto$b; 3$\mapsto$a},neg).
 \end{lstlisting}
@@ -135,7 +135,7 @@ $\forall$ gid[GraphId] : $\forall$ n[Node] : $\exists$ n1,n2[Node] : E(gid, n, n
 \vspace{-2em}
 \paragraph{Issue 2}
 %Having solved\matthias{circumvented?} our first issue, 
-The homomorphic property can be expressed using a count aggregate, as shown in Listing~\ref{lst:QuantifyOutsideVocabulary}. 
+The homomorphic property can be expressed using a count aggregate, as shown in \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary}. 
 First we quantify over all example graphs $g$, or per \textbf{issue 1}, their identifiers, and subsequently express that there must exist a function $f$ that represents a homomorphism from our pattern graph $\graph{P}$ to $g$.
 %Next, we would like to express the homomorphic property.
 %This can be done using a count aggregate, as shown in Listing~\ref{lst:QuantifyOutsideVocabulary}.
@@ -201,7 +201,7 @@ Thus, even if there is a negative example $\graph{G}_{-}$ for which a homomorphi
 As our constraints are satisfied, we are led to believe that our pattern candidate is a valid pattern.
 
 \citep{conf/fsttcs/Immerman98} has shown that this is inherently linked to IDPs limit to Existential Second Order.
-Indeed, in order to check that our pattern \graph{P} is homomorphic with no more than $N_{-}$ negative graphs, we have to check that there are enough negative graphs for which no homomorphism exists, for example using a count aggregate as in Listing~\ref{lst:universalquant}.
+Indeed, in order to check that our pattern \graph{P} is homomorphic with no more than $N_{-}$ negative graphs, we have to check that there are enough negative graphs for which no homomorphism exists, for example using a count aggregate as in \textbf{Listing}~\ref{lst:universalquant}.
 By asserting a property for all candidate homomorphic functions $f$ of a certain graph $g$, the negative homomorphic constraint leads to universal quantification over a function variable.
 
 \vspace{-0.5em}
@@ -364,7 +364,7 @@ Note that it is possible to combine the negative theories $\theory^{-}$ and $\th
 
 \subsubsection{Inductive Definitions}
 One of the main features of the IDP language is the fact that it extends first order logic with \emph{inductive definitions}. These definitions, evaluated under the well-founded semantics, allow the derivation of negative knowledge that otherwise would be underivable.
-Take the path predicate defined in Listing~\ref{lst:vocabularyExample}.
+Take the path predicate defined in \textbf{Listing}~\ref{lst:vocabularyExample}.
 Models of this theory contain the transitive closure \lstinline|Path|/2 of \lstinline|Edge|/2.
 When the edge relation would be chosen such that two nodes $a$ and $b$ are part of two disconnected graphs, there is no model in which \lstinline|Path(a,b)| holds. Note that when the transitivity property is expressed as an FO constraint instead, there do exist models in which \lstinline|Path(a,b)| is true.
 
@@ -385,7 +385,7 @@ One of the main differences between ASP and IDP is the choice of semantics: ASP 
 Leveraging the minimality property of their models, ASP can prevent the invalid models of the example discussed in issue 3.
 The corresponding technique is called the \emph{saturation} technique~\citep{conf/rweb/EiterIK09} and can prevent the creation of two separate theories and writing of procedural code that IDP requires.
 
-When using this technique, ASP detects negative example graphs for which the f does not represent a homomorphism, and requires for these example graphs that $f$ must map every node of the pattern on every node of that example graph, dropping the injectivity constraint.
+When using this technique, ASP detects negative example graphs for which the $f$ does not represent a homomorphism, and requires for these example graphs that $f$ must map every node of the pattern on every node of that example graph, dropping the injectivity constraint.
 This way, $f$ becomes so large that it is impossible that it belongs to the minimal answer set unless there does not exist a homomorphism from the pattern to this (negative) example graph.
 Consequently, the minimality property will cause the solver to look for an $f$ that represents a homomorphism for as many example graphs (including negatives) as possible.
 The same technique can be applied to the isomorphism restriction, as well as other possible $\Sigma_{2}^{p}$ constraints such as subset minimality.
@@ -393,8 +393,8 @@ The same technique can be applied to the isomorphism restriction, as well as oth
 %accordingly enlarging the answer set by requiring that in these cases f must be the \emph{total} relation for this graph, the minimality property will cause the solver to look for $f$ that represent a homomorphism for as many example graphs (including negatives) as possible.
 
 
-While this technique succesfully prevents the need of a procedural loop and the rewriting of the negative homomorphic property and the isomorphism restriction, it is clear that this technique is not derived from a natural KR translation of the Graph Mining definition.
-Furthermore, as line~\ref{lstline:probspec} of Listing~\ref{lst:aspsaturation} (See \ref{app:Code}) shows, it is necessary to encode instance specific knowledge into the modeling.
+While this technique successfully prevents the need of a procedural loop and the rewriting of the negative homomorphic property and the isomorphism restriction, it is clear that this technique is not derived from a natural KR translation of the Graph Mining definition.
+Furthermore, as line~\ref{lstline:probspec} of \textbf{Listing}~\ref{lst:aspsaturation} (See \ref{app:Code}) shows, it is necessary to encode instance specific knowledge into the modeling.
 
 \subsection{ProB} \label{subsection:prob}
 The ProB System can handle mathematical specifications using higher order logic and set theory.
@@ -440,7 +440,7 @@ We want a specification that preserves the similarity of these constraints.
 \item We prefer a single specification over many multiple specifications. 
 Although specifications are preferably modular to make it easier to reuse them, ideally the specification would be solved within a single solver call, requiring no procedural code to tie them together.
 \end{enumerate}
-Table~\ref{tbl:conclusion} provides an overview of how the three systems (IDP, ASP and ProB) support the desirable properties, either natively (\checkmark) or using one of the discussed techniques.
+\textbf{Table}~\ref{tbl:conclusion} provides an overview of how the three systems (IDP, ASP and ProB) support the desirable properties, either natively (\checkmark) or using one of the discussed techniques.
 \begin{table}[h]
 \begin{center}
 \includegraphics[scale=0.75]{PropertyTable-crop.pdf}
