@@ -7,7 +7,7 @@ To compare the performance of higher order and first order systems, we compared 
 To this end, we used the positive examples of the Yoshida~\citep{yoshida_dataset} dataset for graph mining.
 First, we randomly picked an example to use as the template graph.
 Next, we mined a pattern from this template, using the threshold value $N_{+} = 13$ (5\% of the size of the example set).
-During the mining process, we tracked the time it takes to mine the $i=1..n$'th pattern.
+During the mining process, we tracked the time it takes to mine the $i=1..n$-th pattern.
 
 
 The ProB model from Subsection \ref{subsection:prob} comes closest to the higher order formulation (as demonstrated in \textbf{Table} \ref{tbl:conclusion}), however, the solver support is not yet sufficient to execute the higher order graph mining model, i.e., currently we have not found an effective way to mine patterns using a higher order B model. The key issue is in reifying the higher order existential quantifier inside the set comprehension. A possible future solution would be to provide a Prolog implementation for the homomorphism predicate (e.g., as a ProB external function). For IDP, the results can be found in \textbf{Table} \ref{table:idp:averaged_results}.
@@ -40,7 +40,7 @@ We expect that expressing the problems in a higher order fashion will allow dete
  \caption{\footnotesize{ASP: the disjoint model exhibits fluctuation around 30s with a slow runtime growth, while the simulation stays flat. The gap is two orders of magnitude.}}
   \label{fig:decomposition_asp}
 \end{subfigure}
-\caption{\footnotesize{Frequent graph enumeration problem (5\% threshold) on Yoshida dataset for IDP (a) and ASP (b), comparing disjoint union (in red) and higher order simulations (in blue). Further details can be found in \ref{sec:hol_description}.}}
+\caption{\footnotesize{Frequent graph enumeration problem (5\% threshold) on Yoshida dataset for IDP (a) and ASP (b), comparing disjoint union (in blue) and higher order simulations (in red). Further details can be found in \ref{sec:hol_description}.}}
 \label{fig:decomposition_fol}
 \end{figure}
 

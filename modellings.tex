@@ -136,7 +136,7 @@ $\forall$ gid[GraphId] : $\forall$ n[Node] : $\exists$ n1,n2[Node] : E(gid, n, n
 \paragraph{Issue 2}
 %Having solved\matthias{circumvented?} our first issue, 
 The homomorphic property can be expressed using a count aggregate, as shown in \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary}. 
-First we quantify over all example graphs $g$, or per \textbf{issue 1}, their identifiers, and subsequently express that there must exist a function $f$ that represents a homomorphism from our pattern graph $\graph{P}$ to $g$.
+First we quantify over all example graphs $g$, or per \textit{Issue 1}, their identifiers, and subsequently express that there must exist a function $f$ that represents a homomorphism from our pattern graph $\graph{P}$ to $g$.
 %Next, we would like to express the homomorphic property.
 %This can be done using a count aggregate, as shown in Listing~\ref{lst:QuantifyOutsideVocabulary}.
 %First we express the set of all example graphs to whom there exists a homomorphism from our pattern $\graph{P}$.
@@ -154,7 +154,7 @@ First we quantify over all example graphs $g$, or per \textbf{issue 1}, their id
 However, IDP restricts us to Existential Second Order, which forbids us of quantifying over first order entities such as the function $f$ from \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary} outside of the vocabulary.
 %However, working in IDP, the restriction to ESO forbids us to quantify over first order entities such as the functions f from \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary} outside of the vocabulary.
 Thus, we are required to promote the homomorphic mapping functions to a global property in the vocabulary, even though we are only interested in the existence of a mapping, and not in the concrete instance of the mapping itself.
-We prevent the same explosion of mapping functions as with the graph characteristics in Issue 1, by reusing the disjoint union technique proposed above. 
+We prevent the same explosion of mapping functions as with the graph characteristics in \textit{Issue 1}, by reusing the disjoint union technique proposed above. 
 Note that in this case, the disjoint union technique greatly resembles Skolemization. 
 We introduce a general function \verb|f| that represents all homomorphisms, and make its dependency on a specific example graph explicit using an additional argument:
 \verb|f(graphId, node):node|.
@@ -185,7 +185,7 @@ As an \NP\ (or $\Sigma^{p}_{1}$) solver, IDP cannot solve this problem directly.
 %Consider, for example the template, pattern candidate and positive and negative example graphs from \textbf{Fig.}~\ref{fig:ex2}, and assume all nodes have the same label.
 %With parameters $N_{+}=1$ and $N_{-}=0$, this pattern candidate is clearly an invalid pattern: It is homomorphic with both the positive and the negative example.
 %When one would use the most straightforward encoding of the negative homomorphic property, one would reuse our result from \textbf{Issue 2}, and state:
-The most straightforward encoding of the negative homomorphic property would reuse our result from \textbf{Issue 2}:
+The most straightforward encoding of the negative homomorphic property would reuse our result from \textit{Issue 2}:
 \begin{center}
 \begin{minipage}{0.61\linewidth}
 \begin{lstlisting}[mathescape]
@@ -382,7 +382,7 @@ This would allow us to, e.g., minimize or maximize over the number of nodes in t
 \subsection{ASP}
 \textbf{ASP}, a language family closely related to IDP, mostly encounters the same issues when modeling the graph mining problem.
 One of the main differences between ASP and IDP is the choice of semantics: ASP looks for the minimal answer set models, whereas IDP looks for well-founded models.
-Leveraging the minimality property of their models, ASP can prevent the invalid models of the example discussed in issue 3.
+Leveraging the minimality property of their models, ASP can prevent the invalid models of the example discussed in \textit{Issue 3}.
 The corresponding technique is called the \emph{saturation} technique~\citep{conf/rweb/EiterIK09} and can prevent the creation of two separate theories and writing of procedural code that IDP requires.
 
 When using this technique, ASP detects negative example graphs for which the $f$ does not represent a homomorphism, and requires for these example graphs that $f$ must map every node of the pattern on every node of that example graph, dropping the injectivity constraint.
@@ -404,7 +404,7 @@ As a result, ProB specifications can cover the polynomial hierarchy \textbf{PH}.
 Because of ProB's Higher Order support, we can treat graphs as the inherent higher order objects with structure $\triple{E,l,c}$ that they are.
 This allows us to quantify over a graph and easily access all its characteristic predicates and functions.
 
-ProB's support for higher order also makes it possible to quantify over the functions $f$ that represent homorphisms locally: there is no need to declare the function f globally, instead they are defined within the context of the set of homomorphic positive (negative) examples.
+ProB's support for higher order also makes it possible to quantify over the functions $f$ that represent homorphisms locally: there is no need to declare the function $f$ globally, instead they are defined within the context of the set of homomorphic positive (negative) examples.
 Here, the representation of these functions $f$ is direct, without graph identifier that corresponds to the disjoint union technique as proposed for IDP.
 Instead, the graph \graph{G} for which a homomorphic function is sought, is brought in scope by the quantifier of the set expression.
 

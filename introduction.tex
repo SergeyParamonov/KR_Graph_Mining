@@ -1,7 +1,7 @@
 % !TEX root = notes.tex
 \section{Introduction}
 Many real world problems exhibit a composite structure consisting of multiple smaller problems which can be combined in many different configurations.
-These types of problems lend themselves for a declarative approach as knowledge representations offers a transparent, natural and extendable model satisfying `The Principle of Elaboration Tolerance'~\citep{elaboration_tolerance}.
+These types of problems lend themselves for a declarative approach as knowledge representation offers a transparent, natural and extendable model satisfying `The Principle of Elaboration Tolerance'~\citep{elaboration_tolerance}.
 Declarative programming distinguishes itself by the ease with which declarative specifications can be adapted to variations in which subproblems are used, and in the way they are combined.
 
 Conversely, the smaller problems in these composite structures are often already NP or coNP complete.
@@ -42,10 +42,10 @@ the task of enumerating patterns which occur frequently in a dataset.
 A first class of \emph{pattern mining} is \emph{unstructured mining}, such as \emph{itemset mining}, where the pattern is a set of items without any additional structural relation between the different items. 
 Because it does not require any structure, the \emph{unstructured mining} task does not compose multiple smaller problems.
 Therefore the rise in computational complexity associated with problem composition does not occur and the problem is even of propositional nature.
-\citet{tias_original} and \citet{cp_sequence_mining} have demonstrated how these mining problems can successfully be modeled in a declarative way using CP techniques.
-Comparable efforts were made by \citet{rennes_asp_sequences} and \citet{asp_itemset}.
+\citet{tias_original} have demonstrated how these mining problems can successfully be modeled in a declarative way using CP techniques.
+Itemset mining modeling using ASP was studied in \citet{asp_itemset}.
 
-In recent years, focus has shifted from unstructured towards structured mining, such as graph or sequence mining.
+In recent years, focus has shifted from unstructured towards structured mining, such as graph or sequence mining \citet{cp_sequence_mining,rennes_asp_sequences}.
 Here, the items being mined exhibit additional structure, for example the edge relation in the case of graph mining, or the order of elements in a sequence.
 %Graph mining has many applications; it is for example often used as a preprocessing step for machine learning algorithms}~\citep{pattern_mining_classification.
 %\todo{This could easily be dropped, but for example Michael immediately asks the question 'where is graph mining used'}
