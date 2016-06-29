@@ -45,10 +45,10 @@ Theory T @\textbraceleft@
       ($\forall$ x, y : Edge2(x, y) $\implies$ $\exists$ fx, fy : Edge1(fx, fy) $\land$ x = F(fx) $\land$ y = F(fy)) $\wedge$
       ($\forall$ x : Label1(x) = Label2(F(x)))@\big)@.
  reachable(x, y, (Vertex, Edge, Label)) $\leftarrow$ Edge(x, y) $\lor$ Edge(y, x).
- reachable(x, y, (Vertex, Edge, Label)) $\leftarrow \exists$ z : reachable(x, z, (Edge, Label)) $\wedge$ reachable(z, y, (Edge, Label)).
+ reachable(x, y, (Vertex, Edge, Label)) $\leftarrow \exists$ z : reachable(x, z, (Vertex, Edge, Label)) $\wedge$ reachable(z, y, (Vertex, Edge, Label)).
  isPattern((Vertex, Edge, Label)) $\leftarrow$
-     @\big(@($\forall x$: Vertex(x) $\implies$ template.Vertex(x)) $\land$@\label{lstline:dot}@
-      ($\forall x,y$: Vertex(x) & Vertex(y) & template.vertex(x) & template.vertex(y) & template.Edge(x,y) $\implies$ Edge(x,y)) $\land$ 
+     @\big(@($\forall x$: Vertex(x) $\implies$ template.vertex(x)) $\land$@\label{lstline:dot}@
+      ($\forall x,y$: Vertex(x) & Vertex(y) & template.vertex(x) & template.vertex(y) & template.edge(x,y) $\implies$ Edge(x,y)) $\land$ 
       (@\#\textbraceleft@ Pos : positive(Pos) $\wedge$ homomorphism(P, Pos) @\textbraceright@ $\geq$ $N_{+}$) $\land$
       (@\#\textbraceleft@ Neg : negative(Neg) $\wedge$ homomorphism(P, Neg) @\textbraceright@ $\leq$ $N_{-}$) $\land$
       ($\forall$ x, y : reachable(x, y, P))@\big)@.

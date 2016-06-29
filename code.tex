@@ -10,7 +10,9 @@ Next, we mined a pattern from this template, using the threshold value $N_{+} = 
 During the mining process, we tracked the time it takes to mine the $i=1..n$-th pattern. The results are averaged over ten runs.
 
 
-The ProB model from Subsection \ref{subsection:prob} comes closest to the higher order formulation (as demonstrated in \textbf{Table} \ref{tbl:conclusion}), however, the solver support is not yet sufficient to execute the higher order graph mining model, i.e., currently we have not found an effective way to mine patterns using a higher order B model. The key issue is in reifying the higher order existential quantifier inside the set comprehension. A possible future solution would be to provide a Prolog implementation for the homomorphism predicate (e.g., as a ProB external function). For IDP, the results can be found in \textbf{Table} \ref{table:idp:averaged_results}.
+The ProB model from Subsection \ref{subsection:prob} comes closest to the higher order formulation (as demonstrated in \textbf{Table} \ref{tbl:conclusion}), however, the solver support is not yet sufficient to efficiently execute the higher order graph mining model, i.e., currently we have not found an effective way to mine patterns using a higher order B model. 
+The key issue is in reifying the higher order existential quantifier inside the set comprehension. A possible future solution would be to provide a Prolog implementation for the homomorphism predicate (e.g., as a ProB external function). From a KR point-of-view, we consider at the high order formulation of the graph mining problem as a challenge and goal for future solver techniques.
+For IDP, the results can be found in \textbf{Table} \ref{table:idp:averaged_results}.
 %The results shown in \textbf{Fig.}~\ref{fig:ProBIDPComp} are the times needed to mine the $i$'th pattern, averaged over 10 repeats of the described process.
 % \begin{figure}[thb]
 % \includegraphics[scale=0.14]{extra/idp_prob_comparison.pdf}
