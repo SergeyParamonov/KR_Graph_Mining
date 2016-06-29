@@ -4,12 +4,12 @@
 We start with a comprehensive formal definition of the graph mining problem.
 
 \begin{definition}
-A labeled graph \graph{G} is a triple $\triple{V,E,l}$ where $V$ is the finite set of vertices or nodes, $E$ is a binary predicate on $V$ that represents the set of edges and $l$ is a unary function from $V$ to a set of labels.
+A labeled graph \graph{G} is a triple $\triple{V,E,l}$ where $V$ is the finite set of vertices or nodes, $E$ is a binary predicate on $V$ that represents the set of (directed) edges and $l$ is a unary function from $V$ to a set of labels.
 \end{definition}
 
 
 \begin{definition}
-A graph $\graph{G} = \triple{V,E,l}$ is \emph{connected} iff for each pair of vertices $v$ and $v'$ in $V$, there exists an edge $\pair{v,v'} \in E$ or there exists a sequence $v, v_{1} \ldots v_{n}, v'$ such that there exist edges $\pair{v,v_{1}}$, $\pair{v_{i},v_{i+1}}$ and $\pair{v_{n},v'} \in E$.
+A graph $\graph{G} = \triple{V,E,l}$ is \emph{connected} iff for each pair of vertices $v$ and $v'$ in $V$, there exists an edge $\pair{v,v'} \in E$ or there exists a sequence $v, v_{1} \ldots v_{n}, v'$ such that there exist edges $\pair{v,v_{1}}$, $\pair{v_{i},v_{i+1}}$ and $\pair{v_{n},v'} \in E$, where $1 \leq i \leq n-1$.
 \end{definition}
 
 
@@ -26,9 +26,15 @@ If there exists a graph homomorphism from graph $\graph{G}$ to $\graph{G'}$ we s
 \label{def:GM1}
 Given a pair $\triple{\graphset{E}_{+},\graphset{E}_{-}}$ consisting of a set of \emph{positive} and \emph{negative} examples of \emph{labeled graphs} respectively, 
 and a graph $\graph{T}$ called the template,
-\emph{Graph mining} is the problem of finding a pattern $\graph{P}$ which is a \emph{connected labeled subgraph of $\graph{T}$}.
-This pattern $\graph{P}$ must be \emph{homomorphic} with at least $N_{+}$ positive, while being homomorphic with at most $N_{-}$ negative examples. We call these homomorphisms the positive (negative) homomorphisms, and the restriction on their number the positive (negative) homomorphic property, respectively.
+\emph{Graph mining} is the problem of finding a pattern $\graph{P}$ which is
+\begin{compactitem}
+\item a \emph{connected labeled subgraph of $\graph{T}$},
+\item \emph{homomorphic} with at least $N_{+}$ positive examples $\graph{E}_{+} \in \graphset{E}_{+}$, while being homomorphic with at most $N_{-}$ negative examples $\graph{E}_{-} \in \graphset{E}_{-}$. 
+\end{compactitem}
+%This pattern $\graph{P}$ must be \emph{homomorphic} with at least $N_{+}$ positive, while being homomorphic with at most $N_{-}$ negative examples. 
 \end{definition}
+We call these homomorphisms the positive (negative) homomorphisms, and the restriction on their number the positive (negative) homomorphic property, respectively.
+\todo{laat ik deze zin staan? }
 
 \tikzstyle{vertex} = [circle, fill=black, radius=1pt, inner sep=0pt, minimum size=3pt]
 
@@ -213,8 +219,8 @@ As a result, both candidate patterns are isomorphic, and thus only one should be
 
 \subsection{Rewording}
 %Given the mathematical definition of the graph mining problem above, w
-We want to study how this formal mathematical definition can be expressed in the logics underlying the IDP~\cite{WarrenBook/DeCatBBD16} and the ProB~\cite{LeuschelSchneider_ABZ14} system.
-First, we will reword the earlier definition~\textbf{Def.}~\ref{def:GM1} into an equivalent formal definition that uses logical sentences and language constructs available in general logics.
+We want to study how this formal mathematical definition can be expressed in the logics underlying the IDP~\citep{WarrenBook/DeCatBBD16} and the ProB~\citep{LeuschelSchneider_ABZ14} system.
+First, we will reword the earlier \textbf{Def.}~\ref{def:GM1} into an equivalent formal definition that uses logical sentences and language constructs available in general logics.
 In doing this, it becomes evident that the graph mining problem has fundamental underlying characteristics that result in a higher order definition and specification.
 
 %An attempt to model the Graph Mining problem in both IDP as well as ProB makes it clear
@@ -249,7 +255,7 @@ A set of \emph{canonical patterns} is a set $\graphset{P}$ of graphs $\graph{P}_
 \end{definition}
 
 %As evidenced from the definitions above, graphs are the main concept in the graph mining problem, and, when represented using a triple $\triple{E,l,c}$, graphs are inherent \emph{higher order objects}.
-Graphs are the main concept in the graph mining problem, and, when represented using a triple $\triple{E,l,c}$, graphs are inherent \emph{higher order objects}.
+Graphs are the main concept in the graph mining problem, and, when represented using a triple $\triple{E,l,c}$, graphs take the form of \emph{higher order objects}.
 A set of graphs
 %, such as the argument of the cardinality operator above or the set of example graphs $\graphset{G}$,
 is equivalent to a set of triples.

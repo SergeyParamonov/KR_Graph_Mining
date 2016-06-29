@@ -1,12 +1,13 @@
 % !TEX root = notes.tex
 \section{Introduction}
 Many real world problems exhibit a composite structure consisting of multiple smaller problems which can be combined in many different configurations.
-These types of problems lend themselves for a declarative approach as knowledge representation offers a transparent, natural and extendable model satisfying `The Principle of Elaboration Tolerance'~\citep{elaboration_tolerance}.
-Declarative programming distinguishes itself by the ease with which declarative specifications can be adapted to variations in which subproblems are used, and in the way they are combined.
+These types of problems lend themselves for a declarative approach as knowledge representation offers a transparent, natural and extendable model satisfying `The Principle of Elaboration Tolerance'~\citep{elaboration_tolerance}: 
+%new requirements or changed circumstances are easily taken into account.
+Declarative programming distinguish themselves by the ease with which declarative specifications are adapted to new requirements or changed circumstances, e.g. variations in which subproblems are used, and in the way they are combined.
 
 Conversely, the smaller problems in these composite structures are often already NP or coNP complete.
 Combining these already complex problems often raises the computational complexity of the composite problem, up to a level where it cannot be expressed using first order logic.
-These problems become inherently higher order logic: We study the \emph{Graph Mining} problem as an example problem featuring such a raise in complexity.
+These problems become higher order logic problems: We study the \emph{Graph Mining} problem as an example problem featuring such a raise in complexity.
 
 Specification languages with support for higher order logic exist, with different levels of support.
 On the one hand, meta-programming, as known from Logic Programming~\citep{abramson1989meta}, has inspired the introduction of higher-order atoms in DLVHex~\citep{conf/ijcai/EiterIST05}  and the higher-order syntax in HiLog~\citep{chen1993hilog}.
@@ -64,16 +65,20 @@ A declarative approach can express these variations with only minimal changes.
 
 In our case study of the graph mining problem, we start with from the mathematical model of graph mining, which is inherently higher order, and identify the following contributions:
 \begin{compactitem}
-\item We identify the higher order aspects of the graph mining problem and show how the problem can be modeled in IDP (which supports Existential Second Order and inductive definitions) in ASP ($\Sigma_{2}^{p}$), and in ProB (which supports higher order sets), proposing concrete modeling techniques such as the disjoint union technique. 
+\item We identify the higher order aspects of the graph mining problem and show how the problem can be modeled in IDP, ASP and ProB, proposing concrete modeling techniques.
+% (which supports Existential Second Order and inductive definitions)
+%in ASP ($\Sigma_{2}^{p}$), and in ProB (which supports higher order sets), proposing concrete modeling techniques such as the disjoint union technique. 
 We also identify a set of desirable properties for a declarative encoding of the graph mining problem.
-We compare how the different solutions perform, both with respect to the desirable properties as to computation time.
+%We compare how the different solutions perform, both with respect to the desirable properties as to computation time.
 %\item We propose higher order language constructs for IDP and ProB extensions which greatly improve the ease of expressing the graph mining and other higher order problems.
 %\item We indicate how to shift the burden of addressing the higher order aspects of the problem from modeler to the solver. 
-\item We propose an encoding that closely follows the mathematical model of graph mining, and satisfies all desirable properties of a graph mining model.
-We indicate how to shift the burden of addressing the higher order aspects of the problem using encoding techniques from modeler to the solver. 
-Concretely, solver support is needed to translate the proposed higher order language constructs from the previous item to first order using e.g the disjoint union modeling technique.
-We indicate how additional solver support can leverage these expressive constructs to work more efficient.
+\item 
+We propose a higher order encoding that closely follows the mathematical model of graph mining, and satisfies all desirable properties of a declarative graph mining model.
+%We indicate how to shift the burden of addressing the higher order aspects of the problem using encoding techniques from modeler to the solver. 
+%Concretely, solver support is needed to translate the proposed higher order language constructs from the previous item to first order using e.g the disjoint union modeling technique.
+We indicate how additional solver support can exploit the additional structure in this encoding to work more efficient.
+%these expressive constructs to work more efficient.
 \end{compactitem}
 The paper is structured as follows: Section \ref{sec:formalization} introduces graph mining formally, Section \ref{sec:modeling} discusses the how to model the problem in IDP, ASP and ProB, identifying a set of desirable properties.
 Then, Section~\ref{sec:performance} discusses the performance of these systems.
-Section \ref{sec:extension} discusses a faithful encoding of the graph mining problem in an enriched KR language, and its possible solver implementation. Section \ref{sec:conclusion} draws conclusions and outlines possible future research directions.
+Section \ref{sec:extension} discusses a faithful encoding of the graph mining problem in an KR language enriched with HO, and its possible solver implementation. Section \ref{sec:conclusion} draws conclusions and outlines possible future research directions.

@@ -145,13 +145,13 @@ First we quantify over all example graphs $g$, or per \textit{Issue 1}, their id
 %expressing the condition under which they are part of this set: i.e. that there must exist a function f that represents a homomorphism from our pattern graph $\graph{p}$ to $g$.
 %In principle, we could then proceed by counting the number of elements in this set.
 \begin{center}
-\begin{minipage}{0.64\linewidth}
+\begin{minipage}{0.69\linewidth}
 \begin{lstlisting}[mathescape, caption=Quantifying over functions outside the vocabulary, label=lst:QuantifyOutsideVocabulary]
 #{$g \mid g \in G \land \exists$ $f$ : $f$ is a homomorphism from $\graph{P}$ to $g$} $\geq$ N$_{+}$
 \end{lstlisting}
 \end{minipage}
 \end{center}
-However, IDP restricts us to Existential Second Order, which forbids us of quantifying over first order entities such as the function $f$ from \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary} outside of the vocabulary.
+However, IDP restricts us to Existential Second Order, which forbids us from quantifying over first order entities such as the function $f$ from \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary} outside of the vocabulary.
 %However, working in IDP, the restriction to ESO forbids us to quantify over first order entities such as the functions f from \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary} outside of the vocabulary.
 Thus, we are required to promote the homomorphic mapping functions to a global property in the vocabulary, even though we are only interested in the existence of a mapping, and not in the concrete instance of the mapping itself.
 We prevent the same explosion of mapping functions as with the graph characteristics in \textit{Issue 1}, by reusing the disjoint union technique proposed above. 
@@ -163,7 +163,7 @@ We introduce a general function \verb|f| that represents all homomorphisms, and 
 In Second Order Logic, this dependency would follow directly from the order of the separate quantifications.
 
 \begin{center}
-\begin{minipage}{0.62\linewidth}
+\begin{minipage}{0.66\linewidth}
 \begin{lstlisting}[mathescape, caption=Globalized existential functions, label=lst:GlobalizeExistentialQuantifications]
 #{$g \mid g \in G$ : $f(g)$ is a homomorphism from $\graph{P}$ to $g$} $\geq$ N$_{+}$
 \end{lstlisting}
@@ -187,9 +187,9 @@ As an \NP\ (or $\Sigma^{p}_{1}$) solver, IDP cannot solve this problem directly.
 %When one would use the most straightforward encoding of the negative homomorphic property, one would reuse our result from \textbf{Issue 2}, and state:
 The most straightforward encoding of the negative homomorphic property would reuse our result from \textit{Issue 2}:
 \begin{center}
-\begin{minipage}{0.61\linewidth}
+\begin{minipage}{0.65\linewidth}
 \begin{lstlisting}[mathescape]
-#{$g \mid g \in G$ : $f(g)$ is a homomorphism from $\graph{P}$ to $g$}$\leq$ N$_{-}$.
+#{$g \mid g \in G$ : $f(g)$ is a homomorphism from $\graph{P}$ to $g$}$\leq$ N$_{-}$
 \end{lstlisting}
 \end{minipage}
 \end{center}
@@ -206,7 +206,7 @@ By asserting a property for all candidate homomorphic functions $f$ of a certain
 
 \vspace{-0.5em}
 \begin{center}
-\begin{minipage}{0.62\linewidth}
+\begin{minipage}{0.67\linewidth}
 \begin{lstlisting}[mathescape, caption=Quantifying over functions outside the vocabulary, label=lst:universalquant]
 #{$g \mid g \in G \land \forall$ $f$ : $f$ is $\mathbf{not}$ a homomorphism from $\graph{P}$ to $g$}
 \end{lstlisting}
@@ -375,7 +375,7 @@ When the edge relation would be chosen such that two nodes $a$ and $b$ are part 
 One of the advantages of IDP is its underlying \emph{Knowledge Base} paradigm~\citep{WarrenBook/DeCatBBD16}.
 Essentially, this paradigm ensures that we can perform other inferences on the graph mining problem.
 One of these inferences is, for example, optimization.
-This would allow us to, e.g., minimize or maximize over the number of nodes in the pattern graph, or the number of nodes in the pattern with a certain label, \ldots, with only minimal changes to the specification.
+This would allow us to, e.g., minimize or maximize over the number of nodes in the pattern graph, or the number of nodes in the pattern with a certain label, with only minimal changes to the specification.
 
 \reversemarginpar
 
@@ -398,7 +398,7 @@ Furthermore, as line~\ref{lstline:probspec} of \textbf{Listing}~\ref{lst:aspsatu
 
 \subsection{ProB} \label{subsection:prob}
 The ProB System can handle mathematical specifications using higher order logic and set theory.
-As a result, ProB specifications can cover the polynomial hierarchy \textbf{PH}.
+As a result, ProB specifications can cover the polynomial hierarchy \textbf{PH}~\citep{DBLP:books/daglib/0095988}.
 
 \subsubsection{Higher Order}
 Because of ProB's Higher Order support, we can treat graphs as the inherent higher order objects with structure $\triple{E,l,c}$ that they are.
@@ -413,13 +413,13 @@ As a result, ProB can model the negative homomorphism property directly, without
 
 The same reasoning allows ProB to model the isomorphism restriction when looking for multiple patterns.
 \subsubsection{Inductive definitions}
-ProB does not support inductive definitions, but allows to express these constraints using either the B transitive closure primitive or by expressing the completion of the definition.
-However, these techniques tend to reduce the readability of the constraint, making it difficult to reason about the connectedness constraint and its derivatives.
+ProB does not support inductive definitions, but allows the expression these constraints using either the B transitive closure primitive or by expressing the completion of the definition.
+However, these techniques tend to reduce the readability of the constraint, making it difficult for modelers to reason about the connectedness constraint and its derivatives.
 Furthermore, these constraints incur a high performance loss.
 Recently, efforts have been made to integrate Kodkod, which provides a high-level interface to SAT-solvers~\citep{DBLP:conf/tacas/TorlakJ07}, into ProB~\citep{DBLP:conf/fm/PlaggeL12}, which allows offloading these constraints to a SAT-solver that is capable of solving this fast.
 
 
-\subsection{Conclusion}
+\subsection{comparative summary} %overview, comparative summary
 
 %From the definition of the graph mining problem and the issues with its encodings above, it is  possible to derive a set of \emph{desirable properties} that a good KR specification of the graph mining problem should satisfy.
 Using the graph mining problem as a case study, we derived a set of desirable properties that a good KR specification should satisfy.
