@@ -4,14 +4,15 @@
 %The declarative approach allows us to implement such a modification with only minimal effort.
 %\VerbatimInput{original_prob_files/PositiveAndNegative.mch}
 To compare the performance of higher order and first order systems, we compared the IDP system with the ProB system (which uses higher order).
-To this end, we used the positive examples of the Yoshida~\citep{yoshida_dataset} dataset for graph mining.
+To this end, we used the positive examples of the Yoshida~\citep{yoshida_dataset} dataset, which is derived from biochemics, for graph mining.
 First, we randomly picked an example to use as the template graph.
 Next, we mined a pattern from this template, using the threshold value $N_{+} = 13$ (5\% of the size of the example set).
 During the mining process, we tracked the time it takes to mine the $i=1..n$-th pattern. The results are averaged over ten runs.
 
 
-The ProB model from Subsection \ref{subsection:prob} comes closest to the higher order formulation (as demonstrated in \textbf{Table} \ref{tbl:conclusion}), however, the solver support is not yet sufficient to efficiently execute the higher order graph mining model, i.e., currently we have not found an effective way to mine patterns using a higher order B model. 
-The key issue is in reifying the higher order existential quantifier inside the set comprehension. A possible future solution would be to provide a Prolog implementation for the homomorphism predicate (e.g., as a ProB external function). From a KR point-of-view, we consider at the high order formulation of the graph mining problem as a challenge and goal for future solver techniques.
+The ProB model from Subsection \ref{subsection:prob} comes closest to the higher order formulation (as demonstrated in \textbf{Table} \ref{tbl:conclusion}), however, the solver support is not yet sufficient to efficiently execute the higher order graph mining model on larger datasets, i.e., currently we have not found an efficient way to mine patterns using a higher order B model. 
+Consequently, from a KR point-of-view, we consider the higher order formulation of the graph mining problem as setting a challenge and goal for future solver techniques.
+The key issue preventing an efficient higher order formulation lies in reifying the higher order existential quantifier inside the set comprehension. A possible future solution would be to provide a Prolog implementation for the homomorphism predicate (e.g., as a ProB external function).
 For IDP, the results can be found in \textbf{Table} \ref{table:idp:averaged_results}.
 %The results shown in \textbf{Fig.}~\ref{fig:ProBIDPComp} are the times needed to mine the $i$'th pattern, averaged over 10 repeats of the described process.
 % \begin{figure}[thb]
