@@ -43,7 +43,7 @@
 \usepackage{fancyvrb}
 
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
+%\newtheorem{definition}{Definition}[section]
 \newcommand{\triple}[1]{\ensuremath{\langle #1 \rangle}}
 \newcommand{\pair}[1]{\ensuremath{\left(#1\right)}}
 \newcommand{\graph}[1]{\ensuremath{\mathcal{#1}}}
@@ -72,7 +72,11 @@
   basicstyle=\scriptsize\ttfamily
 }
 
-\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+\lstset{basicstyle=\small\ttfamily,breaklines=true}
+\lstdefinestyle{small}{
+  basicstyle=\scriptsize\ttfamily,
+  breaklines=true
+}
 
 % redefine \VerbatimInput
 \RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}%

@@ -1,6 +1,6 @@
 \newpage
 \appendix
-\section{Higher Order Simulation Description}
+\section{Higher Order Logic Simulation Description}
 \label{sec:hol_description}
 Key dataset characteristics for the experiments, visualized in \textbf{Fig.} \ref{fig:decomposition_fol}, can be found in \textbf{Table} \ref{table:yoshida}.
 \begin{table}[thb]
@@ -13,15 +13,15 @@ Key dataset characteristics for the experiments, visualized in \textbf{Fig.} \re
   \end{tabular}
 \end{table}
 
-The experimental setup visualized in \textbf{Fig.} \ref{fig:decomposition_fol} is the following: in both disjoint union and higher order models we mined the patterns from smaller to larger in an iterative fashion. First, we set the pattern length, equal to the number of nodes, to two, then computed graph coverage for the pattern. Based on the coverage we add the pattern as frequent and then compute isomorphic patterns in the template. For each isomorphic graph in the template we add a no-good clause. Once all frequent patterns of the length $n$ are mined, i.e., the solver cannot find any other non-isomorphic patterns of the length $n$, we increase the pattern length to $n+1$, remove all no-goods and repeat the process.
+The experimental setup for the results visualized in \textbf{Fig.} \ref{fig:decomposition_fol} is the following: in both disjoint union and higher order models we mined the patterns from smaller to larger in an iterative fashion. First, we set the pattern length, equal to the number of nodes, to two, then computed graph coverage for the pattern. Based on the coverage we add the pattern as frequent and then compute isomorphic patterns in the template. For each isomorphic graph in the template we add a no-good clause. Once all frequent patterns of the length $n$ are mined, i.e., the solver cannot find any other non-isomorphic patterns of the length $n$, we increase the pattern length to $n+1$, remove all no-goods and repeat the process.
 
-The key difference between the disjoint union model and the higher order simulation model are in the coverage computation. In case of disjoint union model we make a single call to get a pattern such that it is frequent (i.e., matches at least the threshold amount of graphs) and in higher order model we make a single call to get a non-isomorphic candidate graph and then a separate call per graph to find if it is covered or not. If we found that a pattern covers more than a threshold amount of graphs, we stop computing the coverage and add the pattern as frequent.
+The key difference between the disjoint union model and the higher order simulation model is in the coverage computation. In case of disjoint union model we make a single call to get a pattern such that it is frequent (i.e., matches at least the threshold amount of graphs) and in the higher order model we make a single call to get a non-isomorphic candidate graph and then a separate call per graph to find if it is covered or not. If we found that a pattern covers more than a threshold amount of graphs, we stop computing the coverage and add the pattern as frequent.
 
-Both models in the described computations follow the general schema used in the specialized algorithms such as gSpan \cite{gspan}. We have also obtained similar runtime patterns on other standard graph datasets described in \cite{ilp_graph_mining}.
+Both models in the described computations follow the general schema used in the specialized algorithms such as gSpan \citep{gspan}. We have also obtained similar runtime patterns on other standard graph datasets described in \citep{ilp_graph_mining}.
 
 
 \section{IDP enumeration results}
-In this section, we present the experimental results on the general graph mining IDP encoding using theory splitting (that allows incorporating positive, negative examples and other higher order checks in a uniform fashion). We have applied this encoding to Yoshida dataset on positive examples and used the isomorphism check as a negative theory. The results summarized in \textbf{Table} \ref{table:idp:averaged_results}. The results are consistent with the results in \textbf{Fig.} \ref{fig:decomposition_fol} of the more specialized encoding (that uses imperative code around the IDP/ASP calls) based on gSpan schema \cite{gspan}.
+In this section, we present the experimental results on the general graph mining IDP encoding using theory splitting (that allows incorporating positive, negative examples and other higher order checks in a uniform fashion). We have applied this encoding to Yoshida dataset on positive examples and used the isomorphism check as a negative theory. The results summarized in \textbf{Table} \ref{table:idp:averaged_results}. The results are consistent with the results in \textbf{Fig.} \ref{fig:decomposition_fol} of the more specialized encoding (that uses imperative code around the IDP/ASP calls) based on gSpan schema \citep{gspan}.
 
 \begin{table}[h]
   \centering
@@ -36,7 +36,7 @@ In this section, we present the experimental results on the general graph mining
 \section{Code}
 \label{app:Code}
 This appendix provides the relevant code for the IDP, ASP and ProB systems.
-The full IDP code is available at\\ \url{https://dtai.cs.kuleuven.be/static/krr/files/experiments/lash16_IDP.zip} and at \\\url{https://github.com/SergeyParamonov/LGM},\\ while the ASP code is available at\\ \url{https://dtai.cs.kuleuven.be/static/krr/files/experiments/last16_ASP.zip}\\ and the ProB code at \\\url{https://dtai.cs.kuleuven.be/static/krr/files/experiments/lash16_ProB.zip}. 
+The full IDP code is available at\\ \url{https://dtai.cs.kuleuven.be/static/krr/files/experiments/aspocp16_IDP.zip} and at \\\url{https://github.com/SergeyParamonov/LGM},\\ while the ASP code is available at\\ \url{https://dtai.cs.kuleuven.be/static/krr/files/experiments/aspocp16_ASP.zip}\\ and the ProB code at \\\url{https://dtai.cs.kuleuven.be/static/krr/files/experiments/aspocp16_ProB.zip}. 
 \begin{lstlisting}[caption=IDP positive constraint, style=model, label=lst:IDPPos]
 vocabulary V{
   type node isa nat

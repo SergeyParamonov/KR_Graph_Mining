@@ -1,5 +1,4 @@
 % !TEX root = notes.tex
-\vspace{-10pt}
 \section{A faithful encoding}\label{sec:extension}
 %\matthias{Here we will list the things we miss in each language, and introduce possible ways of implementing them and ways to learn from eachother}
 %\matthias{How does ProB add HO, and what can we learn from them (and vice-versa)}
@@ -13,12 +12,13 @@
 %\subsubsection{Oracles}
 %\subsubsection{Benders decomposition}
 
-\subsection{Faithful encoding}
+%\subsection{Faithful encoding}
+\vspace{-0.5em}
 In \textbf{Listing}~\ref{lst:faithful}, we now propose a new encoding for a language combining higher order logic support with the readability of inductive definitions.
 This encoding is more faithful to the problem with respect to the definition given in \textbf{Def.}~\ref{def:gm2}.
 
-In the vocabulary, a second order type called \lstinline{graph}, parametrized by two first order types \lstinline{node} and {\lstset{breakatwhitespace} \lstinline{label},} is declared as a tuple of a unary predicate \lstinline{vertex}/1, a binary predicate \lstinline{edge}/2, and a function \lstinline|label|.
-Next, the higher order predicates (\lstinline|homomorphism|, \lstinline|reachable|, \lstinline|isPattern|, \lstinline|canonical_pattern|, \lstinline|positive|, and \lstinline|negative|) and function (\lstinline|template|) are declared.
+In the vocabulary, the second order type \lstinline{graph}, parametrized by two first order types \lstinline{node} and {\lstset{breakatwhitespace} \lstinline{label},} is declared as a tuple of a predicate \lstinline{vertex/1}, a predicate \lstinline{edge/2}, and a function \lstinline|label|.
+Next, we declare the higher order predicates (\lstinline|homomorphism|, \lstinline|reachable|, \lstinline|isPattern|, \lstinline|canonical_pattern|, \lstinline|positive|, and \lstinline|negative|) and function (\lstinline|template|).
 
 Within the theory, higher order predicates are defined using the concept of templates as described by \cite{DBLP:journals/tplp/DassevilleHJD15}. % is used to define the higher order predicates.
 The higher order arguments are decomposed using matching (e.g. line~\ref{lstline:matching}) or using dot notation (e.g. line~\ref{lstline:dot}).
@@ -26,15 +26,14 @@ Quantification over second order objects uses annotated quantifiers ($\exists_{S
 
 \begin{lstlisting}[mathescape,style=model,caption={Faithful encoding for the general graph mining problem},label=lst:faithful, numbers=left]
 Vocabulary V @\textbraceleft@
-    type node, type label
-    so-type graph(node, label) of (vertex(node), edge(node,node), label(node):label)
-    homomorphism(graph, graph), reachable(node,node, graph)
-    isPattern(graph), canonical_pattern(graph)
-    positive(graph), negative(graph), template:graph 
+   type node, type label
+   so-type graph(node, label) of (vertex(node), edge(node,node), label(node):label)
+   homomorphism(graph, graph), reachable(node,node, graph)
+   isPattern(graph), canonical_pattern(graph)
+   positive(graph), negative(graph), template:graph 
 @\textbraceright@ 
 Theory T @\textbraceleft@ 
- @\textbraceleft@
- homomorphism((V1, Edge1, Label1), (V2, Edge2, Label2)) $\leftarrow$@\label{lstline:matching}@
+ @\textbraceleft@homomorphism((V1, Edge1, Label1), (V2, Edge2, Label2)) $\leftarrow$@\label{lstline:matching}@
      @\big(@$\exists_{SO}$ F [V1:V2] : ($\forall$ x, y : x $\neq$ y $\implies$ F(x) $\neq$ F(y)) $\wedge$@\label{lstline:exists}@
       ($\forall$ x, y : Edge1(x, y) $\implies$ Edge2(F(x), F(y))) $\wedge$
       ($\forall$ x : Label1(x) = Label2(F(x)))@\big)@.
@@ -42,17 +41,16 @@ Theory T @\textbraceleft@
      @\big(@$\exists_{SO}$ F [V1:V2] : ($\forall$ y : y => $\exists$ x : F(x)=y) $\land$ 
       ($\forall$ x, y : x $\neq$ y $\implies$ F(x) $\neq$ F(y)) $\wedge$
       ($\forall$ x, y : Edge1(x, y) $\implies$ Edge2(F(x), F(y))) $\wedge$              
-      ($\forall$ x, y : Edge2(x, y) $\implies$ $\exists$ fx, fy : Edge1(fx, fy) $\land$ x = F(fx) $\land$ y = F(fy)) $\wedge$
-      ($\forall$ x : Label1(x) = Label2(F(x)))@\big)@.
+      ($\forall$ x, y : Edge2(x, y) $\implies$ $\exists$ fx, fy : Edge1(fx, fy) $\land$ x = F(fx) $\land$ y = F(fy))
+      $\wedge$ ($\forall$ x : Label1(x) = Label2(F(x)))@\big)@.
  reachable(x, y, (Vertex, Edge, Label)) $\leftarrow$ Edge(x, y) $\lor$ Edge(y, x).
  reachable(x, y, (Vertex, Edge, Label)) $\leftarrow \exists$ z : reachable(x, z, (Vertex, Edge, Label)) $\wedge$ reachable(z, y, (Vertex, Edge, Label)).
  isPattern((Vertex, Edge, Label)) $\leftarrow$
      @\big(@($\forall x$: Vertex(x) $\implies$ template.vertex(x)) $\land$@\label{lstline:dot}@
-      ($\forall x,y$: Vertex(x) & Vertex(y) & template.vertex(x) & template.vertex(y) & template.edge(x,y) $\implies$ Edge(x,y)) $\land$ 
+      ($\forall x,y$: Vertex(x) $\wedge$ Vertex(y) $\wedge$ template.vertex(x) $\wedge$ template.vertex(y) $\wedge$ template.edge(x,y) $\implies$ Edge(x,y)) $\land$ 
       (@\#\textbraceleft@ Pos : positive(Pos) $\wedge$ homomorphism(P, Pos) @\textbraceright@ $\geq$ $N_{+}$) $\land$
       (@\#\textbraceleft@ Neg : negative(Neg) $\wedge$ homomorphism(P, Neg) @\textbraceright@ $\leq$ $N_{-}$) $\land$
-      ($\forall$ x, y : reachable(x, y, P))@\big)@.
- @\textbraceright@
+      ($\forall$ x, y : reachable(x, y, P))@\big)@. @\textbraceright@
  $\forall$P : canonical_pattern(P) $\implies$ isPattern(P). 
  $\forall$P,P2 : canonical_pattern(P)$\wedge$canonical_pattern(P2)$\wedge$P$\neq$P2 $\implies$ $\neg$isomorph(P, P2).
 @\textbraceright@ 
@@ -61,40 +59,40 @@ Theory T @\textbraceleft@
 This encoding compactly specifies the graph mining problem, in a way that closely corresponds to its mathematical definition.
 To allow inferences on this theory, extended solver support is necessary.
 We now propose a way in which a solver can provide this additional support, and potentially even improve performance.
-
+\vspace{-1em}
 \subsubsection{Second order types}
 The solver can represent objects of any \lstinline|so-type| using the disjoint union technique, declaring a new first order type $id$ containing identifiers for the higher objects, e.g. \lstinline|graphId|.
 Using theory analysis, we determine whether the size of the second order type is bounded and if so, impose the same bound on the size of the type $id$.
-If no such bound can be detected, we treat $id$ as an infinite type, relying on lazy grounding to create new $id$ objects when necessary and subsequently instantiate the required rules for the new $id$ object.
+If no such bound can be detected, we treat $id$ as an infinite type, relying on lazy grounding to create new $id$ objects when necessary and to subsequently instantiate the required rules for the new $id$ object.
 %\todo{Matthias: Is it necessary to impose that different id's differ in some of their properties. (I don't think so). Would it help search (it might). It also makes comparing P=P2 easy.}
 
-Next, every occurrence of an object of type \lstinline|graph| is replaced by the correct identifier, and quantifications over this type are replaced by quantifications over the set of identifiers.
-
-Lastly, every time a component of an object is accessed (e.g. \lstinline|Edge(x, y)|) it is replaced by a global predicate or function representing this component (i.e. \lstinline|Edge(gid, x, y)|).
+Next, every occurrence of an object of type \lstinline|graph| is replaced by the correct identifier, and quantifications over this type are replaced by quantifications over the set of identifiers. Furthermore, every time a component of an object is accessed (e.g. \lstinline|Edge/2|) it is replaced by a global predicate
+%or function
+representing this component (i.e. \lstinline|Edge(gid, x, y)|).
 %\matthias{In the graph mining example of Listing~\ref{lst:faithful}, the second order type \lstinline|graph| is }
-
-
+\vspace{-1em}
 \subsubsection{Second order quantifications $\exists_{SO}$/$\forall_{SO}$}
 Second order quantifications such as $\exists_{SO}$ and $\forall_{SO}$ are supported using the concept of oracles as subsolvers.
 First, all second order universal quantifications $\forall_{SO} X : \phi$ are rewritten to existential quantification $\neg \exists_{SO} X : \neg \phi$.
 Suppose now that $\phi$ does not contain any further second order quantifications.
-Then the above formula is an existential second order formula, which can be solved by a new instance of the \NP-solver.
+Then the above formula is an existential second order formula, which can be solved by a new instance of the \NP solver.
 Recently, \cite{AAAIW1612603} have identified an interface by which any solver can be nested within another solver.
 %As \cite{AAAIW1612603} note, any solver that supports working with assumptions can be nested within another solver.
-Because our \NP-solver conforms to this interface, we can modify the \NP-solver such that it calls a new instance of itself as an \emph{oracle} to evaluate the truth of these formulas.
+Because our \NP solver conforms to this interface, we can modify the \NP solver such that it calls a new instance of itself as an \emph{oracle} to evaluate the truth of these formulas.
 The outer solver is called the \emph{top solver}, and the inner solver is called the \emph{subsolver} or \emph{oracle}.
 As it is possible to nest these solvers arbitrarily deep, we can now solve a formula of the form $\exists_{SO} X : \phi$, regardless of whether $\phi$ contains any more second order quantifications.
-Essentially, the \NP-solver becomes a \QBF-solver.
+Essentially, the \NP solver becomes a \QBF solver.
 
 To set up a nested solver for a formula $\exists_{SO} X : \phi$, we must set up a vocabulary $V$ and a theory $T$ over $V$ for this solver. 
 To this end, we first identify the variables $\Sigma$ used in $\phi$.
 These variables $\Sigma$, together with the variable X from the quantification itself, are collected in the new vocabulary $V$. 
 We call the free variables of $\phi$ the shared variables $\Sigma_s$.
-By using the formula $\phi$ as the theory $T$, we conclude the setup of the nested subsolver.
+We now use the formula $\phi$ as the theory $T$ for the subsolver.
+%, we conclude the setup of the nested subsolver.
 
-Whenever the solver needs to evaluate the truth of a second order quantification, the solver simply calls this oracle on vocabulary $V$ and theory $T$, providing it with a set of assumptions consisting of the values that the top solver assigns to the shared symbols $\Sigma_s$.
+Whenever the solver needs to evaluate the truth of a second order quantification, the solver simply calls this oracle on vocabulary $V$ and theory $T$, providing it with a set of assumptions consisting of the values that the top level solver assigns to the shared symbols $\Sigma_s$.
 Depending on whether the subsolver succeeds or fails to find a model, we update the current interpretation of the top solver with the model or learn a new clause, as detailed by~\cite{AAAIW1612603}.
-We expect this subsolver technique to allow detection of the independence of subproblems, thanks to the expressivity of higher order, and expect the performance of such a solver to close the gap with the performance of the decomposed technique detailed in Section~\ref{sec:performance}.
+We expect this subsolver technique to allow detection of the independence of subproblems, thanks to the expressivity of higher order logic, and expect the performance of such a solver to close the gap with the performance of the decomposition technique detailed in Section~\ref{sec:performance}.
 %\todo{Benders decomposition~\citep{Benders}}
 
 %\todo{Toevoegen van een voorbeeld}

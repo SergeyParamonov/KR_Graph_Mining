@@ -1,56 +1,79 @@
 % !TEX root = notes.tex
+\vspace{-1em}
 \section{Introduction}
 Many real world problems exhibit a composite structure consisting of multiple smaller problems which can be combined in many different configurations.
 These types of problems lend themselves for a declarative approach as knowledge representation offers a transparent, natural and extendable model satisfying `The Principle of Elaboration Tolerance'~\citep{elaboration_tolerance}: 
 %new requirements or changed circumstances are easily taken into account.
-Declarative programming distinguishes itself by the ease with which declarative specifications are adapted to new requirements or changed circumstances, e.g. variations in which subproblems are used, and in the way they are combined.
-
+%Declarative programming distinguishes itself by the ease with which 
+declarative specifications are 
+easily
+adapted to new requirements or changed circumstances, e.g. variations in which subproblems are used, and in the way they are combined.
 Conversely, the smaller problems in these composite structures are often already NP or coNP complete.
 Combining these already complex problems often raises the computational complexity of the composite problem, up to a level where it cannot be expressed using first order logic.
-These problems become higher order logic problems: We study the \emph{Graph Mining} problem as an example problem featuring such a raise in complexity.
+These problems become higher order logic problems: We study the \emph{Graph Mining} problem as an example featuring such a raise in complexity.
 
 Specification languages with support for higher order logic exist, with different levels of support.
 On the one hand, meta-programming, as known from Logic Programming~\citep{abramson1989meta}, has inspired the introduction of higher-order atoms in DLVHex~\citep{conf/ijcai/EiterIST05}  and the higher-order syntax in HiLog~\citep{chen1993hilog}.
 As in Prolog, predicate symbols can be either constants (first order case) or variables (second order case).
 In the case of predicate variable symbols, these variables range over predicate names, and not the predicate space itself, essentially combining second order syntax with first order semantics. 
-This is not enough to model the graph mining problem.
+This cannot model the graph mining problem.
 
+%On the other hand, ProB~\citep{journals/sttt/LeuschelB08}, as a representative of formal specification languages, extends predicate logic with set theory and offers higher order datastructures.
 On the other hand, formal specification languages such as Z \citep{Bowen:Z}, B \citep{Abrial:BBook}, Event-B~\citep{Abrial10} and TLA~\citep{books/aw/Lamport2002}
- extend predicate logic with set theory and offer
- higher order datastructures (sets, relations and functions).
-ProB~\citep{journals/sttt/LeuschelB08} is a constraint solver, animator and model checker for these languages,
- which is implemented in SICStus Prolog.%
-\footnote{
-Alloy~\citep{tosem/Jackson02} is a widely used language and tool,
-  restricted to first order structures, with the goal of enabling an effective translation to SAT problems.}
+ extend predicate logic with set theory and offer higher order datastructures. ProB~\citep{journals/sttt/LeuschelB08} is a constraint solver, animator and model checker for such languages, implemented in SICStus Prolog.
+%On the other hand, formal specification languages such as Z \citep{Bowen:Z}, B \citep{Abrial:BBook}, Event-B~\citep{Abrial10} and TLA~\citep{books/aw/Lamport2002}
+% extend predicate logic with set theory and offer
+% higher order datastructures (sets, relations and functions).
+%ProB~\citep{journals/sttt/LeuschelB08} is a constraint solver, animator and model checker for these languages,
+% which is implemented in SICStus Prolog.%
+%\footnote{
+%Alloy~\citep{tosem/Jackson02} is a widely used language and tool,
+%  restricted to first order structures, with the goal of enabling an effective translation to SAT problems.}
 %This level of support for higher-order logic is enough to model the graph mining problem.
-We can express the graph mining problem in these languages directly using higher order, 
-but in general these systems miss the flexibility to perform multiple different inferences such as model expansion and optimization without modifying the specification.
-Furthermore, while some of these systems can express inductive definitions using either its completion or using a built-in transitive closure operator, this comes with a significant loss of readability.
-Lastly, many of these systems are built directly on CP techniques and finite domain solvers, and consequently do not implement the recent revolutions in solving techniques such as CDCL.
+We can express the graph mining problem in ProB directly using higher order logic, 
+but in general such systems miss the flexibility to perform multiple different inferences such as model expansion and optimization without modifying the specification.
+Furthermore, ProB requires an encoding to express inductive definitions,
+%can express inductive definitions using either its completion or using a built-in transitive closure operator, this comes with a significant loss of readability.
+and as it is built on CP techniques and finite domain solvers, it does not benefit from the recent revolutions in solving techniques such as CDCL.
 
-For these reasons, we also look at specification languages that do not allow higher order syntax.
+Therefore, we also look at specification languages that do not allow higher order syntax.
 Examples of such languages are the IDP~\citep{WarrenBook/DeCatBBD16} and the ASP~\citep{conf/rweb/EiterIK09} language.
 For these languages, several techniques exist that allow the user to simulate higher order logic to model problems such as graph mining, potentially offering better performance than systems that allow higher order logic directly.
 
 %We study the \emph{Graph Mining} problem as an example problem of such a raise in complexity, and detail some of the techniques that can be used to handle this.
 %This includes the generalization of ad-hoc techniques as well as the combination of techniques from different logics.
 
+%Graph mining is a specific kind of \emph{frequent pattern mining}, 
+%%which is one of the ``super-problems'' in Data Mining.~\citep{?}
+%%In its basic form it is }
+%the task of enumerating patterns which occur frequently in a dataset.
+%A first class of \emph{pattern mining} is \emph{unstructured mining}, such as \emph{itemset mining}, where the pattern is a set of items without any additional structural relation between the different items. 
+%Because it does not require any structure, the \emph{unstructured mining} task does not compose multiple smaller problems.
+%Therefore the rise in computational complexity associated with problem composition does not occur and the problem is even of propositional nature.
+%\citet{tias_original} have demonstrated how these mining problems can successfully be modeled in a declarative way using CP techniques.
+%Itemset mining modeling using ASP was studied in \citet{asp_itemset}.
+
 Graph mining is a specific kind of \emph{frequent pattern mining}, 
 %which is one of the ``super-problems'' in Data Mining.~\citep{?}
 %In its basic form it is }
 the task of enumerating patterns which occur frequently in a dataset.
 A first class of \emph{pattern mining} is \emph{unstructured mining}, such as \emph{itemset mining}, where the pattern is a set of items without any additional structural relation between the different items. 
-Because it does not require any structure, the \emph{unstructured mining} task does not compose multiple smaller problems.
-Therefore the rise in computational complexity associated with problem composition does not occur and the problem is even of propositional nature.
-\citet{tias_original} have demonstrated how these mining problems can successfully be modeled in a declarative way using CP techniques.
-Itemset mining modeling using ASP was studied in \citet{asp_itemset}.
-
-In recent years, focus has shifted from unstructured towards structured mining, such as graph or sequence mining \citet{cp_sequence_mining,asp_sequence}.
-Here, the items being mined exhibit additional structure, for example the edge relation in the case of graph mining, or the order of elements in a sequence.
+%Because it does not require any structure, the \emph{unstructured mining} task does not compose multiple smaller problems.
+%Therefore the rise in computational complexity associated with problem composition does not occur and 
+This problem is of propositional nature:
+\citet{tias_original} modeled it using CP techniques, while \citet{asp_itemset} used ASP.
+Recently, focus has shifted from unstructured towards structured mining, such as graph or sequence mining \citet{cp_sequence_mining,asp_sequence}.
+Here, the items being mined exhibit additional structure, for example the edge relation in the case of graph mining.
+This introduces the\NP-coplete problem of graph homomorphism~\citep{Lev73},
+%, or the order of elements in a sequence.
 %Graph mining has many applications; it is for example often used as a preprocessing step for machine learning algorithms}~\citep{pattern_mining_classification.
 %\todo{This could easily be dropped, but for example Michael immediately asks the question 'where is graph mining used'}
-The additional structure required by the graph mining problem introduces subproblems within the graph mining problem: We need to specify when a graph occurs within other graphs, leading to the \NP-complete problem of graph homomorphism~\citep{Lev73}, and its many variations, which in imperative languages lead to many different algorithms~\citep{gspan,theta_subsumption}.
+%The additional structure
+%required by the graph mining problem
+%introduces subproblems:
+% within the graph mining problem: 
+%We need to specify when a graph occurs within other graphs, leading to the \NP-complete problem of graph homomorphism~\citep{Lev73}, 
+and its many variations, which in imperative languages lead to many different algorithms~\citep{gspan,theta_subsumption}.
 A declarative approach can express these variations with only minimal changes.
 %leading to the concept of homomorphism checks.
 %\Likewise, \matthias{(also due to the additional structure)}, we need to represent the objects in the graph mining problem in a way that makes it non-obvious to say whether two objects are identical, which gives rise to subgraph isomorphism detection.
@@ -76,7 +99,7 @@ We also identify a set of desirable properties for a declarative encoding of the
 We propose a higher order encoding that closely follows the mathematical model of graph mining, and satisfies all desirable properties of a declarative graph mining model.
 %We indicate how to shift the burden of addressing the higher order aspects of the problem using encoding techniques from modeler to the solver. 
 %Concretely, solver support is needed to translate the proposed higher order language constructs from the previous item to first order using e.g the disjoint union modeling technique.
-We indicate how additional solver support can exploit the additional structure in this encoding to work more efficient.
+We indicate how additional solver support can exploit the additional structure in this encoding to work more efficiently.
 %these expressive constructs to work more efficient.
 \end{compactitem}
 The paper is structured as follows: Section \ref{sec:formalization} introduces graph mining formally, Section \ref{sec:modeling} discusses the how to model the problem in IDP, ASP and ProB, identifying a set of desirable properties.

@@ -1,6 +1,6 @@
 % !TEX root = notes.tex
 \section{Modeling}\label{sec:modeling}
-In this section, we show how state-of-the-art KR systems without support for higher order, such as IDP and ASP, can model the graph mining problem and its higher order features using encoding techniques.
+In this section, we show how state-of-the-art KR systems without support for higher order logic, such as IDP and ASP, can model the graph mining problem and its higher order features using encoding techniques.
 We identify the desirable properties that from a KR perspective should hold for a good modeling of the graph mining problem and we evaluate how a modeling in ProB, as a KR language with support for higher order sets, satisfies these properties.
 %We conclude with a comparison of the performance of the three approaches. 
 
@@ -11,7 +11,7 @@ We identify the desirable properties that from a KR perspective should hold for 
 The IDP language can express problems that consist of a set of symbols, called the vocabulary $V$, and a theory, called $T$, that uses symbols from this vocabulary.
 The symbols in the vocabulary can be propositions, but they can also represent predicates and functions.
 These last two types of symbols make the vocabulary, in general, a \emph{second order} object: it is an object that itself \emph{contains} not only propositional symbols, but also first order symbols.
-For example, vocabulary V in \textbf{Listing} \ref{lst:vocabularyExample} is a second order vocabulary as it contains the first order symbol \lstinline{Edge/2}.
+For example, vocabulary $V$ in \textbf{Listing} \ref{lst:vocabularyExample} is a second order vocabulary as it contains the first order symbol \lstinline{Edge/2}.
 
 The theory $T$ is restricted to a \emph{first order} theory, extended with types, arithmetic, aggregates, and inductive definitions.
 An example of such a theory is given in \textbf{Listing} \ref{lst:vocabularyExample}.
@@ -19,10 +19,10 @@ It contains an inductive definition for \lstinline{Path/2}, and one constraint.
 
 Our inference of choice in the graph mining problem is model expansion; we search for an interpretation $I$ of symbols in the vocabulary $V$, called a \emph{model}, such that this interpretation $I$ satisfies the theory $T$.
 This corresponds to the implicit \emph{existential quantification} of all symbols in the vocabulary, both the propositional as well as the first order symbols.
-In the example of \textbf{Listing}~\ref{lst:vocabularyExample}, we expand the $S$ to the model $Result$ with 3 edges: One from the first node to itself, one from the first node to the second, and one from the second to the third.
+In the example of \textbf{Listing}~\ref{lst:vocabularyExample}, we expand the given interpretation $S$ to the model $Result$ with 3 edges: One from the first node to itself, one from the first node to the second, and one from the second to the third.
 Path contains all corresponding paths between these three nodes.
 
-In conclusion, we say IDP can express model expansion for \emph{Existential Second Order} problems.
+In conclusion, we say the IDP language can express model expansion for \emph{Existential Second Order} problems.
 This level of expressiveness is not sufficient for general graph mining problems.
 %We will discuss the several issues in the remainder of this section.
 
@@ -51,13 +51,15 @@ structure Result : V{
 %problems in which there is an existentially quantified, generally second order, vocabulary of symbols and a first order theory with symbols from that vocabulary.
 \paragraph{Issue 1}
 First, we must represent the set of example graphs, as specified in \textbf{Def.}~\ref{def:gm2}. 
-This definition uses a higher order predicate(See \textbf{Listing}~\ref{lst:HOPred}) \lstinline{GraphInst/3} with as first argument the edge predicate and as second argument the label function. For the first graph, \lstinline|{1,2; 2,1}| and \lstinline[mathescape]|{1$\mapsto$ a; 2$\mapsto$ b}| respectively.
-It represents a single graph as a tuple of predicates and functions, visualized in \textbf{Fig.}~\ref{fig:LocalCoherence} as the solid shape.
-It is clear that this representation is highly locally coherent, and preserves the independence of graph characteristics.
+This definition uses a higher order predicate \lstinline{GraphInst/3} (See \textbf{Listing}~\ref{lst:HOPred}) with the edge predicate as first argument and the labeling function as second argument. For the first graph, \lstinline|{1,2; 2,1}| and \lstinline[mathescape]|{1$\mapsto$ a; 2$\mapsto$ b}| respectively.
+It represents a single graph as a tuple of predicates and functions, which is a highly locally coherent representation, preserving the independence of graph characteristics.
+%, visualized in \textbf{Fig.}~\ref{fig:LocalCoherence} as the solid shape.
+%It is clear that this representation is highly locally coherent, and preserves the independence of graph characteristics.
 However, as we are restricted to \emph{Existential} Second Order, we cannot express this higher order predicate in IDP.
 
 One possible solution is to replicate for each graph the different characteristic predicates and functions, as shown
-in \textbf{Listing}~\ref{lst:multiglobal} and visualised as the dashed shapes in \textbf{Fig.}~\ref{fig:LocalCoherence}.
+in \textbf{Listing}~\ref{lst:multiglobal}.
+% and visualised as the dashed shapes in \textbf{Fig.}~\ref{fig:LocalCoherence}.
 In this encoding, every graph has its own edge predicate and label function. 
 Because there is now no relation between the different edge predicates and label functions, it is necessary to formulate our theory in terms of these different predicates and functions.
 Encoding a property such as ``In every graph, all nodes have at least two outgoing edges'' must be stated for each of the edge predicates explicitly:
@@ -74,19 +76,19 @@ $\forall$ n[Node] : $\exists$ n1,n2[Node] : E2(n, n1) $\land$ E2(n,n2) $\land$ n
 It is clear that this solution is undesirable due to the way it scales and the theory modifications needed with growing problem instances.
 It retains the local coherence and independence of graph characteristics when it comes to data representation, but prohibits the abstraction (generalization) of knowledge in the theory.
 % about these properties, as evidenced by our obligation to duplicate the theory for each graph.
-
-%GraphInst(E:Node$\times$Node,Lb
+\vspace{-1em}
 \begin{center}
-\begin{minipage}{0.68\linewidth}
-  \begin{lstlisting}[mathescape,caption=Higher order predicate modeling the set $\graphset{G}$ of \textbf{Def.}~\ref{def:gm2}.,label=lst:HOPred]
+\begin{minipage}{0.80\linewidth}
+  \begin{lstlisting}[style=small,mathescape,caption=Higher order predicate modeling the set $\graphset{G}$ of \textbf{Def.}~\ref{def:gm2}.,label=lst:HOPred]
 GraphInst({1,2; 2,1},{1$\mapsto$a; 2$\mapsto$b},pos).
 GraphInst({1,3; 2,1},{1$\mapsto$c; 2$\mapsto$b; 3$\mapsto$a},neg).
 \end{lstlisting}
 \end{minipage}
 \end{center}
+\vspace{-1em}
 
 \begin{minipage}[t]{0.45\linewidth}
-\begin{lstlisting}[mathescape,caption=Multiple individual global relations,label=lst:multiglobal]
+\begin{lstlisting}[style=small,mathescape,caption=Multiple individual global relations,label=lst:multiglobal]
 E1(1,2). lb1(1)=a.
 E1(2,1). lb1(2)=b.
 E2(1,3). lb2(1)=c.
@@ -98,7 +100,7 @@ E2(2,1). lb2(2)=b.
  ~
 \end{minipage}
 \begin{minipage}[t]{0.45\linewidth}
-\begin{lstlisting}[mathescape,caption=Disjoint union using indexed global relations,label=lst:indexedglobal]
+\begin{lstlisting}[style=small,mathescape,caption=Disjoint union using indexed global relations,label=lst:indexedglobal]
 E(g1,1,2). lb(g1,1)=a.
 E(g1,2,1). lb(g1,2)=b.
 E(g2,1,3). lb(g2,1)=c.
@@ -110,29 +112,33 @@ E(g2,2,1). lb(g2,2)=b.
 
 
 
-A more workable solution is to represent each characteristic property, such as the edge relation, by a single global relation for all graphs, as shown in \textbf{Listing}~\ref{lst:indexedglobal} and by the dotted shape in \textbf{Fig.}~\ref{fig:LocalCoherence}.
+A more workable solution is to represent each characteristic property, such as the edge relation, by a single global relation for all graphs, as shown in \textbf{Listing}~\ref{lst:indexedglobal}.
+% and by the dotted shape in \textbf{Fig.}~\ref{fig:LocalCoherence}.
 This relation behaves the way it should for a specific graph instance based on an additional argument serving as an identifier for the graph of interest.
 %This gives rise to a set $G$ of \emph{graph identifiers}, one for each example graph.
-This global relation now corresponds to the \emph{disjoint} or \emph{tagged union} of the graphs' relations, where the tags are drawn from a set $G$ consisting of graph identifiers.
+This global edge relation now corresponds to the \emph{disjoint} or \emph{tagged union} of the graphs' edge relations, where the tags are drawn from a set $G$ consisting of graph identifiers.
 It is clear that this representation forces us to give up the local coherence of graph characteristics that was present in \textbf{Def.}~\ref{def:gm2}.
 %Nu kunnen we kijken wat deze truuk doet met onze mogelijkheid om de abstraction van de theory uit te drukken. Normaal mwillen we dit zo schrijven. Hoewel we nu de generalisatie kunnen uitdrukken, verplicht de restrictie tot existentieel s..o ons om de homomorphic mapping functies te tot een globale property te promoveren, hoewel we feitelijk niet geinteresseerd zijn in de concrete mappings. om om te gaan met de afhankelijkheid van deze functies op de spec. vb grafen moeten we... die nu erg lijkt op skolemisation. theory
 %
 %Using this trick however, does not influence our ability to 
 However, generalizing over the different graphs, we can now encode the property stated above as:
 \begin{center}
-\begin{minipage}{0.95\linewidth}
-\begin{lstlisting}[mathescape]
+\begin{minipage}{1.02\linewidth}
+\vspace{-2em}
+\begin{lstlisting}[style=small,mathescape]
 $\forall$ gid[GraphId] : $\forall$ n[Node] : $\exists$ n1,n2[Node] : E(gid, n, n1) $\land$ E(gid, n,n2) $\land$ n1 $\neq$ n2.
 \end{lstlisting}
 \end{minipage}
+\vspace{-3em}
 \end{center}
-\vspace{-1em}
-\begin{figure}[h]
-\centering
-\includegraphics{CoherenceTable-crop.pdf}
-\caption{Local coherence\label{fig:LocalCoherence}}
-\end{figure}
-\vspace{-2em}
+%\vspace{-1em}
+%\begin{figure}[h]
+%\centering
+%\includegraphics{CoherenceTable-crop.pdf}
+%\caption{Local coherence\label{fig:LocalCoherence}}
+%\vspace{-2em}
+%\end{figure}
+
 \paragraph{Issue 2}
 %Having solved\matthias{circumvented?} our first issue, 
 The homomorphic property can be expressed using a count aggregate, as shown in \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary}. 
@@ -145,8 +151,8 @@ First we quantify over all example graphs $g$, or per \textit{Issue 1}, their id
 %expressing the condition under which they are part of this set: i.e. that there must exist a function f that represents a homomorphism from our pattern graph $\graph{p}$ to $g$.
 %In principle, we could then proceed by counting the number of elements in this set.
 \begin{center}
-\begin{minipage}{0.69\linewidth}
-\begin{lstlisting}[mathescape, caption=Quantifying over functions outside the vocabulary, label=lst:QuantifyOutsideVocabulary]
+\begin{minipage}{0.75\linewidth}
+\begin{lstlisting}[style=small,mathescape, caption=Quantifying over functions outside the vocabulary, label=lst:QuantifyOutsideVocabulary]
 #{$g \mid g \in G \land \exists$ $f$ : $f$ is a homomorphism from $\graph{P}$ to $g$} $\geq$ N$_{+}$
 \end{lstlisting}
 \end{minipage}
@@ -160,13 +166,15 @@ We introduce a general function \verb|f| that represents all homomorphisms, and 
 \verb|f(graphId, node):node|.
 %As it is impossible
 %We introduce a general function \verb|f| that represents the homomorphisms, and make its dependency on a specific goal graph explicit using an additional argument:
-In Second Order Logic, this dependency would follow directly from the order of the separate quantifications.
+In Second Order Logic, this dependency would follow directly from the syntactic order of the quantifications.
 
 \begin{center}
 \begin{minipage}{0.66\linewidth}
-\begin{lstlisting}[mathescape, caption=Globalized existential functions, label=lst:GlobalizeExistentialQuantifications]
+\vspace{-1em}
+\begin{lstlisting}[style=small,mathescape, caption=Globalized existential functions, label=lst:GlobalizeExistentialQuantifications]
 #{$g \mid g \in G$ : $f(g)$ is a homomorphism from $\graph{P}$ to $g$} $\geq$ N$_{+}$
 \end{lstlisting}
+\vspace{-1em}
 \end{minipage}
 \end{center}
 
@@ -185,12 +193,15 @@ As an \NP\ (or $\Sigma^{p}_{1}$) solver, IDP cannot solve this problem directly.
 %Consider, for example the template, pattern candidate and positive and negative example graphs from \textbf{Fig.}~\ref{fig:ex2}, and assume all nodes have the same label.
 %With parameters $N_{+}=1$ and $N_{-}=0$, this pattern candidate is clearly an invalid pattern: It is homomorphic with both the positive and the negative example.
 %When one would use the most straightforward encoding of the negative homomorphic property, one would reuse our result from \textbf{Issue 2}, and state:
-The most straightforward encoding of the negative homomorphic property would reuse our result from \textit{Issue 2}:
+The straightforward encoding of the negative homomorphic property reuses the result from \textit{Issue 2}:
 \begin{center}
 \begin{minipage}{0.65\linewidth}
-\begin{lstlisting}[mathescape]
+\vspace{-1em}
+\vspace{-1em}
+\begin{lstlisting}[style=small,mathescape]
 #{$g \mid g \in G$ : $f(g)$ is a homomorphism from $\graph{P}$ to $g$}$\leq$ N$_{-}$
 \end{lstlisting}
+\vspace{-1em}
 \end{minipage}
 \end{center}
 But now, our solver must choose a single global function $f$ which satisfies the constraints.
@@ -206,8 +217,8 @@ By asserting a property for all candidate homomorphic functions $f$ of a certain
 
 \vspace{-0.5em}
 \begin{center}
-\begin{minipage}{0.67\linewidth}
-\begin{lstlisting}[mathescape, caption=Quantifying over functions outside the vocabulary, label=lst:universalquant]
+\begin{minipage}{0.75\linewidth}
+\begin{lstlisting}[style=small,mathescape, caption=Quantifying over functions outside the vocabulary, label=lst:universalquant]
 #{$g \mid g \in G \land \forall$ $f$ : $f$ is $\mathbf{not}$ a homomorphism from $\graph{P}$ to $g$}
 \end{lstlisting}
 \end{minipage}
@@ -380,31 +391,33 @@ This would allow us to, e.g., minimize or maximize over the number of nodes in t
 \reversemarginpar
 
 \subsection{ASP}
-\textbf{ASP}, a language family closely related to IDP, mostly encounters the same issues when modeling the graph mining problem.
-One of the main differences between ASP and IDP is the choice of semantics: ASP looks for the minimal answer set models, whereas IDP looks for well-founded models.
-Leveraging the minimality property of their models, ASP can prevent the invalid models of the example discussed in \textit{Issue 3}.
+In \textbf{ASP}, a language family closely related to IDP, one would mostly encounter the same issues when modeling the graph mining problem.
+One of the main differences between ASP and IDP is the choice of semantics: ASP looks for the
+%minimal
+answer set models, whereas IDP looks for well-founded models.
+Leveraging the minimality property of answer sets, ASP can prevent the invalid models of the example discussed in \textit{Issue 3}.
 The corresponding technique is called the \emph{saturation} technique~\citep{conf/rweb/EiterIK09} and can prevent the creation of two separate theories and writing of procedural code that IDP requires.
 
 When using this technique, ASP detects negative example graphs for which the $f$ does not represent a homomorphism, and requires for these example graphs that $f$ must map every node of the pattern on every node of that example graph, dropping the injectivity constraint.
 This way, $f$ becomes so large that it is impossible that it belongs to the minimal answer set unless there does not exist a homomorphism from the pattern to this (negative) example graph.
 Consequently, the minimality property will cause the solver to look for an $f$ that represents a homomorphism for as many example graphs (including negatives) as possible.
-The same technique can be applied to the isomorphism restriction, as well as other possible $\Sigma_{2}^{p}$ constraints such as subset minimality.
+The same technique can be applied to the isomorphism restriction and other possible $\Sigma_{2}^{p}$ constraints such as subset minimality.
  %requiring that in this case f must be the total relation
 %accordingly enlarging the answer set by requiring that in these cases f must be the \emph{total} relation for this graph, the minimality property will cause the solver to look for $f$ that represent a homomorphism for as many example graphs (including negatives) as possible.
 
 
 While this technique successfully prevents the need of a procedural loop and the rewriting of the negative homomorphic property and the isomorphism restriction, it is clear that this technique is not derived from a natural KR translation of the Graph Mining definition.
-Furthermore, as line~\ref{lstline:probspec} of \textbf{Listing}~\ref{lst:aspsaturation} (See \ref{app:Code}) shows, it is necessary to encode instance specific knowledge into the modeling.
+Furthermore, as line~\ref{lstline:probspec} of \textbf{Listing}~\ref{lst:aspsaturation} (See \ref{app:Code}) shows, it is necessary to encode instance specific knowledge into the model.
 
 \subsection{ProB} \label{subsection:prob}
 The ProB System can handle mathematical specifications using higher order logic and set theory.
 As a result, ProB specifications can cover the polynomial hierarchy \textbf{PH}~\citep{DBLP:books/daglib/0095988}.
 
-\subsubsection{Higher Order}
-Because of ProB's Higher Order support, we can treat graphs as the inherent higher order objects with structure $\triple{E,l,c}$ that they are.
+\subsubsection{Higher Order Logic}
+Because of ProB's Higher Order logic support, we can treat graphs as the inherent higher order objects with structure $\triple{E,l,c}$ that represents them.
 This allows us to quantify over a graph and easily access all its characteristic predicates and functions.
 
-ProB's support for higher order also makes it possible to quantify over the functions $f$ that represent homorphisms locally: there is no need to declare the function $f$ globally, instead they are defined within the context of the set of homomorphic positive (negative) examples.
+ProB's higher order logic support also makes it possible to quantify over the functions $f$ that represent homorphisms locally: there is no need to declare the function $f$ globally, instead they are defined within the context of the set of homomorphic positive (negative) examples.
 Here, the representation of these functions $f$ is direct, without graph identifier that corresponds to the disjoint union technique as proposed for IDP.
 Instead, the graph \graph{G} for which a homomorphic function is sought, is brought in scope by the quantifier of the set expression.
 
@@ -416,7 +429,7 @@ The same reasoning allows ProB to model the isomorphism restriction when looking
 ProB does not support inductive definitions, but allows the expression these constraints using either the B transitive closure primitive or by expressing the completion of the definition.
 However, these techniques tend to reduce the readability of the constraint, making it difficult for modelers to reason about the connectedness constraint and its derivatives.
 Furthermore, these constraints incur a high performance loss.
-Recently, efforts have been made to integrate Kodkod, which provides a high-level interface to SAT-solvers~\citep{DBLP:conf/tacas/TorlakJ07}, into ProB~\citep{DBLP:conf/fm/PlaggeL12}, which allows offloading these constraints to a SAT-solver that is capable of solving this fast.
+Recently, efforts have been made to integrate Kodkod, which provides a high-level interface to SAT-solvers~\citep{DBLP:conf/tacas/TorlakJ07}, into ProB~\citep{DBLP:conf/fm/PlaggeL12}, which allows offloading these constraints to a SAT-solver that is capable of solving them fast.
 
 
 \subsection{Comparative Summary} %overview, comparative summary
@@ -426,7 +439,7 @@ Using the graph mining problem as a case study, we derived a set of desirable pr
 
 \begin{enumerate}[itemsep=0mm]
 \item Labeled graphs are the main concept in the mathematical definition of the graph mining problem. 
-Here, labeled graphs are seen as a mathematical object consisting of an edge relation and a labeling function, and should be higher order objects in the specification.
+Here, labeled graphs are seen as a mathematical object consisting of an edge relation and a labeling function, and should be treated as higher order objects in the specification.
 %A good KR language should allow to carry over this view on graphs as a single, locally coherent object to its specifications. 
 \item All example graphs are independent, so the search for a homomorphism between a pattern and a given example graph can be performed independently. 
 In essence we want to allow \emph{local} second order quantification.  %is independent from the others. 
@@ -436,8 +449,8 @@ We want a specification that preserves the similarity of these constraints.
 %This introduces great similarity between the two constraints: in a good KR language, the specification should exhibit great similarity in this aspect.
 \item We want to be able to find multiple, non-isomorphic, patterns.
 \item We want to express constraints such as connectedness of the different nodes in the pattern.
-\item We want to perform multiple inferences on the problem, with only minimal model changes.
-\item We prefer a single specification over many multiple specifications. 
+\item We want to perform multiple inferences on the problem, with only minimal changes to the model.
+\item We prefer a single specification over multiple specifications. 
 Although specifications are preferably modular to make it easier to reuse them, ideally the specification would be solved within a single solver call, requiring no procedural code to tie them together.
 \end{enumerate}
 \textbf{Table}~\ref{tbl:conclusion} provides an overview of how the three systems (IDP, ASP and ProB) support the desirable properties, either natively (\checkmark) or using one of the discussed techniques.
@@ -446,4 +459,5 @@ Although specifications are preferably modular to make it easier to reuse them, 
 \includegraphics[scale=0.75]{PropertyTable-crop.pdf}
 \end{center}
 \caption{Evaluation of the desirable properties in IDP / ASP / ProB\label{tbl:conclusion} for modeling the general graph mining problem based on its key components (matching, pattern enumeration, etc)}
+\vspace{-3em}
 \end{table}

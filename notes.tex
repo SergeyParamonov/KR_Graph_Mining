@@ -1,38 +1,40 @@
-\documentclass{new_tlp}
+\documentclass{llncs}
 
 \include{packages}
 
-\author[]{Matthias van der Hallen, Sergey Paramonov, Michael Leuschel, Gerda Janssens}
-\title{Knowledge Representation Analysis of\\ Graph Mining}
-\pdfinfo{
-/Knowledge Representation Analysis of Graph Mining
-/Author (Matthias van der Hallen, Sergey Paramonov, Michael Leuschel, Luc De Raedt, Marc Denecker, Gerda Janssens)
-/Keywords (Knowledge Representation)
-}
-
-
+\author{Matthias van der Hallen\dag
+\thanks{Matthias van der Hallen is supported by a Ph.D. fellowship from the Research Foundation - Flanders (FWO - Vlaanderen).\vspace{-3em}}
+, Sergey Paramonov\dag, Michael Leuschel\ddag, Gerda Janssens\dag}
+\title{Knowledge Representation Analysis of Graph Mining}
+\institute{\dag KU Leuven, \ddag Heinrich-Heine-Universit\"at D\"usseldorf}
 
 \begin{document}
 \maketitle
 \begin{abstract}
 %Many problems are inherently higher order due to their complex nature and composite structure.
-Many problems, especially those with a composite structure, can naturally be expressed in higher order. %, for example due to their composite nature.
-From a KR perspective modeling these problems in an intu\"itive way is a challenging task.
+Many problems, especially those with a composite structure, can naturally be expressed in higher order logic. %, for example due to their composite nature.
+From a KR perspective modeling these problems in an intuitive way is a challenging task.
 In this paper we study the graph mining problem as an example of a higher order problem. 
 In short, this problem asks us to find a graph that frequently occurs as a subgraph among a set of example graphs.
-We start from the problems mathematical definition which is clearly higher
-order to solve the graph mining problem in three state-of-the-art specification
-systems, IDP, ASP and ProB.
+We start from the problem's mathematical definition 
+%which is clearly higher order 
+to solve it
+%the graph mining problem 
+in three state-of-the-art specification systems.
+%, IDP, ASP and ProB.
 For IDP and ASP, which have no
-native support for higher order, we propose the use of encoding
+native support for higher order logic, we propose the use of encoding
 techniques such as the disjoint union technique and the saturation technique.
-The model in ProB, a formal specification language, benefits
+%The model in 
+ProB
+%, a formal specification language, 
+benefits
 from the higher order support for sets.
 We compare the performance of the three approaches to get an idea of
 the overhead of the higher order support.
 
-From a KR modeling perspective, we identify a number of desirable
-properties and discuss how the three approaches deal with them.
+%From a KR modeling perspective, we identify a number of desirable
+%properties and discuss how the three approaches deal with them.
 We propose higher-order language extensions for IDP-like
 specification languages
 and  discuss what kind of solver support is needed.
@@ -58,7 +60,7 @@ Native higher order shifts the burden of rewriting specifications using encoding
 %\input{relatedwork}
 \input{conclusion}
 
-{\footnotesize
+{\scriptsize
 \bibliography{references}}
 \bibliographystyle{abbrvnat}
 \setcitestyle{authoryear,open={(},close={)}}
