@@ -1,4 +1,5 @@
 % !TEX root = notes.tex
+%\vspace{-2.5em}
 \section{A faithful encoding}\label{sec:extension}
 %\matthias{Here we will list the things we miss in each language, and introduce possible ways of implementing them and ways to learn from eachother}
 %\matthias{How does ProB add HO, and what can we learn from them (and vice-versa)}
@@ -14,50 +15,52 @@
 
 %\subsection{Faithful encoding}
 \vspace{-0.5em}
-In \textbf{Listing}~\ref{lst:faithful}, we now propose a new encoding for a language combining higher order logic support with the readability of inductive definitions.
-This encoding is more faithful to the problem with respect to the definition given in \textbf{Def.}~\ref{def:gm2}.
-
+In \textbf{Listing}~\ref{lst:faithful}, we propose an ideal encoding for the graph mining problem, using features such as high order logic and inductive definitions.
+%This encoding is more faithful to the problem with respect to the definition given in \textbf{Def.}~\ref{def:gm2}.
 In the vocabulary, the second order type \lstinline{graph}, parametrized by two first order types \lstinline{node} and {\lstset{breakatwhitespace} \lstinline{label},} is declared as a tuple of a predicate \lstinline{vertex/1}, a predicate \lstinline{edge/2}, and a function \lstinline|label|.
 Next, we declare the higher order predicates (\lstinline|homomorphism|, \lstinline|reachable|, \lstinline|isPattern|, \lstinline|canonical_pattern|, \lstinline|positive|, and \lstinline|negative|) and function (\lstinline|template|).
 
-Within the theory, higher order predicates are defined using the concept of templates as described by \cite{DBLP:journals/tplp/DassevilleHJD15}. % is used to define the higher order predicates.
+In the theory, we define a number of the higher order predicates using the concept of templates, as described by \cite{DBLP:journals/tplp/DassevilleHJD15}. % is used to define the higher order predicates.
 The higher order arguments are decomposed using matching (e.g. line~\ref{lstline:matching}) or using dot notation (e.g. line~\ref{lstline:dot}).
 Quantification over second order objects uses annotated quantifiers ($\exists_{SO}$ and $\forall_{SO}$) and must be typed (any unary predicate represents a type), e.g. line~\ref{lstline:exists}.
 
+\newcommand{\funcsep}[0]{:}
 \begin{lstlisting}[mathescape,style=model,caption={Faithful encoding for the general graph mining problem},label=lst:faithful, numbers=left]
 Vocabulary V @\textbraceleft@
    type node, type label
-   so-type graph(node, label) of (vertex(node), edge(node,node), label(node):label)
+   so-type graph of (vertex(node), edge(node,node), label(node):label)
    homomorphism(graph, graph), reachable(node,node, graph)
    isPattern(graph), canonical_pattern(graph)
    positive(graph), negative(graph), template:graph 
 @\textbraceright@ 
 Theory T @\textbraceleft@ 
- @\textbraceleft@homomorphism((V1, Edge1, Label1), (V2, Edge2, Label2)) $\leftarrow$@\label{lstline:matching}@
-     @\big(@$\exists_{SO}$ F [V1:V2] : ($\forall$ x, y : x $\neq$ y $\implies$ F(x) $\neq$ F(y)) $\wedge$@\label{lstline:exists}@
-      ($\forall$ x, y : Edge1(x, y) $\implies$ Edge2(F(x), F(y))) $\wedge$
-      ($\forall$ x : Label1(x) = Label2(F(x)))@\big)@.
- isomorph((V1, Edge1, Label1),(V2, Edge2, Label2)) $\leftarrow$
-     @\big(@$\exists_{SO}$ F [V1:V2] : ($\forall$ y : y => $\exists$ x : F(x)=y) $\land$ 
-      ($\forall$ x, y : x $\neq$ y $\implies$ F(x) $\neq$ F(y)) $\wedge$
-      ($\forall$ x, y : Edge1(x, y) $\implies$ Edge2(F(x), F(y))) $\wedge$              
-      ($\forall$ x, y : Edge2(x, y) $\implies$ $\exists$ fx, fy : Edge1(fx, fy) $\land$ x = F(fx) $\land$ y = F(fy))
-      $\wedge$ ($\forall$ x : Label1(x) = Label2(F(x)))@\big)@.
- reachable(x, y, (Vertex, Edge, Label)) $\leftarrow$ Edge(x, y) $\lor$ Edge(y, x).
- reachable(x, y, (Vertex, Edge, Label)) $\leftarrow \exists$ z : reachable(x, z, (Vertex, Edge, Label)) $\wedge$ reachable(z, y, (Vertex, Edge, Label)).
- isPattern((Vertex, Edge, Label)) $\leftarrow$
-     @\big(@($\forall x$: Vertex(x) $\implies$ template.vertex(x)) $\land$@\label{lstline:dot}@
-      ($\forall x,y$: Vertex(x) $\wedge$ Vertex(y) $\wedge$ template.vertex(x) $\wedge$ template.vertex(y) $\wedge$ template.edge(x,y) $\implies$ Edge(x,y)) $\land$ 
-      (@\#\textbraceleft@ Pos : positive(Pos) $\wedge$ homomorphism(P, Pos) @\textbraceright@ $\geq$ $N_{+}$) $\land$
-      (@\#\textbraceleft@ Neg : negative(Neg) $\wedge$ homomorphism(P, Neg) @\textbraceright@ $\leq$ $N_{-}$) $\land$
-      ($\forall$ x, y : reachable(x, y, P))@\big)@. @\textbraceright@
+ @\textbraceleft@
+ homomorphism((V1, E1, L1), (V2, E2, L2)) $\leftarrow$@\label{lstline:matching}@
+     @\big(@$\exists_{SO}$ F [V1$\funcsep$V2]: ($\forall$ x, y [V1]: x $\neq$ y $\implies$ F(x) $\neq$ F(y)) $\wedge$@\label{lstline:exists}@
+      ($\forall$ x, y [V1]: E1(x, y) $\implies$ E2(F(x), F(y))) $\wedge$
+      ($\forall$ x [V1]: L1(x) = L2(F(x)))@\big)@.
+ isomorph((V1, E1, L1),(V2, E2, L2)) $\leftarrow$
+     @\big(@$\exists_{SO}$ F [V1$\funcsep$V2]: ($\forall$ y [V2]: $\exists$ x [V1]: F(x)=y) $\land$ 
+      ($\forall$ x,y [V1]: x $\neq$ y $\implies$ F(x) $\neq$ F(y)) $\wedge$
+      ($\forall$ x,y [V1]: E1(x, y) $\implies$ E2(F(x), F(y))) $\wedge$              
+      ($\forall$ x,y [V2]: E2(x, y) $\implies$ $\exists$ fx,fy [V1]: E1(fx, fy) $\land$ x = F(fx) $\land$ y = F(fy))$\wedge$ 
+      ($\forall$ x : L1(x) = L2(F(x)))@\big)@.
+ reachable(x, y, (V, E, L)) $\leftarrow$ E(x, y) $\lor$ E(y, x).
+ reachable(x, y, (V, E, L)) $\leftarrow \exists$ z [V]: reachable(x, z, (V, E, L)) $\wedge$ reachable(z, y, (V, E, L)).
+ isPattern((V, E, L)) $\leftarrow$
+     @\big(@($\forall$ x [V]: template.vertex(x)) $\land$@\label{lstline:dot}@
+      ($\forall$ x,y [V]: template.edge(x,y) $\implies$ Edge(x,y)) $\land$ 
+      (@\#\textbraceleft@ Pos : positive(Pos) $\wedge$ homomorphism((V,E,L), Pos) @\textbraceright@ $\geq$ $N_{+}$) $\land$
+      (@\#\textbraceleft@ Neg : negative(Neg) $\wedge$ homomorphism((V,E,L), Neg) @\textbraceright@ $\leq$ $N_{-}$) $\land$
+      ($\forall$ x, y : reachable(x, y, (V,E,L)))@\big)@. 
+ @\textbraceright@
  $\forall$P : canonical_pattern(P) $\implies$ isPattern(P). 
  $\forall$P,P2 : canonical_pattern(P)$\wedge$canonical_pattern(P2)$\wedge$P$\neq$P2 $\implies$ $\neg$isomorph(P, P2).
 @\textbraceright@ 
 \end{lstlisting}
 
-This encoding compactly specifies the graph mining problem, in a way that closely corresponds to its mathematical definition.
-To allow inferences on this theory, extended solver support is necessary.
+This encoding compactly specifies the graph mining problem, in a way that closely corresponds to its mathematical definition, providing several general graph properties as templates.
+To allow inferences on this theory, extended solver support is necessary to handle all higher order formulas.
 We now propose a way in which a solver can provide this additional support, and potentially even improve performance.
 \vspace{-1em}
 \subsubsection{Second order types}

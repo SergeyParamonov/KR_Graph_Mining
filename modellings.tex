@@ -1,6 +1,8 @@
 % !TEX root = notes.tex
 \section{Modeling}\label{sec:modeling}
-In this section, we show how state-of-the-art KR systems without support for higher order logic, such as IDP and ASP, can model the graph mining problem and its higher order features using encoding techniques.
+In this section, we investigate how state-of-the-art KR systems without support for higher order logic, such as IDP and ASP, can model the graph mining problem 
+%and its higher order features
+using encoding techniques.
 We identify the desirable properties that from a KR perspective should hold for a good modeling of the graph mining problem and we evaluate how a modeling in ProB, as a KR language with support for higher order sets, satisfies these properties.
 %We conclude with a comparison of the performance of the three approaches. 
 
@@ -8,22 +10,33 @@ We identify the desirable properties that from a KR perspective should hold for 
 %We assume some familiarity with the IDP system.
 %\cite{WarrenBook/DeCatBBD16} provide an extensive introduction for those who are not sufficiently familiar with the IDP system. %can be found in~\cite{}.
 \subsubsection{Existential Second Order}
-The IDP language can express problems that consist of a set of symbols, called the vocabulary $V$, and a theory, called $T$, that uses symbols from this vocabulary.
-The symbols in the vocabulary can be propositions, but they can also represent predicates and functions.
-These last two types of symbols make the vocabulary, in general, a \emph{second order} object: it is an object that itself \emph{contains} not only propositional symbols, but also first order symbols.
-For example, vocabulary $V$ in \textbf{Listing} \ref{lst:vocabularyExample} is a second order vocabulary as it contains the first order symbol \lstinline{Edge/2}.
+The IDP language allows problem specifications written in \emph{first order} (FO) theories $T$, extended with types, arithmetic, aggregates, and inductive definitions.
+\textbf{Listing}~\ref{lst:vocabularyExample} shows an example theory.
+\todo{scoped or quantified}
+The symbols in these theories can be scoped locally, or in the vocabulary $V$.
+Symbols scoped locally can only be propositional, whereas the vocabulary can contain first order symbols such as functions or predicates, making it a \emph{second order object}.
 
-The theory $T$ is restricted to a \emph{first order} theory, extended with types, arithmetic, aggregates, and inductive definitions.
-An example of such a theory is given in \textbf{Listing} \ref{lst:vocabularyExample}.
-It contains an inductive definition for \lstinline{Path/2}, and one constraint.
-
-Our inference of choice in the graph mining problem is model expansion; we search for an interpretation $I$ of symbols in the vocabulary $V$, called a \emph{model}, such that this interpretation $I$ satisfies the theory $T$.
-This corresponds to the implicit \emph{existential quantification} of all symbols in the vocabulary, both the propositional as well as the first order symbols.
-In the example of \textbf{Listing}~\ref{lst:vocabularyExample}, we expand the given interpretation $S$ to the model $Result$ with 3 edges: One from the first node to itself, one from the first node to the second, and one from the second to the third.
-Path contains all corresponding paths between these three nodes.
-
-In conclusion, we say the IDP language can express model expansion for \emph{Existential Second Order} problems.
-This level of expressiveness is not sufficient for general graph mining problems.
+In the graph mining problem, we are looking for an interpretatin $I$ of the symbols in vocabulary $V$ such that $I$ satisfies T, called a model.
+This corresponds to existential quantification of all (including FO) symbols in $V$.
+\textbf{Listing}~\ref{lst:vocabularyExample} shows an example of how IDP extends a given interpretation \lstinline{S} into a model \lstinline{Result}.
+Due to the existential quantification of symbols in $V$, and the lack of locally quantifiable FO symbols, IDP is limited to model expansion for \emph{existential second order} problems, which does not include graph mining.
+We now expand on the underlying shortcomings, and how to sidestep them.
+%The IDP language can express problems that consist of a set of symbols, called the vocabulary $V$, and a theory, called $T$, that uses symbols from this vocabulary.
+%The symbols in the vocabulary can be propositions, but they can also represent predicates and functions.
+%These last two types of symbols make the vocabulary, in general, a \emph{second order} object: it is an object that itself \emph{contains} not only propositional symbols, but also first order symbols.
+%For example, vocabulary $V$ in \textbf{Listing} \ref{lst:vocabularyExample} is a second order vocabulary as it contains the first order symbol \lstinline{Edge/2}.
+%
+%The theory $T$ is restricted to a \emph{first order} theory, extended with types, arithmetic, aggregates, and inductive definitions.
+%An example of such a theory is given in \textbf{Listing} \ref{lst:vocabularyExample}.
+%It contains an inductive definition for \lstinline{Path/2}, and one constraint.
+%
+%Our inference of choice in the graph mining problem is model expansion; we search for an interpretation $I$ of symbols in the vocabulary $V$, called a \emph{model}, such that this interpretation $I$ satisfies the theory $T$.
+%This corresponds to the implicit \emph{existential quantification} of all symbols in the vocabulary, both the propositional as well as the first order symbols.
+%In the example of \textbf{Listing}~\ref{lst:vocabularyExample}, we expand the given interpretation $S$ to the model $Result$ with 3 edges: One from the first node to itself, one from the first node to the second, and one from the second to the third.
+%Path contains all corresponding paths between these three nodes.
+%
+%In conclusion, we say the IDP language can express model expansion for \emph{Existential Second Order} problems.
+%This level of expressiveness is not sufficient for general graph mining problems.
 %We will discuss the several issues in the remainder of this section.
 
 
@@ -50,42 +63,47 @@ structure Result : V{
 
 %problems in which there is an existentially quantified, generally second order, vocabulary of symbols and a first order theory with symbols from that vocabulary.
 \paragraph{Issue 1}
-First, we must represent the set of example graphs, as specified in \textbf{Def.}~\ref{def:gm2}. 
-This definition uses a higher order predicate \lstinline{GraphInst/3} (See \textbf{Listing}~\ref{lst:HOPred}) with the edge predicate as first argument and the labeling function as second argument. For the first graph, \lstinline|{1,2; 2,1}| and \lstinline[mathescape]|{1$\mapsto$ a; 2$\mapsto$ b}| respectively.
-It represents a single graph as a tuple of predicates and functions, which is a highly locally coherent representation, preserving the independence of graph characteristics.
+First, we must represent the sets of example graphs, as specified in \textbf{Def.}~\ref{def:gm2}.
+One possible way is shown \textbf{Listing}~\ref{lst:HOPred}, which uses a higher order predicate \lstinline{PositiveGraph/3} with the node predicate, edge predicate and labeling function as arguments. 
+The first graph consists of nodes 1 (labeled a), 2 (labeled b) and is fully connected.
+%This definition uses a higher order predicate \lstinline{GraphInst/3} (See \textbf{Listing}~\ref{lst:HOPred}) with the edge predicate as first argument and the labeling function as second argument. For the first graph, \lstinline|{1,2; 2,1}| and \lstinline[mathescape]|{1$\mapsto$ a; 2$\mapsto$ b}| respectively.
+This highly locally coherent representation preserves a graph as an independent tuple of predicates and functions.
+However, our vocabulary $V$ cannot contain such a second-order symbol.
+%It represents a single graph as a tuple of predicates and functions, which is a highly locally coherent representation, preserving the independence of graph characteristics.
 %, visualized in \textbf{Fig.}~\ref{fig:LocalCoherence} as the solid shape.
 %It is clear that this representation is highly locally coherent, and preserves the independence of graph characteristics.
-However, as we are restricted to \emph{Existential} Second Order, we cannot express this higher order predicate in IDP.
+%However, as we are restricted to \emph{Existential} Second Order, we cannot express this higher order predicate in IDP.
 
-One possible solution is to replicate for each graph the different characteristic predicates and functions, as shown
-in \textbf{Listing}~\ref{lst:multiglobal}.
-% and visualised as the dashed shapes in \textbf{Fig.}~\ref{fig:LocalCoherence}.
-In this encoding, every graph has its own edge predicate and label function. 
-Because there is now no relation between the different edge predicates and label functions, it is necessary to formulate our theory in terms of these different predicates and functions.
-Encoding a property such as ``In every graph, all nodes have at least two outgoing edges'' must be stated for each of the edge predicates explicitly:
+One possible solution is to replicate for each graph the different characteristic predicates and functions, as shown in \textbf{Listing}~\ref{lst:multiglobal}.
+%Because now there is no relation between the different edge predicates and label functions, it is necessary to formulate our theory in terms of these different predicates and functions.
+Encoding a property such as ``In every graph, all nodes have at least two outgoing edges'' must be stated for every graph and its edge predicate explicitly, as no relation exists between the different edge predicates and label functions:
 %duplicate in our theory the constraints and properties (i.e. homomorphism) about these example graphs and their relations as well: we cannot generalize over the names of these edge relations and labeling functions.
+
+%\vspace{-0.5em}
+\begin{minipage}{\linewidth}
 \begin{center}
-\begin{tabular}{c}
-\begin{lstlisting}[mathescape]
+\begin{lstlisting}[style=small,mathescape]
 $\forall$ n[Node] : $\exists$ n1,n2[Node] : E1(n, n1) $\land$ E1(n,n2) $\land$ n1 $\neq$ n2.
 $\forall$ n[Node] : $\exists$ n1,n2[Node] : E2(n, n1) $\land$ E2(n,n2) $\land$ n1 $\neq$ n2.
 \end{lstlisting}
-\end{tabular}
 \end{center}
+\end{minipage}
+\noindent It is clear that this solution is undesirable due to the way it scales 
+%and the theory modifications needed
+with growing problem instances: it prohibits the abstraction (generalization) of knowledge in the theory.
 
-It is clear that this solution is undesirable due to the way it scales and the theory modifications needed with growing problem instances.
-It retains the local coherence and independence of graph characteristics when it comes to data representation, but prohibits the abstraction (generalization) of knowledge in the theory.
+%It retains the local coherence and independence of graph characteristics when it comes to data representation, but prohibits the abstraction (generalization) of knowledge in the theory.
 % about these properties, as evidenced by our obligation to duplicate the theory for each graph.
-\vspace{-1em}
+\begin{minipage}{\linewidth}
 \begin{center}
 \begin{minipage}{0.80\linewidth}
-  \begin{lstlisting}[style=small,mathescape,caption=Higher order predicate modeling the set $\graphset{G}$ of \textbf{Def.}~\ref{def:gm2}.,label=lst:HOPred]
-GraphInst({1,2; 2,1},{1$\mapsto$a; 2$\mapsto$b},pos).
-GraphInst({1,3; 2,1},{1$\mapsto$c; 2$\mapsto$b; 3$\mapsto$a},neg).
+  \begin{lstlisting}[style=small,mathescape,caption=Higher order predicate modeling the set $\graphset{G}_{+}$ of \textbf{Def.}~\ref{def:gm2}.,label=lst:HOPred]
+GraphInst({1,2}, {1,2; 2,1},{1$\mapsto$a; 2$\mapsto$b}).
+GraphInst({1,2,3}, {1,3; 2,1},{1$\mapsto$c; 2$\mapsto$b; 3$\mapsto$a}).
 \end{lstlisting}
 \end{minipage}
 \end{center}
-\vspace{-1em}
+\vspace{-2em}
 
 \begin{minipage}[t]{0.45\linewidth}
 \begin{lstlisting}[style=small,mathescape,caption=Multiple individual global relations,label=lst:multiglobal]
@@ -108,15 +126,13 @@ E(g2,2,1). lb(g2,2)=b.
            lb(g2,3)=a.
 \end{lstlisting}
 \end{minipage}
-
-
-
+\end{minipage}
 
 A more workable solution is to represent each characteristic property, such as the edge relation, by a single global relation for all graphs, as shown in \textbf{Listing}~\ref{lst:indexedglobal}.
 % and by the dotted shape in \textbf{Fig.}~\ref{fig:LocalCoherence}.
 This relation behaves the way it should for a specific graph instance based on an additional argument serving as an identifier for the graph of interest.
 %This gives rise to a set $G$ of \emph{graph identifiers}, one for each example graph.
-This global edge relation now corresponds to the \emph{disjoint} or \emph{tagged union} of the graphs' edge relations, where the tags are drawn from a set $G$ consisting of graph identifiers.
+This global edge relation now corresponds to the \emph{disjoint} or \emph{tagged union} of the graphs' edge relations, with tags drawn from a set \lstinline{G} of graph identifiers.
 It is clear that this representation forces us to give up the local coherence of graph characteristics that was present in \textbf{Def.}~\ref{def:gm2}.
 %Nu kunnen we kijken wat deze truuk doet met onze mogelijkheid om de abstraction van de theory uit te drukken. Normaal mwillen we dit zo schrijven. Hoewel we nu de generalisatie kunnen uitdrukken, verplicht de restrictie tot existentieel s..o ons om de homomorphic mapping functies te tot een globale property te promoveren, hoewel we feitelijk niet geinteresseerd zijn in de concrete mappings. om om te gaan met de afhankelijkheid van deze functies op de spec. vb grafen moeten we... die nu erg lijkt op skolemisation. theory
 %
@@ -126,7 +142,7 @@ However, generalizing over the different graphs, we can now encode the property 
 \begin{minipage}{1.02\linewidth}
 \vspace{-2em}
 \begin{lstlisting}[style=small,mathescape]
-$\forall$ gid[GraphId] : $\forall$ n[Node] : $\exists$ n1,n2[Node] : E(gid, n, n1) $\land$ E(gid, n,n2) $\land$ n1 $\neq$ n2.
+$\forall$ gid[G] : $\forall$ n[Node] : $\exists$ n1,n2[Node] : E(gid, n, n1) $\land$ E(gid, n,n2) $\land$ n1 $\neq$ n2.
 \end{lstlisting}
 \end{minipage}
 \vspace{-3em}
@@ -141,7 +157,7 @@ $\forall$ gid[GraphId] : $\forall$ n[Node] : $\exists$ n1,n2[Node] : E(gid, n, n
 
 \paragraph{Issue 2}
 %Having solved\matthias{circumvented?} our first issue, 
-The homomorphic property can be expressed using a count aggregate, as shown in \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary}. 
+The homomorphic property can be expressed using a count aggregate, as shown in \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary}.
 First we quantify over all example graphs $g$, or per \textit{Issue 1}, their identifiers, and subsequently express that there must exist a function $f$ that represents a homomorphism from our pattern graph $\graph{P}$ to $g$.
 %Next, we would like to express the homomorphic property.
 %This can be done using a count aggregate, as shown in Listing~\ref{lst:QuantifyOutsideVocabulary}.
@@ -152,70 +168,85 @@ First we quantify over all example graphs $g$, or per \textit{Issue 1}, their id
 %In principle, we could then proceed by counting the number of elements in this set.
 \begin{center}
 \begin{minipage}{0.75\linewidth}
+\vspace{-1em}
 \begin{lstlisting}[style=small,mathescape, caption=Quantifying over functions outside the vocabulary, label=lst:QuantifyOutsideVocabulary]
-#{$g \mid g \in G \land \exists$ $f$ : $f$ is a homomorphism from $\graph{P}$ to $g$} $\geq$ N$_{+}$
+#{g $\mid$ g $\in$ $\graphset{G}_{+}$ $\land \exists$ f : f is a homomorphism from $\graph{P}$ to g} $\geq$ N$_{+}$
 \end{lstlisting}
+\vspace{-0.75em}
 \end{minipage}
 \end{center}
-However, IDP restricts us to Existential Second Order, which forbids us from quantifying over first order entities such as the function $f$ from \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary} outside of the vocabulary.
+However, IDP forbids us from locally quantifying over first order symbols such as the function  \lstinline{f} from \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary}.
+%However, IDP restricts us to Existential Second Order, which forbids us from quantifying over first order entities such as the function $f$ from \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary} outside of the vocabulary.
 %However, working in IDP, the restriction to ESO forbids us to quantify over first order entities such as the functions f from \textbf{Listing}~\ref{lst:QuantifyOutsideVocabulary} outside of the vocabulary.
-Thus, we are required to promote the homomorphic mapping functions to a global property in the vocabulary, even though we are only interested in the existence of a mapping, and not in the concrete instance of the mapping itself.
-We prevent the same explosion of mapping functions as with the graph characteristics in \textit{Issue 1}, by reusing the disjoint union technique proposed above. 
-Note that in this case, the disjoint union technique greatly resembles Skolemization. 
-We introduce a general function \verb|f| that represents all homomorphisms, and make its dependency on a specific example graph explicit using an additional argument:
-\verb|f(graphId, node):node|.
+We must promote the homomorphic functions to a symbol in the vocabulary, even though we are only interested in the existence of a mapping, not its identity.
+Reusing the disjoint union technique proposed above, we can prevent having to introduce a homomorphic function for each example graph separately.
+%We prevent the same explosion of mapping functions as with the graph characteristics in \textit{Issue 1}, by reusing the disjoint union technique proposed above. 
+%Note that in this case, the disjoint union technique greatly resembles Skolemization. 
+Note, we introduce a function \verb|f| representing all homomorphisms, and explicate its dependency on a specific example graph using an additional argument \lstinline{gId}.
 %As it is impossible
 %We introduce a general function \verb|f| that represents the homomorphisms, and make its dependency on a specific goal graph explicit using an additional argument:
 In Second Order Logic, this dependency would follow directly from the syntactic order of the quantifications.
 
 \begin{center}
-\begin{minipage}{0.66\linewidth}
+\begin{minipage}{0.80\linewidth}
 \vspace{-1em}
 \begin{lstlisting}[style=small,mathescape, caption=Globalized existential functions, label=lst:GlobalizeExistentialQuantifications]
-#{$g \mid g \in G$ : $f(g)$ is a homomorphism from $\graph{P}$ to $g$} $\geq$ N$_{+}$
+#{gId $\mid$ gId $\in$ $\graphset{G}_{+}$ : f(gId) is a homomorphism from $\graph{P}$ to gId} $\geq$ N$_{+}$
 \end{lstlisting}
 \vspace{-1em}
 \end{minipage}
 \end{center}
-
-We can now use this \verb|f| anywhere we would use the regular homomorphic function for a specific graph by fixing the chosen example graph.
-We denote by $f(g)$ the function $f$ partially applied on argument $g$.
+While all example graphs have an \lstinline{edge}, \lstinline{label}, \ldots relation, not all example graphs have a homomorphic function.
+Therefore, \lstinline{f} is not defined for graph identifiers that correspond to such graphs, meaning \lstinline{f} has become a partial function.
+%We can now use this \verb|f| anywhere we would use the regular homomorphic function for a specific graph by fixing the chosen example graph.
+%We denote by $f(g)$ the function $f$ partially applied on argument $g$.
 %However, for some example graphs $\graph{G}$, there will not exist a homomorphic function from our pattern $\graph{P}$ to $\graph{G}$, i.e. for these graphs $\graph{G}$, no valid function $f$ exists.
-Because the disjoint union technique introduces a single function $f$ which is the union of all these smaller functions, function $f$ becomes partial: it is not defined for tuples where the first the argument is an identifier for a graph $\graph{G}$ for which no homomorphic function exists.
+%Because the disjoint union technique introduces a single function $f$ which is the union of all these smaller functions, function $f$ becomes partial: it is not defined for tuples where the first the argument is an identifier for a graph $\graph{G}$ for which no homomorphic function exists.
 
 
 %\todo{Of course, other (even uglier) schemes exist to encode this. Should we mention this?}
 
 
-\paragraph{Issue 3} The problem of deciding whether a homomorphism from one graph to another exists is \NP-complete.
-As a result, deciding that no homomorphism from one graph to another exists, which forms the basis for the negative homomorphic property, is \coNP.
+\paragraph{Issue 3} 
+%The problem of deciding whether a homomorphism from one graph to another exists is \NP-complete.
+%As a result, deciding that no homomorphism from one graph to another exists, which forms the basis for the negative homomorphic property, is \coNP.
+Deciding that no homomorphism from one graph to another exists, as necessary for the negative homomorphic property, is \coNP.
 As an \NP\ (or $\Sigma^{p}_{1}$) solver, IDP cannot solve this problem directly.
+One might be tempted to simply specify the negative homomorphic property simply as: 
+\lstinline[mathescape]|#{g $\mid$ g $\in$ $\graphset{G}_{-}$: f(g) is a homomorphism from $\graph{P}$ to g}$\leq$ N$_{-}$|.
 %Consider, for example the template, pattern candidate and positive and negative example graphs from \textbf{Fig.}~\ref{fig:ex2}, and assume all nodes have the same label.
 %With parameters $N_{+}=1$ and $N_{-}=0$, this pattern candidate is clearly an invalid pattern: It is homomorphic with both the positive and the negative example.
 %When one would use the most straightforward encoding of the negative homomorphic property, one would reuse our result from \textbf{Issue 2}, and state:
-The straightforward encoding of the negative homomorphic property reuses the result from \textit{Issue 2}:
-\begin{center}
-\begin{minipage}{0.65\linewidth}
-\vspace{-1em}
-\vspace{-1em}
-\begin{lstlisting}[style=small,mathescape]
-#{$g \mid g \in G$ : $f(g)$ is a homomorphism from $\graph{P}$ to $g$}$\leq$ N$_{-}$
-\end{lstlisting}
-\vspace{-1em}
-\end{minipage}
-\end{center}
-But now, our solver must choose a single global function $f$ which satisfies the constraints.
-It has no obligation to maximize the number of homomorphisms in $f$, only to satisfy the constraints.
-Thus, even if there is a negative example $\graph{G}_{-}$ for which a homomorphism exists, the solver can choose $f$ such that $f$ does not represent a homomorphism for this graph $\graph{G}_{-}$.
+%The straightforward encoding of the negative homomorphic property reuses the result from \textit{Issue 2}:
+%\begin{center}
+%\begin{minipage}{0.65\linewidth}
+%\vspace{-1em}
+%\vspace{-1em}
+%\begin{lstlisting}[style=small,mathescape]
+%#{$g \mid g \in G$ : $f(g)$ is a homomorphism from $\graph{P}$ to $g$}$\leq$ N$_{-}$
+%\end{lstlisting}
+%\vspace{-1em}
+%\end{minipage}
+%\end{center}
+
+However, the IDP solver has no obligation to maximize the number of homomorphisms it finds for \lstinline{f}, only to satisfy the constraints.
+Thus, it can choose \lstinline{f} such that it does not represent a homomorphism for a graph \lstinline[mathescape]{g $\in$ $\graphset{G}_{-}$}.
+As our constraints are satisfied, we are led to believe that our pattern candidate is a valid pattern.
+%Thus, even if there is a negative example $\graph{G}_{-}$ for which a homomorphism exists, the solver can choose $f$ such that $f$ does not represent a homomorphism for this graph $\graph{G}_{-}$.
+
+%But now, our solver must choose a single global function $f$ which satisfies the constraints.
+%It has no obligation to maximize the number of homomorphisms in $f$, only to satisfy the constraints.
+%Thus, even if there is a negative example $\graph{G}_{-}$ for which a homomorphism exists, the solver can choose $f$ such that $f$ does not represent a homomorphism for this graph $\graph{G}_{-}$.
 %An example of such a model is shown in Listing~\ref{lst:invalidf}: this function $f$ maps the pattern candidate's nodes $1, 2, 3$ to $a, b, c$ for the positive example, i.e. f is a homomorphism, but maps $1, 2, 3$ to $d, e,$ and $g$ for the negative example.
 %Now, even though it is possible to find a homomorphism between the pattern candidate and the negative example (by mapping $3$ to $f$ instead)
-As our constraints are satisfied, we are led to believe that our pattern candidate is a valid pattern.
+%As our constraints are satisfied, we are led to believe that our pattern candidate is a valid pattern.
 
 \citep{conf/fsttcs/Immerman98} has shown that this is inherently linked to IDPs limit to Existential Second Order.
-Indeed, in order to check that our pattern \graph{P} is homomorphic with no more than $N_{-}$ negative graphs, we have to check that there are enough negative graphs for which no homomorphism exists, for example using a count aggregate as in \textbf{Listing}~\ref{lst:universalquant}.
-By asserting a property for all candidate homomorphic functions $f$ of a certain graph $g$, the negative homomorphic constraint leads to universal quantification over a function variable.
+Indeed, checking that our pattern \graph{P} is homomorphic with no more than $N_{-}$ negative graphs is equivalent with checking that enough negative examples \lstinline{G} exist for which  no homomorphism exists (\textbf{Listing}~\ref{lst:universalquant}). This clearly leads to a universal quantification over a function variable, which IDP cannot express.
+%Indeed, in order to check that our pattern \graph{P} is homomorphic with no more than $N_{-}$ negative graphs, we have to check that there are enough negative graphs for which no homomorphism exists, for example using a count aggregate as in \textbf{Listing}~\ref{lst:universalquant}.
+%By asserting a property for all candidate homomorphic functions $f$ of a certain graph $g$, the negative homomorphic constraint leads to universal quantification over a function variable.
 
-\vspace{-0.5em}
+\vspace{-1.25em}
 \begin{center}
 \begin{minipage}{0.75\linewidth}
 \begin{lstlisting}[style=small,mathescape, caption=Quantifying over functions outside the vocabulary, label=lst:universalquant]
@@ -225,14 +256,15 @@ By asserting a property for all candidate homomorphic functions $f$ of a certain
 \end{center}
 \vspace{-0.5em}
 
-A way to solve a \coNP\ problem such as the negative homomorphism constraint using an \NP\ solver is by encoding the dual (i.e. negated) problem, and conclude that the problem is satisfied if no model exists for the dual problem.
+A way to work around this is by encoding the dual (i.e. negated) problem, and conclude that the problem is satisfied if and only if no model exists for the dual problem.
+%A way to solve a \coNP\ problem such as the negative homomorphism constraint using an \NP\ solver is by encoding the dual (i.e. negated) problem, and conclude that the problem is satisfied if no model exists for the dual problem.
 This can be checked using an \NP\ solver.
 However, this technique can only be implemented in IDP by writing two theories: 
 \begin{compactitem}
 \item one (positive) theory $\theory^{+}$ (see \ref{app:Code}), which expresses the positive homomorphic property and generates pattern candidates, and
 \item one negative theory $\theory^{-}$, which expresses the (dual of) negative homomorphic property and rejects pattern candidates that do not satisfy this constraint.
 \end{compactitem}
-In IDP, one must provide procedural (lua) code that ties these two theories and their inferences together by allowing the communication of pattern candidates between these two theories.
+In IDP, one must provide procedural code that ties these two theories and their inferences together, allowing pattern candidates to be communicated between them.
 
 It is not known whether the problem of graph isomorphism is polynomial time solvable,
 however it is sure to be no more complex than NP.
