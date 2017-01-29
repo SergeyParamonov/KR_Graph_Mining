@@ -427,8 +427,9 @@ In \textbf{ASP}, a language family closely related to IDP, one would mostly enco
 One of the main differences between ASP and IDP is the choice of semantics: ASP looks for the
 %minimal
 answer set models, whereas IDP looks for well-founded models.
-Leveraging the minimality property of answer sets, ASP can prevent the invalid models of the example discussed in \textit{Issue 3}.
-The corresponding technique is called the \emph{saturation} technique~\citep{conf/rweb/EiterIK09} and can prevent the creation of two separate theories and writing of procedural code that IDP requires.
+Leveraging the minimality property of answer sets, ASP can prevent the invalid models of the example discussed in \textit{Issue 3}, without creating two separate theories or writing procedural code.
+The corresponding technique is called the \emph{saturation} technique~\citep{conf/rweb/EiterIK09}.
+%and can prevent the creation of two separate theories and writing of procedural code that IDP requires.
 
 When using this technique, ASP detects negative example graphs for which the $f$ does not represent a homomorphism, and requires for these example graphs that $f$ must map every node of the pattern on every node of that example graph, dropping the injectivity constraint.
 This way, $f$ becomes so large that it is impossible that it belongs to the minimal answer set unless there does not exist a homomorphism from the pattern to this (negative) example graph.
@@ -455,8 +456,8 @@ Instead, the graph \graph{G} for which a homomorphic function is sought, is brou
 
 Because these are now quantified locally, the solver will find a homorphism if one exists, regardless of whether we are expressing the positive or negative homomorphism property.
 As a result, ProB can model the negative homomorphism property directly, without the need for a second theory and procedural tie-in code.
-
 The same reasoning allows ProB to model the isomorphism restriction when looking for multiple patterns.
+
 \subsubsection{Inductive definitions}
 ProB does not support inductive definitions, but allows the expression these constraints using either the B transitive closure primitive or by expressing the completion of the definition.
 However, these techniques tend to reduce the readability of the constraint, making it difficult for modelers to reason about the connectedness constraint and its derivatives.
