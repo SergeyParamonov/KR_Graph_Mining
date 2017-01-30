@@ -11,12 +11,12 @@ We identify the desirable properties that from a KR perspective should hold for 
 %\cite{WarrenBook/DeCatBBD16} provide an extensive introduction for those who are not sufficiently familiar with the IDP system. %can be found in~\cite{}.
 \subsubsection{Existential Second Order}
 The IDP language allows problem specifications written in \emph{first order} (FO) theories $T$, extended with types, arithmetic, aggregates, and inductive definitions.
-\textbf{Listing}~\ref{lst:vocabularyExample} shows an example theory.
+\textbf{Listing}~\ref{lst:vocabularyExample} shows an example.
 \todo{scoped or quantified}
-The symbols in these theories can be scoped locally, or in the vocabulary $V$.
-Symbols scoped locally can only be propositional, whereas the vocabulary can contain first order symbols such as functions or predicates, making it a \emph{second order object}.
+The symbols in these theories can be quantified locally, or quantified implicitly in the vocabulary $V$.
+Symbols quantified locally can only be propositional, whereas the vocabulary can contain first order symbols such as functions or predicates, making it a \emph{second order object}.
 
-In the graph mining problem, we are looking for an interpretatin $I$ of the symbols in vocabulary $V$ such that $I$ satisfies T, called a model.
+In the graph mining problem, we are looking for an interpretation $I$ of the symbols in vocabulary $V$ such that $I$ satisfies T, called a model.
 This corresponds to existential quantification of all (including FO) symbols in $V$.
 \textbf{Listing}~\ref{lst:vocabularyExample} shows an example of how IDP extends a given interpretation \lstinline{S} into a model \lstinline{Result}.
 Due to the existential quantification of symbols in $V$, and the lack of locally quantifiable FO symbols, IDP is limited to model expansion for \emph{existential second order} problems, which does not include graph mining.
@@ -98,8 +98,8 @@ with growing problem instances: it prohibits the abstraction (generalization) of
 \begin{center}
 \begin{minipage}{0.80\linewidth}
   \begin{lstlisting}[style=small,mathescape,caption=Higher order predicate modeling the set $\graphset{G}_{+}$ of \textbf{Def.}~\ref{def:gm2}.,label=lst:HOPred]
-GraphInst({1,2}, {1,2; 2,1},{1$\mapsto$a; 2$\mapsto$b}).
-GraphInst({1,2,3}, {1,3; 2,1},{1$\mapsto$c; 2$\mapsto$b; 3$\mapsto$a}).
+PositiveGraph({1,2}, {1,2; 2,1},{1$\mapsto$a; 2$\mapsto$b}).
+PositiveGraph({1,2,3}, {1,3; 2,1},{1$\mapsto$c; 2$\mapsto$b; 3$\mapsto$a}).
 \end{lstlisting}
 \end{minipage}
 \end{center}
@@ -250,7 +250,7 @@ Indeed, checking that our pattern \graph{P} is homomorphic with no more than $N_
 \begin{center}
 \begin{minipage}{0.75\linewidth}
 \begin{lstlisting}[style=small,mathescape, caption=Quantifying over functions outside the vocabulary, label=lst:universalquant]
-#{$g \mid g \in G \land \forall$ $f$ : $f$ is $\mathbf{not}$ a homomorphism from $\graph{P}$ to $g$}
+#{$g \mid g \in \graphset{G}_{-} \land \forall$ $f$ : $f$ is $\mathbf{not}$ a homomorphism from $\graph{P}$ to $g$}
 \end{lstlisting}
 \end{minipage}
 \end{center}
@@ -261,7 +261,7 @@ A way to work around this is by encoding the dual (i.e. negated) problem, and co
 This can be checked using an \NP\ solver.
 However, this technique can only be implemented in IDP by writing two theories: 
 \begin{compactitem}
-\item one (positive) theory $\theory^{+}$ (see \ref{app:Code}), which expresses the positive homomorphic property and generates pattern candidates, and
+\item one (positive) theory $\theory^{+}$ (see Appendix \ref{app:Code}), which expresses the positive homomorphic property and generates pattern candidates, and
 \item one negative theory $\theory^{-}$, which expresses the (dual of) negative homomorphic property and rejects pattern candidates that do not satisfy this constraint.
 \end{compactitem}
 In IDP, one must provide procedural code that ties these two theories and their inferences together, allowing pattern candidates to be communicated between them.
@@ -440,14 +440,15 @@ The same technique can be applied to the isomorphism restriction and other possi
 
 
 While this technique successfully prevents the need of a procedural loop and the rewriting of the negative homomorphic property and the isomorphism restriction, it is clear that this technique is not derived from a natural KR translation of the Graph Mining definition.
-Furthermore, as line~\ref{lstline:probspec} of \textbf{Listing}~\ref{lst:aspsaturation} (See \ref{app:Code}) shows, it is necessary to encode instance specific knowledge into the model.
+Furthermore, it is necessary to encode instance specific knowledge into the model.
+(See Appendix \ref{app:Code}, line~\ref{lstline:probspec} of \textbf{Listing}~\ref{lst:aspsaturation})
 
 \subsection{ProB} \label{subsection:prob}
 The ProB System can handle mathematical specifications using higher order logic and set theory.
 As a result, ProB specifications can cover the polynomial hierarchy \textbf{PH}~\citep{DBLP:books/daglib/0095988}.
 
 \subsubsection{Higher Order Logic}
-Because of ProB's Higher Order logic support, we can treat graphs as the inherent higher order objects with structure $\triple{E,l,c}$ that represents them.
+Because of ProB's Higher Order logic support, we can treat graphs as the inherent higher order objects with structure $\triple{V,E,l}$ that represents them.
 This allows us to quantify over a graph and easily access all its characteristic predicates and functions.
 
 ProB's higher order logic support also makes it possible to quantify over the functions $f$ that represent homorphisms locally: there is no need to declare the function $f$ globally, instead they are defined within the context of the set of homomorphic positive (negative) examples.
@@ -468,7 +469,7 @@ Recently, efforts have been made to integrate Kodkod, which provides a high-leve
 \subsection{Comparative Summary} %overview, comparative summary
 
 %From the definition of the graph mining problem and the issues with its encodings above, it is  possible to derive a set of \emph{desirable properties} that a good KR specification of the graph mining problem should satisfy.
-Using the graph mining problem as a case study, we derived a set of desirable properties that a good KR specification should satisfy.
+Using the graph mining problem as a case study, we derived a set of desirable properties that a good KR specification should satisfy. \textbf{Table}~\ref{tbl:conclusion} provides an overview of how the three systems (IDP, ASP and ProB) support the desirable properties, either natively (\checkmark) or using one of the discussed techniques.
 
 \begin{enumerate}[itemsep=0mm]
 \item Labeled graphs are the main concept in the mathematical definition of the graph mining problem. 
@@ -486,7 +487,6 @@ We want a specification that preserves the similarity of these constraints.
 \item We prefer a single specification over multiple specifications. 
 Although specifications are preferably modular to make it easier to reuse them, ideally the specification would be solved within a single solver call, requiring no procedural code to tie them together.
 \end{enumerate}
-\textbf{Table}~\ref{tbl:conclusion} provides an overview of how the three systems (IDP, ASP and ProB) support the desirable properties, either natively (\checkmark) or using one of the discussed techniques.
 \begin{table}[h]
 \begin{center}
 \includegraphics[scale=0.75]{PropertyTable-crop.pdf}

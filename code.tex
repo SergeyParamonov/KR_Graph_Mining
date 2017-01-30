@@ -1,4 +1,4 @@
-%\vspace{-3em}
+\vspace{-2em}
 \section{Performance}\label{sec:performance}
 \vspace{-1em}
 %\matthias{This is the working ProB code that we'll show as an example}
@@ -9,13 +9,13 @@ To compare the performance of higher order and first order systems, we compared 
 To this end, we used the positive examples of the Yoshida~\citep{yoshida_dataset} dataset, which is derived from biochemics, for graph mining.
 First, we randomly picked an example to use as the template graph.
 Next, we mined a pattern from this template, using the threshold value $N_{+} = 13$ (5\% of the size of the example set).
-During the mining process, we tracked the time it takes to mine the $i=1..n$-th pattern. The results are averaged over ten runs.
+During the mining process, we tracked the time it takes to mine the $i$-th pattern. The results are averaged over ten runs.
 
 
 The ProB model from Subsection \ref{subsection:prob} comes closest to the higher order formulation (as demonstrated in \textbf{Table} \ref{tbl:conclusion}), however, the solver support is not yet sufficient to efficiently execute the higher order graph mining model on larger datasets, i.e., currently we have not found an efficient way to mine patterns using a higher order B model. 
 Consequently, from a KR point of view, we consider the higher order formulation of the graph mining problem as a challenge and goal for future solver techniques.
 The key issue preventing an efficient higher order formulation lies in reifying the higher order existential quantifier inside the set comprehension. A possible future solution would be to provide a Prolog implementation for the homomorphism predicate (e.g., as a ProB external function).
-For IDP, the results can be found in \textbf{Table} \ref{table:idp:averaged_results}.
+For the sake of completeness, the results for IDP, which are consistent with the results in \textbf{Fig.} \ref{fig:decomposition_fol}, can be found in \textbf{Table} \ref{table:idp:averaged_results} in Appendix~\ref{sec:idp_enum_results}.
 %The results shown in \textbf{Fig.}~\ref{fig:ProBIDPComp} are the times needed to mine the $i$'th pattern, averaged over 10 repeats of the described process.
 % \begin{figure}[thb]
 % \includegraphics[scale=0.14]{extra/idp_prob_comparison.pdf}
@@ -23,6 +23,17 @@ For IDP, the results can be found in \textbf{Table} \ref{table:idp:averaged_resu
 % \label{fig:ProBIDPComp}
 % \end{figure}
 % \sergey{to complete}
+%\vspace{-1em}
+%\begin{table}[h]
+%  \centering
+%  \setlength{\tabcolsep}{2pt}  
+%  \begin{tabular}{lccccccccccccccc}  Index  &   1 &   2 & 3 &   4 &   5    & 6   & 7   & 8   & 9   & 10  & 11  & 12  & 13 & 14 & 15\\ \hline 
+% Runtime  & 148 & 164 & 173 & 199 &   285  & 364 & 401 & 445 & 490 & 533 & 548 & 585 & 591 & 687 & 802
+%  \end{tabular}
+%  \caption{Averaged runtimes in seconds for IDP general graph mining encoding with the theory splitting on the Yoshida dataset.} 
+%  \label{table:idp:averaged_results2}
+%\end{table}
+%\vspace{-3em}
 
 To analyze the effect of the disjoint union technique, we compared the performance of IDP and ASP on the Yoshida dataset using different encodings of the graph mining problem.
 In \textbf{Fig.}~\ref{fig:decomposition_fol}, we see the performance of IDP (\textbf{Fig.}~\ref{fig:decomposition_idp}) and ASP (\textbf{Fig.}~\ref{fig:decomposition_asp}) on finding the $i$-th pattern.
@@ -35,18 +46,18 @@ We expect that expressing the problems in a higher order fashion will allow dete
 \centering
 \begin{subfigure}{.44\textwidth}
   \centering
-\includegraphics[scale=0.14]{extra/figure_comparison_yoshida.pdf}
+\includegraphics[scale=0.12]{extra/figure_comparison_yoshida.pdf}
 \caption{\footnotesize{IDP: the disjoint model has a growing trend while the simulation stays flat. The gap is one order of magnitude. (\cite{ilp_graph_mining})}}
   \label{fig:decomposition_idp}
 \end{subfigure}%
 \hfill
 \begin{subfigure}{0.46\textwidth}
   \centering
- \includegraphics[scale=0.14]{extra/asp_fol_vs_decomposed_yoshida.pdf}
+ \includegraphics[scale=0.12]{extra/asp_fol_vs_decomposed_yoshida.pdf}
  \caption{\footnotesize{ASP: the disjoint model exhibits fluctuation around 30s with a slow runtime growth, while the simulation stays flat. The gap is two orders of magnitude.}}
   \label{fig:decomposition_asp}
 \end{subfigure}
-\caption{\footnotesize{Frequent graph enumeration problem (5\% threshold) on Yoshida dataset for IDP (a) and ASP (b), comparing disjoint union (in blue) and higher order simulations (in red). Further details can be found in \ref{sec:hol_description}.}}
+\caption{\footnotesize{Frequent graph enumeration problem (5\% threshold) on Yoshida dataset for IDP (a) and ASP (b), comparing disjoint union (in blue) and higher order simulations (in red). Further details can be found in Appendix \ref{sec:hol_description}.}}
 \label{fig:decomposition_fol}
 \vspace{-2em}
 \end{figure}
