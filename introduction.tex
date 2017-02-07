@@ -5,7 +5,7 @@ Many real world problems present themselves as varying combinations of multiple 
 These types of problems lend themselves for a declarative approach as knowledge representation offers a natural model satisfying `The Principle of Elaboration Tolerance'~\citep{elaboration_tolerance}: 
 declarative specifications are easily adapted to new requirements or changed circumstances.
 Conversely, the smaller problems in these composite structures are often already NP or coNP-complete.
-Combining these already complex problems often raises the computational complexity of the composite problem, up to a level where it cannot be expressed using first order logic.
+Combining these already complex problems often raises the computational complexity of the composite problem, up to a level where it cannot be expressed using first order logic. \sergey{something is fishy here, SAT in FOL is undecidable, SAT of propositional logic is NP, we should somehow mentioned that we mean ``over finite domains'' here}
 These problems become higher order logic problems: We study the \emph{Graph Mining} problem as an example.
 
 Specification languages offer varying levels of support for higher order logic.
@@ -18,7 +18,7 @@ On the other hand, formal specification languages such as Z \citep{Bowen:Z}, B \
 We can express the graph mining problem in ProB directly using higher order logic but, as we show later, these systems miss flexibility and the performance of revolutionary techniques such as CDCL~\citep{DBLP:conf/iccad/SilvaS96}.
 
 Therefore, we also look at specification languages that do not allow higher order syntax.
-Examples of such languages are the IDP~\citep{WarrenBook/DeCatBBD16} and the ASP~\citep{conf/rweb/EiterIK09} language.
+Examples of such languages are the IDP~\citep{WarrenBook/DeCatBBD16} and the ASP~\citep{conf/rweb/EiterIK09,ASPbook} language.
 For these languages, several techniques exist that allow the user to simulate higher order logic to model problems such as graph mining, potentially offering better performance than systems that allow higher order logic directly.
 
 %We study the \emph{Graph Mining} problem as an example problem of such a raise in complexity, and detail some of the techniques that can be used to handle this.
@@ -67,4 +67,4 @@ We indicate how additional solver support can exploit the additional structure i
 \end{compactitem}
 The paper is structured as follows: Section \ref{sec:formalization} introduces graph mining formally, Section \ref{sec:modeling} discusses the how to model the problem in IDP, ASP and ProB, identifying a set of desirable properties.
 Then, Section~\ref{sec:performance} discusses the performance of these systems.
-Section \ref{sec:extension} discusses a faithful encoding of the graph mining problem in an KR language enriched with HO, and its possible solver implementation. Section \ref{sec:conclusion} draws conclusions and outlines possible future research directions.
+Section \ref{sec:extension} discusses a faithful encoding of the graph mining problem in an KR language enriched with Higher Order (HO), and its possible solver implementation. Section \ref{sec:conclusion} draws conclusions and outlines possible future research directions.
